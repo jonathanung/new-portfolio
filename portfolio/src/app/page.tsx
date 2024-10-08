@@ -43,8 +43,8 @@ const skills: Skill = {
   machineLearning: ['NumPy', 'PyTorch', 'Pandas'],
   frontend: ['React', 'Next.js', 'Angular', 'Flask', 'Django', 'Spring MVC', 'SASS', 'jQuery', 'Flutter', 'Bootstrap', 'Tailwind'],
   backend: ['SQL', 'PostgreSQL', 'MySQL', 'SQLAlchemy', 'SQLite3', 'ORM', 'Express', 'MongoDB', 'JWT', 'FastAPI', 'Flask', 'Spring Boot', 'Bcrypt'],
-  deployment: ['AWS', 'Kubernetes', 'Docker', 'Git', 'Defang', 'CI/CD', 'InMotion Hosting', 'Cloudflare', 'SSL', 'Nginx'],
-  other: ['QT6', 'Protobuf', 'MERN', 'JavaFX', 'Godot4', 'Unity', 'TensorFlow', 'Keras', 'Regex', 'Scripting', 'OOP', 'API', 'REST', 'Bcrypt']
+  deployment: ['AWS', 'Kubernetes', 'Docker', 'Git', 'Defang', 'CI/CD', 'InMotion Hosting', 'Cloudflare', 'SSL', 'Nginx', 'DigitalOcean', 'Defang'],
+  other: ['QT6', 'Protobuf', 'MERN', 'JavaFX', 'Godot4', 'Unity', 'TensorFlow', 'Keras', 'Regex', 'Scripting', 'OOP', 'API', 'REST' , 'Wordpress']
 }
 
 const projects: Project[] = [
