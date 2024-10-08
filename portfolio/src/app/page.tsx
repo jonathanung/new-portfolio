@@ -5,6 +5,7 @@ import { motion, useInView } from 'framer-motion'
 import { FaEnvelope, FaLinkedin, FaGithub, FaGitlab, FaGlobe, FaMoon, FaSun } from 'react-icons/fa'
 import Image from 'next/image'
 import Head from 'next/head'
+
 // Define types for skills, projects, experiences, and nonTechnicalExperiences
 type Skill = {
   [key: string]: string[]
@@ -193,14 +194,15 @@ export default function Page() {
     <>
       <Head>
         <title>Jonathan Ung&apos;s Portfolio</title>
-        <meta name="description" content="A portfolio website for Jonathan Ung" />
-        <meta property="og:title" content="Jonathan Ung's Portfolio" />
-        <meta property="og:description" content="A portfolio website for Jonathan Ung" />
+        <meta name="title" content="Jonathan Ung's Portfolio" key="title" />
+        <meta name="description" content="A portfolio website for Jonathan Ung" key="description" />
+        <meta property="og:title" content="Jonathan Ung's Portfolio" key="title" />
+        <meta property="og:description" content="A portfolio website for Jonathan Ung" key="description" />
       </Head>
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: isLoaded ? 1 : 0 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.8 }}
       className={`min-h-screen ${darkMode ? 'bg-gray-900 text-gray-100' : 'bg-gray-100 text-gray-800'} font-sans`}
     >
       <div className="relative z-10">
@@ -215,7 +217,7 @@ export default function Page() {
           <motion.div
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.5 }}
+            transition={{ delay: 0.5, duration: 0.6 }}
             className="flex flex-col items-center"
           >
             <div className="mb-6">

@@ -1,3 +1,5 @@
+name: defang-portfolio
+
 services:
   defang:
     build:
@@ -7,3 +9,8 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=production
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
