@@ -111,7 +111,7 @@ const experiences: Experience[] = [
     gitLink: 'https://gitlab.com/sfurs/software'
   },
   {
-    title: 'Code Sensei',
+    title: 'Code Sensei, Assistant Center Director',
     company: 'Code Ninjas - Richmond, BC',
     date: 'August 2023 - PRESENT',
     description: 'Advised students on curriculum progression, integrated technology into the curriculum, and learned Unity for larger projects. Aided in deploying a scalable NAS for student project data storage.',
@@ -120,7 +120,7 @@ const experiences: Experience[] = [
     image: '/images/code-ninjas.png'
   },
   {
-    title: 'Executive Advisor,Vice President, Lead Hackathon Coordinator',
+    title: 'Executive Advisor, Vice President, Lead Hackathon Coordinator',
     company: 'Langara Computer Science Club - Vancouver, BC',
     date: 'April 2023 - April 2024',
     description: 'Led the creation of inaugural Langara Hacks, managed committee for event quality, and created organizational standards for club tasks and meetings.',
@@ -141,7 +141,7 @@ const experiences: Experience[] = [
 
 const nonTechnicalExperiences: NonTechnicalExperience[] = [
   {
-    title: 'Scheduling Manager, Kitchen Supervisor and Line Cook',
+    title: 'Scheduling Manager, Kitchen Supervisor, Line Cook',
     company: 'Katsu San - Richmond, BC',
     date: 'August 2021 - December 2022',
     description: 'Created weekly schedules for kitchen staff, managed staff time-off and sick call requests. Supervised the kitchen on-site and conducted training of all new kitchen staff. Worked closely with the restaurant owner to ensure premium product quality.',
