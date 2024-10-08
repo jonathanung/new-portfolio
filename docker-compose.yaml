@@ -17,4 +17,4 @@ services:
     deploy:
       resources:
         reservations:
-          memory: 128M
+          memory: 512M
