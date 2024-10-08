@@ -224,7 +224,7 @@ export default function Page() {
                 alt="Jonathan Ung" 
                 width={250} 
                 height={250} 
-                className="rounded-full border-4 border-gray-800 shadow-lg hover:scale-110 hover:border-gray-100 transition duration-300"
+                className="rounded-full border-4 border-gray-800 dark:border-gray-100 shadow-lg hover:scale-110 hover:border-gray-100 dark:hover:border-gray-800 transition duration-300"
               />
             </div>
             <h1 className={`text-5xl md:text-7xl font-bold mb-6 ${darkMode ? 'text-gray-100' : 'text-gray-900'}`}>
@@ -237,7 +237,7 @@ export default function Page() {
               href="#contact"
               className="inline-block bg-gray-800 text-white font-bold py-3 px-8 rounded-full hover:bg-gray-700 hover:scale-110 transition duration-300 ease-in-out"
             >
-              Let's Connect
+              Let&apos;s Connect
             </a>
           </motion.div>
         </header>
@@ -253,16 +253,16 @@ export default function Page() {
           <div className="max-w-4xl mx-auto">
             <h2 className={`text-4xl font-bold mb-8 ${darkMode ? 'text-gray-100' : 'text-gray-900'}`}>About Me</h2>
             <p className={`text-xl mb-6 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-              I'm a passionate software developer based in Vancouver, BC, with a keen interest in AI, Data Science, Networking, and Embedded Systems. As a 3rd-year SFU Co-op student, I bring over two years of experience in software development to the table.
+              I&apos;m a passionate software developer based in Vancouver, BC, with a keen interest in AI, Data Science, Networking, and Embedded Systems. As a 3rd-year SFU Co-op student, I bring over two years of experience in software development to the table.
             </p>
             <p className={`text-xl mb-6 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-              Currently, I'm serving as the Software Team Lead for the SFU Robot Soccer Team (Bandits FC), where I'm honing my skills in distributed systems, embedded systems, and autonomous movement. I'm also a Code Sensei at Code Ninjas, teaching kids how to code and run game development projects.
+              Currently, I&apos;m serving as the Software Team Lead for the SFU Robot Soccer Team (Bandits FC), where I&apos;m honing my skills in distributed systems, embedded systems, and autonomous movement. I&apos;m also a Code Sensei at Code Ninjas, teaching kids how to code and run game development projects.
             </p>
             <p className={`text-xl mb-6 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-              My diverse project portfolio demonstrates my ability to quickly adapt to new technologies and deliver innovative solutions. From developing AI-powered applications to creating games and tools for accessibility, I've consistently pushed the boundaries of what's possible with code.
+              My diverse project portfolio demonstrates my ability to quickly adapt to new technologies and deliver innovative solutions. From developing AI-powered applications to creating games and tools for accessibility, I&apos;ve consistently pushed the boundaries of what&apos;s possible with code.
             </p>
             <p className={`text-xl mb-6 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-              I'm not just a coder; I'm a problem solver and a team player. My experience in leadership roles has honed my communication and project management skills, making me an asset to any development team. I'm eager to bring my enthusiasm, technical skills, and fresh perspectives to a challenging co-op position where I can contribute meaningfully and continue to grow as a developer.
+              I&apos;m not just a coder; I&apos;m a problem solver and a team player. My experience in leadership roles has honed my communication and project management skills, making me an asset to any development team. I&apos;m eager to bring my enthusiasm, technical skills, and fresh perspectives to a challenging co-op position where I can contribute meaningfully and continue to grow as a developer.
             </p>
           </div>
         </motion.section>
@@ -446,9 +446,9 @@ export default function Page() {
           className={`py-20 px-4 ${darkMode ? 'bg-gray-800' : 'bg-white'}`}
         >
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className={`text-4xl font-bold mb-8 ${darkMode ? 'text-gray-100' : 'text-gray-900'}`}>Let's Connect</h2>
+            <h2 className={`text-4xl font-bold mb-8 ${darkMode ? 'text-gray-100' : 'text-gray-900'}`}>Let&apos;s Connect</h2>
             <p className={`text-xl mb-8 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-              I'm always open to new opportunities and collaborations. Feel free to reach out!
+              I&apos;m always open to new opportunities and collaborations. Feel free to reach out!
             </p>
             <div className="flex justify-center space-x-6 mb-8">
               <a href="mailto:jua10@sfu.ca" className={`${darkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition duration-300`}>
