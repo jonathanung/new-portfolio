@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { FaEnvelope, FaLinkedin, FaGithub, FaGitlab, FaGlobe, FaMoon, FaSun } from 'react-icons/fa'
 import Image from 'next/image'
-
+import Head from 'next/head'
 // Define types for skills, projects, experiences, and nonTechnicalExperiences
 type Skill = {
   [key: string]: string[]
@@ -190,6 +190,13 @@ export default function Page() {
   const contactInView = useInView(contactRef, { once: true, amount: 0.2 })
 
   return (
+    <>
+      <Head>
+        <title>Jonathan Ung&apos;s Portfolio</title>
+        <meta name="description" content="A portfolio website for Jonathan Ung" />
+        <meta property="og:title" content="Jonathan Ung's Portfolio" />
+        <meta property="og:description" content="A portfolio website for Jonathan Ung" />
+      </Head>
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: isLoaded ? 1 : 0 }}
@@ -469,6 +476,7 @@ export default function Page() {
           </div>
         </motion.section>
       </div>
-    </motion.div>
+      </motion.div>
+    </>
   )
 }
