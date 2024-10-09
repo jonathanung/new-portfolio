@@ -40,11 +40,11 @@ type NonTechnicalExperience = {
 
 const skills: Skill = {
   languages: ['Python', 'TypeScript', 'JavaScript', 'C++', 'C#', 'SQL', 'Java', 'GD Script', 'Dart', 'Bash', 'Perl', 'HTML', 'CSS'],
-  machineLearning: ['NumPy', 'PyTorch', 'Pandas'],
+  'machine learning': ['NumPy', 'PyTorch', 'Pandas'],
   frontend: ['React', 'Next.js', 'Angular', 'Flask', 'Django', 'Spring MVC', 'SASS', 'jQuery', 'Flutter', 'Bootstrap', 'Tailwind'],
   backend: ['SQL', 'PostgreSQL', 'MySQL', 'SQLAlchemy', 'SQLite3', 'ORM', 'Express', 'MongoDB', 'JWT', 'FastAPI', 'Flask', 'Spring Boot', 'Bcrypt'],
   deployment: ['AWS', 'Kubernetes', 'Docker', 'Git', 'CI/CD', 'InMotion Hosting', 'Cloudflare', 'SSL', 'Nginx', 'DigitalOcean', 'Defang'],
-  other: ['QT6', 'Protobuf', 'MERN', 'JavaFX', 'Godot4', 'Unity', 'TensorFlow', 'Keras', 'Regex', 'Scripting', 'OOP', 'API', 'REST' , 'Wordpress']
+  'miscellaneous': ['QT6', 'Protobuf', 'MERN', 'JavaFX', 'Godot4', 'Unity', 'TensorFlow', 'Keras', 'Regex', 'Scripting', 'OOP', 'API', 'REST' , 'Wordpress']
 }
 
 const projects: Project[] = [
@@ -184,11 +184,11 @@ export default function Page() {
   const experienceRef = useRef(null)
   const contactRef = useRef(null)
 
-  const aboutInView = useInView(aboutRef, { once: true, amount: 0.2 })
-  const skillsInView = useInView(skillsRef, { once: true, amount: 0.2 })
-  const projectsInView = useInView(projectsRef, { once: true, amount: 0.1 })
-  const experienceInView = useInView(experienceRef, { once: true, amount: 0.2 })
-  const contactInView = useInView(contactRef, { once: true, amount: 0.2 })
+  const aboutInView = useInView(aboutRef, { once: true, amount: 0.05 })
+  const skillsInView = useInView(skillsRef, { once: true, amount: 0.05 })
+  const projectsInView = useInView(projectsRef, { once: true, amount: 0.05 })
+  const experienceInView = useInView(experienceRef, { once: true, amount: 0.05 })
+  const contactInView = useInView(contactRef, { once: true, amount: 0.05 })
 
   return (
     <>
@@ -248,7 +248,7 @@ export default function Page() {
           ref={aboutRef}
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: aboutInView ? 1 : 0, y: aboutInView ? 0 : 50 }}
-          transition={{ duration: 1.2, ease: "easeOut" }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
           id="about" 
           className={`py-20 px-4 ${darkMode ? 'bg-gray-800' : 'bg-white'}`}
         >
@@ -258,13 +258,16 @@ export default function Page() {
               I&apos;m a passionate software developer based in Vancouver, BC, with a keen interest in AI, Data Science, Networking, and Embedded Systems. As a 3rd-year SFU Co-op student, I bring over two years of experience in software development to the table.
             </p>
             <p className={`text-xl mb-6 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-              Currently, I&apos;m serving as the Software Team Lead for the SFU Robot Soccer Team (Bandits FC), where I&apos;m honing my skills in distributed systems, embedded systems, and autonomous movement. I&apos;m also a Code Sensei at Code Ninjas, teaching kids how to code and run game development projects.
+              Currently, I&apos;m serving as the Software Team Lead for the SFU Robot Soccer Team (Bandits FC), where I&apos;m honing my skills in distributed systems, embedded systems, and autonomous movement.
             </p>
             <p className={`text-xl mb-6 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-              My diverse project portfolio demonstrates my ability to quickly adapt to new technologies and deliver innovative solutions. From developing AI-powered applications to creating games and tools for accessibility, I&apos;ve consistently pushed the boundaries of what&apos;s possible with code.
+              I&apos;m also employed as a Code Sensei at Code Ninjas, teaching kids how to code and run game development projects. I have a passion for teaching and love to share my knowledge with others.
             </p>
             <p className={`text-xl mb-6 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-              I&apos;m not just a coder; I&apos;m a problem solver and a team player. My experience in leadership roles has honed my communication and project management skills, making me an asset to any development team. I&apos;m eager to bring my enthusiasm, technical skills, and fresh perspectives to a challenging co-op position where I can contribute meaningfully and continue to grow as a developer.
+              My project portfolio demonstrates my ability to quickly adapt to new technologies and deliver innovative solutions. From developing AI-powered applications to creating games and tools for accessibility, I&apos;m constantly pushing the boundaries of what I can create.
+            </p>
+            <p className={`text-xl mb-6 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+              I&apos;m not just a coder; I&apos;m a problem solver and a team player. My experience in leadership roles has developed my communication and project management skills, making me an asset to any development team. I&apos;m eager to bring my enthusiasm, technical skills, and fresh perspectives to a challenging co-op position where I can contribute meaningfully and continue to grow as a developer.
             </p>
           </div>
         </motion.section>
@@ -273,7 +276,7 @@ export default function Page() {
           ref={skillsRef}
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: skillsInView ? 1 : 0, y: skillsInView ? 0 : 50 }}
-          transition={{ duration: 1.2, ease: "easeOut" }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
           id="skills" 
           className={`py-20 px-4 ${darkMode ? 'bg-gray-900' : 'bg-white'}`}
         >
@@ -300,7 +303,7 @@ export default function Page() {
           ref={projectsRef}
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: projectsInView ? 1 : 0, y: projectsInView ? 0 : 50 }}
-          transition={{ duration: 1.2, ease: "easeOut" }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
           id="projects" 
           className={`py-20 px-4 ${darkMode ? 'bg-gray-800' : 'bg-gray-100'}`}
         >
@@ -322,7 +325,7 @@ export default function Page() {
                         alt={project.name}
                         fill
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        className="object-contain border border-gray-300 dark:border-gray-600"
+                        className="object-contain border border-gray-300 dark:border-gray-600 hover:scale-105 transition duration-300"
                       />
                     </div>
                   )}
@@ -348,7 +351,7 @@ export default function Page() {
           ref={experienceRef}
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: experienceInView ? 1 : 0, y: experienceInView ? 0 : 50 }}
-          transition={{ duration: 1.2, ease: "easeOut" }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
           id="experience" 
           className={`py-20 px-4 ${darkMode ? 'bg-gray-900' : 'bg-white'}`}
         >
@@ -443,7 +446,7 @@ export default function Page() {
           ref={contactRef}
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: contactInView ? 1 : 0, y: contactInView ? 0 : 50 }}
-          transition={{ duration: 1.2, ease: "easeOut" }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
           id="contact" 
           className={`py-20 px-4 ${darkMode ? 'bg-gray-800' : 'bg-white'}`}
         >
