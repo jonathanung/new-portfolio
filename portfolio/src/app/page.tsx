@@ -1,8 +1,8 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
-import { FaEnvelope, FaLinkedin, FaGithub, FaGitlab, FaGlobe, FaMoon, FaSun } from 'react-icons/fa'
+import { motion, useInView, useScroll, useAnimation } from 'framer-motion'
+import { FaEnvelope, FaLinkedin, FaGithub, FaGitlab, FaGlobe, FaMoon, FaSun, FaBars, FaTimes, FaFileDownload } from 'react-icons/fa'
 import Image from 'next/image'
 import Head from 'next/head'
 
@@ -66,7 +66,7 @@ const projects: Project[] = [
     name: 'Sewjo (FABCycle x CMPT 276)',
     description: 'A fabric and sewing pattern tracking app made for FABCycle.',
     tech: ['Next.js', 'Tailwind', 'Java Spring'],
-    link: 'https://github.com/niomedev/sewjo',
+    link: 'https://www.fabcycle.shop/',
     image: '/images/sewjo.png'
   },
   {
@@ -160,6 +160,14 @@ export default function Page() {
   const [activeTab, setActiveTab] = useState<'technical' | 'nonTechnical'>('technical')
   const [isLoaded, setIsLoaded] = useState<boolean>(true)
   const [darkMode, setDarkMode] = useState<boolean>(false)
+  const [activeSection, setActiveSection] = useState<string>('home')
+  const { scrollY } = useScroll()
+  const navControls = useAnimation()
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
+
+  const linkContainsGit = (link: string) => {
+    return link.includes('github') || link.includes('gitlab');
+  }
 
   useEffect(() => {
     // Check for user's preference in localStorage or system preference
@@ -173,6 +181,40 @@ export default function Page() {
     localStorage.setItem('darkMode', darkMode.toString())
     document.body.classList.toggle('dark', darkMode)
   }, [darkMode])
+
+  useEffect(() => {
+    return scrollY.onChange((latest) => {
+      if (latest > 50) {
+        navControls.start({ backgroundColor: darkMode ? 'rgba(17, 24, 39, 0.8)' : 'rgba(255, 255, 255, 0.8)' })
+      } else {
+        navControls.start({ backgroundColor: 'rgba(0, 0, 0, 0)' })
+      }
+    })
+  }, [scrollY, navControls, darkMode])
+
+  useEffect(() => {
+    const sections : string[] = ['home', 'about', 'skills', 'projects', 'experience', 'contact']
+    const sectionRefs : (React.RefObject<HTMLDivElement> | null)[] = [null, aboutRef, skillsRef, projectsRef, experienceRef, contactRef]
+
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + 100 // Offset to trigger slightly before reaching the section
+
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const ref = sectionRefs[i]
+        if (ref && ref.current) {
+          if (scrollPosition >= ref.current.offsetTop) {
+            setActiveSection(sections[i])
+            break
+          }
+        } else if (i === 0) {
+          setActiveSection('home')
+        }
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode)
@@ -190,6 +232,36 @@ export default function Page() {
   const experienceInView = useInView(experienceRef, { once: true, amount: 0.05 })
   const contactInView = useInView(contactRef, { once: true, amount: 0.05 })
 
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      const startPosition = window.scrollY;
+      const targetPosition = element.getBoundingClientRect().top + window.scrollY - 50;
+      const distance = targetPosition - startPosition;
+      const duration = 1000;
+      let start: number | null = null;
+
+      const step = (timestamp: number) => {
+        if (!start) start = timestamp;
+        const progress = timestamp - start;
+        const percentage = Math.min(progress / duration, 1);
+
+        window.scrollTo(0, startPosition + distance * easeInOutCubic(percentage));
+
+        if (progress < duration) {
+          window.requestAnimationFrame(step);
+        }
+      };
+
+      window.requestAnimationFrame(step);
+    }
+  };
+
+  // Easing function for smooth acceleration and deceleration
+  const easeInOutCubic = (t: number): number => {
+    return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+  };
+
   return (
     <>
       <Head>
@@ -205,15 +277,51 @@ export default function Page() {
       transition={{ duration: 0.8 }}
       className={`min-h-screen ${darkMode ? 'bg-gray-900 text-gray-100' : 'bg-gray-100 text-gray-800'} font-sans`}
     >
-      <div className="relative z-10">
-        <button
-          onClick={toggleDarkMode}
-          className="fixed top-4 right-4 p-2 rounded-full bg-gray-200 dark:bg-gray-700"
-        >
-          {darkMode ? <FaSun className="w-6 h-6" /> : <FaMoon className="w-6 h-6" />}
-        </button>
+      <nav className={`sticky top-0 z-50 ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-md`}>
+        <div className="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
+          <button onClick={() => scrollToSection('home')} className="text-2xl font-bold">JU</button>
+          <div className="md:hidden">
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className={`${darkMode ? 'text-gray-300' : 'text-gray-600'} focus:outline-none`}
+            >
+              {isMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+            </button>
+          </div>
+          <ul className={`md:flex md:space-x-4 ${isMenuOpen ? 'block' : 'hidden'} absolute md:relative top-full left-0 right-0 md:top-auto ${darkMode ? 'bg-gray-800' : 'bg-white'} md:bg-transparent p-4 md:p-0 shadow-md md:shadow-none`}>
+            {['Home', 'About', 'Skills', 'Projects', 'Experience', 'Contact'].map((item) => (
+              <li key={item} className="mb-2 md:mb-0">
+                <button
+                  onClick={() => {
+                    scrollToSection(item.toLowerCase())
+                    setIsMenuOpen(false)
+                  }}
+                  className={`${
+                    activeSection === item.toLowerCase()
+                      ? 'text-blue-500'
+                      : darkMode
+                      ? 'text-gray-300 hover:text-white'
+                      : 'text-gray-600 hover:text-gray-900'
+                  } transition duration-300 block w-full text-left md:inline`}
+                >
+                  {item}
+                </button>
+              </li>
+            ))}
+            <li className="mt-4 md:mt-0">
+              <button
+                onClick={toggleDarkMode}
+                className={`p-2 rounded-full ${darkMode ? 'bg-gray-700' : 'bg-gray-200'} block md:inline-block`}
+              >
+                {darkMode ? <FaSun className="w-3 h-3" /> : <FaMoon className="w-3 h-3" />}
+              </button>
+            </li>
+          </ul>
+        </div>
+      </nav>
 
-        <header className="h-screen flex items-center justify-center text-center px-4">
+      <div className="relative z-10">
+        <header id="home" className="h-screen flex items-center justify-center text-center px-4">
           <motion.div
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -235,12 +343,22 @@ export default function Page() {
             <p className="text-2xl md:text-3xl text-gray-600 mb-8">
               Software Developer | AI Enthusiast | Problem Solver
             </p>
-            <a
-              href="#contact"
-              className="inline-block bg-gray-800 text-white font-bold py-3 px-8 rounded-full hover:bg-gray-700 hover:scale-110 transition duration-300 ease-in-out"
-            >
-              Let&apos;s Connect
-            </a>
+            <div className="flex space-x-4">
+              <a
+                href="#contact"
+                className="inline-block bg-gray-800 text-white font-bold py-3 px-8 rounded-full hover:bg-gray-700 hover:scale-110 transition duration-300 ease-in-out"
+              >
+                Let&apos;s Connect
+              </a>
+              <a
+                href="/resume.pdf"
+                download="JU_Resume_2024.pdf"
+                className="inline-block bg-blue-600 text-white font-bold py-3 px-8 rounded-full hover:bg-blue-700 hover:scale-110 transition duration-300 ease-in-out"
+              >
+                <FaFileDownload className="inline-block mr-2" />
+                Download Resume
+              </a>
+            </div>
           </motion.div>
         </header>
 
@@ -288,7 +406,16 @@ export default function Page() {
                   <h3 className={`text-xl font-semibold mb-4 capitalize ${darkMode ? 'text-gray-200' : 'text-gray-700'}`}>{category}</h3>
                   <div className="flex flex-wrap gap-2">
                     {items.map((item: string) => (
-                      <span key={item} className={`${darkMode ? 'bg-gray-700 text-gray-200' : 'bg-gray-200 text-gray-700'} px-2 py-1 rounded text-sm`}>
+                      <span 
+                        key={item} 
+                        className={`
+                          ${darkMode ? 'bg-gray-700 text-gray-200' : 'bg-gray-200 text-gray-700'} 
+                          px-2 py-1 rounded text-sm
+                          transition-all duration-300
+                          hover:shadow-[0_0_10px_3px_rgba(59,130,246,0.5)]
+                          dark:hover:shadow-[0_0_10px_3px_rgba(96,165,250,0.5)]
+                        `}
+                      >
                         {item}
                       </span>
                     ))}
@@ -333,13 +460,22 @@ export default function Page() {
                   <p className={`mb-4 flex-grow ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>{project.description}</p>
                   <div className="flex flex-wrap gap-2 mb-4">
                     {project.tech.map((tech: string) => (
-                      <span key={tech} className={`${darkMode ? 'bg-gray-700 text-gray-200' : 'bg-gray-200 text-gray-700'} px-2 py-1 rounded text-sm`}>
+                      <span
+                        key={tech}
+                        className={`
+                          ${darkMode ? 'bg-gray-700 text-gray-200' : 'bg-gray-200 text-gray-700'} 
+                          px-2 py-1 rounded text-sm
+                          transition-all duration-300
+                          hover:shadow-[0_0_10px_3px_rgba(59,130,246,0.5)]
+                          dark:hover:shadow-[0_0_10px_3px_rgba(96,165,250,0.5)]
+                        `}
+                      >
                         {tech}
                       </span>
                     ))}
                   </div>
                   <a href={project.link} target="_blank" rel="noopener noreferrer" className={`${darkMode ? 'text-blue-400' : 'text-blue-600'} hover:underline mt-auto`}>
-                    View Project
+                    {linkContainsGit(project.link) ? 'View Project' : 'Learn More'}
                   </a>
                 </motion.div>
               ))}
@@ -472,12 +608,22 @@ export default function Page() {
                 <FaGlobe className="w-8 h-8" />
               </a>
             </div>
-            <a
-              href="#contact"
-              className={`inline-block ${darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-800 hover:bg-gray-700'} text-white font-bold py-3 px-8 rounded-full transition duration-300 ease-in-out`}
-            >
-              Get in Touch
-            </a>
+            <div className="flex justify-center space-x-4">
+              <a
+                href="mailto:jua10@sfu.ca"
+                className={`inline-block ${darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-800 hover:bg-gray-700'} text-white font-bold py-3 px-8 rounded-full transition duration-300 ease-in-out`}
+              >
+                Get in Touch
+              </a>
+              <a
+                href="/resume.pdf"
+                download="JU_Resume_2024.pdf"
+                className="inline-block bg-blue-600 text-white font-bold py-3 px-8 rounded-full hover:bg-blue-700 hover:scale-110 transition duration-300 ease-in-out"
+              >
+                <FaFileDownload className="inline-block mr-2" />
+                Download Resume
+              </a>
+            </div>
           </div>
         </motion.section>
       </div>
