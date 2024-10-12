@@ -41,8 +41,8 @@ type NonTechnicalExperience = {
 const skills: Skill = {
   languages: ['Python', 'TypeScript', 'JavaScript', 'C++', 'C#', 'SQL', 'Java', 'GD Script', 'Dart', 'Bash', 'Perl', 'HTML', 'CSS'],
   'machine learning': ['NumPy', 'PyTorch', 'Pandas'],
-  frontend: ['React', 'Next.js', 'Angular', 'Flask', 'Django', 'Spring MVC', 'SASS', 'jQuery', 'Flutter', 'Bootstrap', 'Tailwind'],
-  backend: ['SQL', 'PostgreSQL', 'MySQL', 'SQLAlchemy', 'SQLite3', 'ORM', 'Express', 'MongoDB', 'JWT', 'FastAPI', 'Flask', 'Spring Boot', 'Bcrypt'],
+  frontend: ['React', 'Next.js', 'Angular', 'Flask', 'Django', 'Spring MVC', 'SASS', 'jQuery', 'Flutter', 'Bootstrap', 'Tailwind', 'Svelte'],
+  backend: ['SQL', 'PostgreSQL', 'MySQL', 'SQLAlchemy', 'SQLite3', 'ORM', 'Express', 'MongoDB', 'JWT', 'FastAPI', 'Flask', 'Spring Boot', 'Bcrypt', 'Firebase'],
   deployment: ['AWS', 'Kubernetes', 'Docker', 'Git', 'CI/CD', 'InMotion Hosting', 'Cloudflare', 'SSL', 'Nginx', 'DigitalOcean', 'Defang'],
   'miscellaneous': ['QT6', 'Protobuf', 'MERN', 'JavaFX', 'Godot4', 'Unity', 'TensorFlow', 'Keras', 'Regex', 'Scripting', 'OOP', 'API', 'REST' , 'Wordpress', 'CMAKE', 'ROS']
 }
