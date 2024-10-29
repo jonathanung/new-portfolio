@@ -186,7 +186,7 @@ export default function Page() {
   useEffect(() => {
     return scrollY.onChange((latest) => {
       if (latest > 50) {
-        navControls.start({ backgroundColor: darkMode ? 'rgba(17, 24, 39, 0.8)' : 'rgba(255, 255, 255, 0.8)' })
+        navControls.start({ backgroundColor: darkMode ? 'rgba(0, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.8)' })
       } else {
         navControls.start({ backgroundColor: 'rgba(0, 0, 0, 0)' })
       }
@@ -278,9 +278,9 @@ export default function Page() {
       initial={{ opacity: 0 }}
       animate={{ opacity: isLoaded ? 1 : 0 }}
       transition={{ duration: 0.8 }}
-      className={`min-h-screen ${darkMode ? 'bg-gray-900 text-gray-100' : 'bg-gray-100 text-gray-800'} font-sans`}
+      className={`min-h-screen ${darkMode ? 'bg-black text-gray-100' : 'bg-gray-100 text-gray-800'} font-sans`}
     >
-      <nav className={`sticky top-0 z-50 ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-md`}>
+      <nav className={`sticky top-0 z-50 ${darkMode ? 'bg-black border-gray-800' : 'bg-white'} shadow-md`}>
         <div className="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
           <button onClick={() => scrollToSection('home')} className="text-2xl font-bold">JU</button>
           <div className="md:hidden">
@@ -370,7 +370,7 @@ export default function Page() {
           animate={{ opacity: aboutInView ? 1 : 0, y: aboutInView ? 0 : 50 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
           id="about" 
-          className={`py-20 px-4 ${darkMode ? 'bg-gray-800' : 'bg-white'}`}
+          className={`py-20 px-4 ${darkMode ? 'bg-black' : 'bg-white'}`}
         >
           <div className="max-w-4xl mx-auto">
             <h2 className={`text-4xl font-bold mb-8 ${darkMode ? 'text-gray-100' : 'text-gray-900'}`}>About Me</h2>
@@ -398,7 +398,7 @@ export default function Page() {
           animate={{ opacity: skillsInView ? 1 : 0, y: skillsInView ? 0 : 50 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
           id="skills" 
-          className={`py-20 px-4 ${darkMode ? 'bg-gray-900' : 'bg-white'}`}
+          className={`py-20 px-4 ${darkMode ? 'bg-black' : 'bg-white'}`}
         >
           <div className="max-w-4xl mx-auto">
             <h2 className={`text-4xl font-bold mb-8 ${darkMode ? 'text-gray-100' : 'text-gray-900'}`}>Skills</h2>
@@ -434,7 +434,7 @@ export default function Page() {
           animate={{ opacity: projectsInView ? 1 : 0, y: projectsInView ? 0 : 50 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
           id="projects" 
-          className={`py-20 px-4 ${darkMode ? 'bg-gray-800' : 'bg-gray-100'}`}
+          className={`py-20 px-4 ${darkMode ? 'bg-black' : 'bg-gray-100'}`}
         >
           <div className="max-w-4xl mx-auto">
             <h2 className={`text-4xl font-bold mb-8 ${darkMode ? 'text-gray-100' : 'text-gray-900'}`}>Projects</h2>
@@ -491,7 +491,7 @@ export default function Page() {
           animate={{ opacity: experienceInView ? 1 : 0, y: experienceInView ? 0 : 50 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
           id="experience" 
-          className={`py-20 px-4 ${darkMode ? 'bg-gray-900' : 'bg-white'}`}
+          className={`py-20 px-4 ${darkMode ? 'bg-black' : 'bg-white'}`}
         >
           <div className="max-w-4xl mx-auto">
             <h2 className={`text-4xl font-bold mb-8 ${darkMode ? 'text-gray-100' : 'text-gray-900'}`}>Experience</h2>
@@ -502,12 +502,12 @@ export default function Page() {
                   className={`px-4 py-2 rounded-full ${
                     activeTab === 'technical'
                       ? darkMode
-                        ? 'bg-gray-600 text-white'
+                        ? 'bg-black text-white'
                         : 'bg-gray-800 text-white'
                       : darkMode
-                      ? 'bg-gray-700 text-gray-300'
+                      ? 'bg-black text-gray-300'
                       : 'bg-gray-200 text-gray-700'
-                  } hover:bg-gray-700 hover:text-white transition duration-300`}
+                  } hover:bg-gray-900 hover:text-white transition duration-300`}
                 >
                   Technical Experiences
                 </button>
@@ -516,12 +516,12 @@ export default function Page() {
                   className={`px-4 py-2 rounded-full ${
                     activeTab === 'nonTechnical'
                       ? darkMode
-                        ? 'bg-gray-600 text-white'
+                        ? 'bg-black text-white'
                         : 'bg-gray-800 text-white'
                       : darkMode
-                      ? 'bg-gray-700 text-gray-300'
+                      ? 'bg-black text-gray-300'
                       : 'bg-gray-200 text-gray-700'
-                  } hover:bg-gray-700 hover:text-white transition duration-300`}
+                  } hover:bg-gray-900 hover:text-white transition duration-300`}
                 >
                   Non-Technical Experiences
                 </button>
@@ -586,7 +586,7 @@ export default function Page() {
           animate={{ opacity: contactInView ? 1 : 0, y: contactInView ? 0 : 50 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
           id="contact" 
-          className={`py-20 px-4 ${darkMode ? 'bg-gray-800' : 'bg-white'}`}
+          className={`py-20 px-4 ${darkMode ? 'bg-black' : 'bg-white'}`}
         >
           <div className="max-w-4xl mx-auto text-center">
             <h2 className={`text-4xl font-bold mb-8 ${darkMode ? 'text-gray-100' : 'text-gray-900'}`}>Let&apos;s Connect</h2>
