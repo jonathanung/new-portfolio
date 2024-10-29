@@ -630,7 +630,7 @@ export default function Page() {
       </div>
       </motion.div>
       {isResumeOpen && (
-        <div className="fixed inset-0 z-50 overflow-hidden bg-black bg-opacity-75 flex items-center justify-center p-8">
+        <div className={`fixed inset-0 z-50 overflow-hidden ${darkMode ? 'bg-black bg-opacity-50' : 'bg-white bg-opacity-50'} backdrop-blur-sm flex items-center justify-center p-8`}>
           <div className="relative w-full max-w-5xl">
             <button
               onClick={toggleResume}
@@ -644,6 +644,18 @@ export default function Page() {
                 className="w-full h-full rounded-lg"
                 title="Resume"
               />
+              
+              {/* Download Button Container */}
+              <div className="p-4 flex justify-center">
+                <a
+                  href="/resume.pdf"
+                  download="Jonathan_Ung_Resume.pdf"
+                  className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full transition duration-300 hover:scale-105"
+                >
+                  <FaFileDownload size={20} />
+                  Download Resume
+                </a>
+              </div>
             </div>
           </div>
         </div>
