@@ -164,6 +164,7 @@ export default function Page() {
   const { scrollY } = useScroll()
   const navControls = useAnimation()
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
+  const [isResumeOpen, setIsResumeOpen] = useState(false);
 
   const linkContainsGit = (link: string) => {
     return link.includes('github') || link.includes('gitlab');
@@ -262,6 +263,8 @@ export default function Page() {
     return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
   };
 
+  const toggleResume = () => setIsResumeOpen(!isResumeOpen);
+
   return (
     <>
       <Head>
@@ -350,14 +353,13 @@ export default function Page() {
               >
                 Let&apos;s Connect
               </a>
-              <a
-                href="/resume.pdf"
-                download="JU_Resume_2024.pdf"
+              <button
+                onClick={toggleResume}
                 className="inline-block bg-blue-600 text-white font-bold py-3 px-8 rounded-full hover:bg-blue-700 hover:scale-110 transition duration-300 ease-in-out"
               >
                 <FaFileDownload className="inline-block mr-2" />
-                Download Resume
-              </a>
+                View Resume
+              </button>
             </div>
           </motion.div>
         </header>
@@ -615,19 +617,37 @@ export default function Page() {
               >
                 Get in Touch
               </a>
-              <a
-                href="/resume.pdf"
-                download="JU_Resume_2024.pdf"
+              <button
+                onClick={toggleResume}
                 className="inline-block bg-blue-600 text-white font-bold py-3 px-8 rounded-full hover:bg-blue-700 hover:scale-110 transition duration-300 ease-in-out"
               >
                 <FaFileDownload className="inline-block mr-2" />
-                Download Resume
-              </a>
+                View Resume
+              </button>
             </div>
           </div>
         </motion.section>
       </div>
       </motion.div>
+      {isResumeOpen && (
+        <div className="fixed inset-0 z-50 overflow-hidden bg-black bg-opacity-75 flex items-center justify-center p-8">
+          <div className="relative w-full max-w-5xl">
+            <button
+              onClick={toggleResume}
+              className="absolute -top-4 -right-4 w-8 h-8 bg-white dark:bg-gray-800 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 rounded-full flex items-center justify-center shadow-lg transition duration-200 hover:scale-110"
+            >
+              <FaTimes size={20} />
+            </button>
+            <div className="bg-white dark:bg-gray-800 rounded-lg w-full h-[85vh] shadow-2xl">
+              <iframe
+                src="/resume.pdf"
+                className="w-full h-full rounded-lg"
+                title="Resume"
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </>
   )
 }

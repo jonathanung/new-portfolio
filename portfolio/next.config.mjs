@@ -1,8 +1,19 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'standalone',
-  experimental: {
-  },
+  async headers() {
+    return [
+      {
+        source: '/resume.pdf',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'application/pdf'
+          }
+        ]
+      }
+    ];
+  }
 }
 
 export default nextConfig;
