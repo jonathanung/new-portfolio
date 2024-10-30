@@ -274,360 +274,408 @@ export default function Page() {
         <meta property="og:title" content="Jonathan Ung's Portfolio" key="title" />
         <meta property="og:description" content="A portfolio website for Jonathan Ung" key="description" />
       </Head>
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: isLoaded ? 1 : 0 }}
-      transition={{ duration: 0.8 }}
-      className={`min-h-screen ${darkMode ? 'bg-gray-900 text-gray-100' : 'bg-gray-100 text-gray-800'} font-sans`}
-    >
-      <nav className={`sticky top-0 z-50 ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-md`}>
-        <div className="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
-          <button onClick={() => scrollToSection('home')} className="text-2xl font-bold">JU</button>
-          <div className="md:hidden">
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className={`${darkMode ? 'text-gray-300' : 'text-gray-600'} focus:outline-none`}
-            >
-              {isMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
-            </button>
-          </div>
-          <ul className={`md:flex md:space-x-4 ${isMenuOpen ? 'block' : 'hidden'} absolute md:relative top-full left-0 right-0 md:top-auto ${darkMode ? 'bg-gray-800' : 'bg-white'} md:bg-transparent p-4 md:p-0 shadow-md md:shadow-none`}>
-            {['Home', 'About', 'Skills', 'Projects', 'Experience', 'Contact'].map((item) => (
-              <li key={item} className="mb-2 md:mb-0">
-                <button
-                  onClick={() => {
-                    scrollToSection(item.toLowerCase())
-                    setIsMenuOpen(false)
-                  }}
-                  className={`${
-                    activeSection === item.toLowerCase()
-                      ? 'text-blue-500'
-                      : darkMode
-                      ? 'text-gray-300 hover:text-white'
-                      : 'text-gray-600 hover:text-gray-900'
-                  } transition duration-300 block w-full text-left md:inline`}
-                >
-                  {item}
-                </button>
-              </li>
-            ))}
-            <li className="mt-4 md:mt-0">
-              <button
-                onClick={toggleDarkMode}
-                className={`p-2 rounded-full ${darkMode ? 'bg-gray-700' : 'bg-gray-200'} block md:inline-block`}
-              >
-                {darkMode ? <FaSun className="w-3 h-3" /> : <FaMoon className="w-3 h-3" />}
-              </button>
-            </li>
-          </ul>
-        </div>
-      </nav>
-
-      <div className="relative z-10">
-        <header id="home" className="h-screen flex items-center justify-center text-center px-4">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: isLoaded ? 1 : 0 }}
+        transition={{ duration: 0.8 }}
+        className={`min-h-screen ${darkMode ? 'dark' : ''}`}
+      >
+        {/* Unified background */}
+        <div className="fixed inset-0 z-0 pointer-events-none transition-opacity duration-500 overflow-hidden">
+          {/* Dark mode background */}
           <motion.div
-            initial={{ y: 50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.5, duration: 0.6 }}
-            className="flex flex-col items-center"
+            className="absolute inset-0"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: darkMode ? 1 : 0 }}
+            transition={{ duration: 0.5 }}
           >
-            <div className="mb-6">
-              <Image 
-                src="/images/headshot.png" 
-                alt="Jonathan Ung" 
-                width={250} 
-                height={250} 
-                className="rounded-full border-4 border-gray-800 dark:border-gray-100 shadow-lg hover:scale-110 hover:border-gray-100 dark:hover:border-gray-800 transition duration-300"
-              />
-            </div>
-            <h1 className={`text-5xl md:text-7xl font-bold mb-6 ${darkMode ? 'text-gray-100' : 'text-gray-900'}`}>
-              Jonathan Ung
-            </h1>
-            <p className="text-2xl md:text-3xl text-gray-600 mb-8">
-              Software Developer | AI Enthusiast | Problem Solver
-            </p>
-            <div className="flex space-x-4">
-              <a
-                href="#contact"
-                className="inline-block bg-gray-800 text-white font-bold py-3 px-8 rounded-full hover:bg-gray-700 hover:scale-110 transition duration-300 ease-in-out"
-              >
-                Let&apos;s Connect
-              </a>
-              <button
-                onClick={toggleResume}
-                className="inline-block bg-blue-600 text-white font-bold py-3 px-8 rounded-full hover:bg-blue-700 hover:scale-110 transition duration-300 ease-in-out"
-              >
-                <FaFileDownload className="inline-block mr-2" />
-                View Resume
-              </button>
+            <div className="absolute inset-0 bg-gradient-to-br from-gray-900 to-black">
+              {[...Array(40)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="absolute bg-blue-300 opacity-30"
+                  style={{
+                    width: Math.random() * 3 + 1 + 'px',
+                    height: '100%',
+                    left: `${Math.random() * 100}%`,
+                    top: `-${Math.random() * 100}%`,
+                  }}
+                  animate={{
+                    top: ['0%', '100%'],
+                    transition: {
+                      duration: Math.random() * 3 + 2,
+                      repeat: Infinity,
+                      ease: 'linear',
+                      repeatType: 'loop',
+                    },
+                  }}
+                />
+              ))}
             </div>
           </motion.div>
-        </header>
 
-        <motion.section 
-          ref={aboutRef}
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: aboutInView ? 1 : 0, y: aboutInView ? 0 : 50 }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          id="about" 
-          className={`py-20 px-4 ${darkMode ? 'bg-gray-800' : 'bg-white'}`}
-        >
-          <div className="max-w-4xl mx-auto">
-            <h2 className={`text-4xl font-bold mb-8 ${darkMode ? 'text-gray-100' : 'text-gray-900'}`}>About Me</h2>
-            <p className={`text-xl mb-6 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-              I&apos;m a passionate software developer based in Vancouver, BC, with a keen interest in AI, Data Science, Networking, and Embedded Systems. As a 3rd-year SFU Co-op student, I bring over two years of experience in software development to the table.
-            </p>
-            <p className={`text-xl mb-6 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-              Currently, I&apos;m serving as the Software Team Lead for the SFU Robot Soccer Team (Bandits FC), where I&apos;m honing my skills in distributed systems, embedded systems, and autonomous movement.
-            </p>
-            <p className={`text-xl mb-6 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-              I&apos;m also employed as a Code Sensei at Code Ninjas, teaching kids how to code and run game development projects. I have a passion for teaching and love to share my knowledge with others.
-            </p>
-            <p className={`text-xl mb-6 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-              My project portfolio demonstrates my ability to quickly adapt to new technologies and deliver innovative solutions. From developing AI-powered applications to creating games and tools for accessibility, I&apos;m constantly pushing the boundaries of what I can create.
-            </p>
-            <p className={`text-xl mb-6 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-              I&apos;m not just a coder; I&apos;m a problem solver and a team player. My experience in leadership roles has developed my communication and project management skills, making me an asset to any development team. I&apos;m eager to bring my enthusiasm, technical skills, and fresh perspectives to a challenging co-op position where I can contribute meaningfully and continue to grow as a developer.
-            </p>
-          </div>
-        </motion.section>
-
-        <motion.section 
-          ref={skillsRef}
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: skillsInView ? 1 : 0, y: skillsInView ? 0 : 50 }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          id="skills" 
-          className={`py-20 px-4 ${darkMode ? 'bg-gray-900' : 'bg-white'}`}
-        >
-          <div className="max-w-4xl mx-auto">
-            <h2 className={`text-4xl font-bold mb-8 ${darkMode ? 'text-gray-100' : 'text-gray-900'}`}>Skills</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {Object.entries(skills).map(([category, items]) => (
-                <div key={category} className={`border ${darkMode ? 'border-gray-700 bg-gray-800' : 'border-gray-200 bg-white'} p-6 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-xl`}>
-                  <h3 className={`text-xl font-semibold mb-4 capitalize ${darkMode ? 'text-gray-200' : 'text-gray-700'}`}>{category}</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {items.map((item: string) => (
-                      <span 
-                        key={item} 
-                        className={`
-                          ${darkMode ? 'bg-gray-700 text-gray-200' : 'bg-gray-200 text-gray-700'} 
-                          px-2 py-1 rounded text-sm
-                          transition-all duration-300
-                          hover:shadow-[0_0_10px_3px_rgba(59,130,246,0.5)]
-                          dark:hover:shadow-[0_0_10px_3px_rgba(96,165,250,0.5)]
-                        `}
-                      >
-                        {item}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+          {/* Light mode background */}
+          <motion.div
+            className="absolute inset-0"
+            initial={{ opacity: 1 }}
+            animate={{ opacity: darkMode ? 0 : 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-blue-100 animate-gradient">
+              {[...Array(3)].map((_, i) => (
+                <div
+                  key={i}
+                  className="absolute inset-0 bg-gradient-to-br from-blue-100 to-blue-200 opacity-0 animate-gradient"
+                  style={{ animationDelay: `${i * 4}s` }}
+                />
               ))}
             </div>
-          </div>
-        </motion.section>
+          </motion.div>
+        </div>
 
-        <motion.section 
-          ref={projectsRef}
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: projectsInView ? 1 : 0, y: projectsInView ? 0 : 50 }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          id="projects" 
-          className={`py-20 px-4 ${darkMode ? 'bg-gray-800' : 'bg-gray-100'}`}
-        >
-          <div className="max-w-4xl mx-auto">
-            <h2 className={`text-4xl font-bold mb-8 ${darkMode ? 'text-gray-100' : 'text-gray-900'}`}>Projects</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {projects.map((project: Project, index: number) => (
-                <motion.div
-                  key={project.name}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: projectsInView ? 1 : 0, y: projectsInView ? 0 : 20 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className={`border ${darkMode ? 'border-gray-700 bg-gray-800' : 'border-gray-200 bg-white'} p-6 rounded-lg flex flex-col transition-all duration-300 hover:scale-105 hover:shadow-xl`}
-                >
-                  {project.image && (
-                    <div className="w-full aspect-square mb-4 overflow-hidden rounded-lg relative">
-                      <Image
-                        src={project.image}
-                        alt={project.name}
-                        fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        className="object-contain border border-gray-300 dark:border-gray-600 hover:scale-105 transition duration-300"
-                      />
-                    </div>
-                  )}
-                  <h3 className={`text-xl font-semibold mb-2 ${darkMode ? 'text-gray-200' : 'text-gray-700'}`}>{project.name}</h3>
-                  <p className={`mb-4 flex-grow ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>{project.description}</p>
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.tech.map((tech: string) => (
-                      <span
-                        key={tech}
-                        className={`
-                          ${darkMode ? 'bg-gray-700 text-gray-200' : 'bg-gray-200 text-gray-700'} 
-                          px-2 py-1 rounded text-sm
-                          transition-all duration-300
-                          hover:shadow-[0_0_10px_3px_rgba(59,130,246,0.5)]
-                          dark:hover:shadow-[0_0_10px_3px_rgba(96,165,250,0.5)]
-                        `}
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                  <a href={project.link} target="_blank" rel="noopener noreferrer" className={`${darkMode ? 'text-blue-400' : 'text-blue-600'} hover:underline mt-auto`}>
-                    {linkContainsGit(project.link) ? 'View Project' : 'Learn More'}
-                  </a>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </motion.section>
-
-        <motion.section 
-          ref={experienceRef}
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: experienceInView ? 1 : 0, y: experienceInView ? 0 : 50 }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          id="experience" 
-          className={`py-20 px-4 ${darkMode ? 'bg-gray-900' : 'bg-white'}`}
-        >
-          <div className="max-w-4xl mx-auto">
-            <h2 className={`text-4xl font-bold mb-8 ${darkMode ? 'text-gray-100' : 'text-gray-900'}`}>Experience</h2>
-            <div className="mb-8">
-              <div className="flex space-x-4 mb-4">
+        <nav className={`sticky top-0 z-50 ${darkMode ? 'bg-gray-800/70' : 'bg-white/70'} backdrop-blur-sm shadow-lg transition-colors duration-300`}>
+          <div className="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
+            <button onClick={() => scrollToSection('home')} className="text-2xl font-bold text-gray-800 dark:text-gray-100">JU</button>
+            <div className="flex items-center">
+              <ul className={`md:flex md:space-x-4 ${isMenuOpen ? 'block' : 'hidden'} absolute md:relative top-full left-0 right-0 md:top-auto ${darkMode ? 'bg-gray-800/80' : 'bg-white/80'} md:bg-transparent p-4 md:p-0 shadow-md md:shadow-none backdrop-blur-sm`}>
+                {['Home', 'About', 'Skills', 'Projects', 'Experience', 'Contact'].map((item) => (
+                  <li key={item} className="mb-2 md:mb-0">
+                    <button
+                      onClick={() => {
+                        scrollToSection(item.toLowerCase())
+                        setIsMenuOpen(false)
+                      }}
+                      className={`${
+                        activeSection === item.toLowerCase()
+                          ? 'text-blue-500'
+                          : darkMode
+                          ? 'text-gray-300 hover:text-white'
+                          : 'text-gray-600 hover:text-gray-900'
+                      } transition duration-300 block w-full text-left md:inline`}
+                    >
+                      {item}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+              <div className="flex items-center space-x-4 ml-4">
                 <button
-                  onClick={() => setActiveTab('technical')}
-                  className={`px-4 py-2 rounded-full ${
-                    activeTab === 'technical'
-                      ? darkMode
-                        ? 'bg-gray-600 text-white'
-                        : 'bg-gray-800 text-white'
-                      : darkMode
-                      ? 'bg-gray-700 text-gray-300'
-                      : 'bg-gray-200 text-gray-700'
-                  } hover:bg-gray-700 hover:text-white transition duration-300`}
+                  onClick={() => setIsMenuOpen(!isMenuOpen)}
+                  className={`${darkMode ? 'text-gray-300' : 'text-gray-600'} focus:outline-none md:hidden`}
                 >
-                  Technical Experiences
+                  {isMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
                 </button>
                 <button
-                  onClick={() => setActiveTab('nonTechnical')}
-                  className={`px-4 py-2 rounded-full ${
-                    activeTab === 'nonTechnical'
-                      ? darkMode
-                        ? 'bg-gray-600 text-white'
-                        : 'bg-gray-800 text-white'
-                      : darkMode
-                      ? 'bg-gray-700 text-gray-300'
-                      : 'bg-gray-200 text-gray-700'
-                  } hover:bg-gray-700 hover:text-white transition duration-300`}
+                  onClick={toggleDarkMode}
+                  className={`p-2 rounded-full ${darkMode ? 'bg-gray-700' : 'bg-gray-200'} transition-colors duration-300`}
                 >
-                  Non-Technical Experiences
+                  {darkMode ? <FaSun className="w-3 h-3 text-gray-100" /> : <FaMoon className="w-3 h-3 text-gray-800" />}
                 </button>
               </div>
-              <div className="space-y-6">
-                {(activeTab === 'technical' ? experiences : nonTechnicalExperiences).map((exp: Experience | NonTechnicalExperience, index: number) => (
+            </div>
+          </div>
+        </nav>
+
+        <div className="relative z-10">
+          <header id="home" className="min-h-screen flex items-center justify-center text-center px-4">
+            <motion.div
+              initial={{ y: 50, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.5, duration: 0.6 }}
+              className="flex flex-col items-center"
+            >
+              <div className="mb-6">
+                <Image 
+                  src="/images/headshot.png" 
+                  alt="Jonathan Ung" 
+                  width={250} 
+                  height={250} 
+                  className="rounded-full border-4 border-gray-800 dark:border-gray-100 shadow-lg hover:scale-110 hover:border-gray-100 dark:hover:border-gray-800 transition duration-300"
+                />
+              </div>
+              <h1 className={`text-5xl md:text-7xl font-bold mb-6 ${darkMode ? 'text-gray-100' : 'text-gray-900'}`}>
+                Jonathan Ung
+              </h1>
+              <p className="text-2xl md:text-3xl text-gray-600 dark:text-gray-300 mb-8">
+                Software Developer | AI Enthusiast | Problem Solver
+              </p>
+              <div className="flex space-x-4">
+                <a
+                  href="#contact"
+                  className="inline-block bg-gray-800 text-white font-bold py-3 px-8 rounded-full hover:bg-gray-700 hover:scale-110 transition duration-300 ease-in-out"
+                >
+                  Let&apos;s Connect
+                </a>
+                <button
+                  onClick={toggleResume}
+                  className="inline-block bg-blue-600 text-white font-bold py-3 px-8 rounded-full hover:bg-blue-700 hover:scale-110 transition duration-300 ease-in-out"
+                >
+                  <FaFileDownload className="inline-block mr-2" />
+                  View Resume
+                </button>
+              </div>
+            </motion.div>
+          </header>
+
+          {/* About section */}
+          <section 
+            ref={aboutRef}
+            id="about" 
+            className={`py-20 px-4 ${darkMode ? 'bg-gray-800/50' : 'bg-white/50'} backdrop-blur-md`}
+          >
+            <div className="max-w-4xl mx-auto">
+              <h2 className={`text-4xl font-bold mb-8 ${darkMode ? 'text-gray-100' : 'text-gray-900'}`}>About Me</h2>
+              <p className={`text-xl mb-6 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                I&apos;m a passionate software developer based in Vancouver, BC, with a keen interest in AI, Data Science, Networking, and Embedded Systems. As a 3rd-year SFU Co-op student, I bring over two years of experience in software development to the table.
+              </p>
+              <p className={`text-xl mb-6 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                Currently, I&apos;m serving as the Software Team Lead for the SFU Robot Soccer Team (Bandits FC), where I&apos;m honing my skills in distributed systems, embedded systems, and autonomous movement.
+              </p>
+              <p className={`text-xl mb-6 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                I&apos;m also employed as a Code Sensei at Code Ninjas, teaching kids how to code and run game development projects. I have a passion for teaching and love to share my knowledge with others.
+              </p>
+              <p className={`text-xl mb-6 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                My project portfolio demonstrates my ability to quickly adapt to new technologies and deliver innovative solutions. From developing AI-powered applications to creating games and tools for accessibility, I&apos;m constantly pushing the boundaries of what I can create.
+              </p>
+              <p className={`text-xl mb-6 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                I&apos;m not just a coder; I&apos;m a problem solver and a team player. My experience in leadership roles has developed my communication and project management skills, making me an asset to any development team. I&apos;m eager to bring my enthusiasm, technical skills, and fresh perspectives to a challenging co-op position where I can contribute meaningfully and continue to grow as a developer.
+              </p>
+            </div>
+          </section>
+
+          {/* Skills section */}
+          <section 
+            ref={skillsRef}
+            id="skills" 
+            className={`py-20 px-4 ${darkMode ? 'bg-gray-900/50' : 'bg-gray-100/50'}`}
+          >
+            <div className="max-w-4xl mx-auto">
+              <h2 className={`text-4xl font-bold mb-8 ${darkMode ? 'text-gray-100' : 'text-gray-900'}`}>Skills</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {Object.entries(skills).map(([category, items]) => (
+                  <div key={category} className={`border ${darkMode ? 'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-white/50'} p-6 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-xl backdrop-blur-lg`}>
+                    <h3 className={`text-xl font-semibold mb-4 capitalize ${darkMode ? 'text-gray-200' : 'text-gray-700'}`}>{category}</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {items.map((item: string) => (
+                        <span 
+                          key={item} 
+                          className={`
+                            ${darkMode ? 'bg-gray-700 text-gray-200' : 'bg-gray-200 text-gray-700'} 
+                            px-2 py-1 rounded text-sm
+                            transition-all duration-300
+                            hover:shadow-[0_0_10px_3px_rgba(59,130,246,0.5)]
+                            dark:hover:shadow-[0_0_10px_3px_rgba(96,165,250,0.5)]
+                          `}
+                        >
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Projects section */}
+          <section 
+            ref={projectsRef}
+            id="projects" 
+            className={`py-20 px-4 ${darkMode ? 'bg-gray-800/50' : 'bg-white/50'}`}
+          >
+            <div className="max-w-4xl mx-auto">
+              <h2 className={`text-4xl font-bold mb-8 ${darkMode ? 'text-gray-100' : 'text-gray-900'}`}>Projects</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {projects.map((project: Project, index: number) => (
                   <motion.div
-                    key={index}
+                    key={project.name}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className={`border ${darkMode ? 'border-gray-700 bg-gray-800' : 'border-gray-200 bg-white'} p-6 rounded-lg flex items-center transition-all duration-300 hover:scale-105 hover:shadow-xl`}
+                    transition={{ duration: 0.5, delay: index * 
+
+ 0.1 }}
+                    className={`border ${darkMode ? 
+                      'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-white/50'} 
+                      p-6 rounded-lg flex flex-col transition-all duration-300 
+                      hover:scale-105 hover:shadow-xl backdrop-blur-lg`}
                   >
-                    {exp.image && (
-                      <div className="flex-shrink-0 mr-6">
+                    {project.image && (
+                      <div className="w-full aspect-square mb-4 overflow-hidden rounded-lg relative">
                         <Image
-                          src={exp.image}
-                          alt={exp.company}
-                          width={100}
-                          height={100}
-                          className="rounded-lg border border-gray-300 dark:border-gray-600"
+                          src={project.image}
+                          alt={project.name}
+                          fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          className="object-contain border border-gray-300 dark:border-gray-600 hover:scale-105 transition duration-300"
                         />
                       </div>
                     )}
-                    <div>
-                      <h3 className={`text-2xl font-bold mb-2 ${darkMode ? 'text-gray-200' : 'text-gray-700'}`}>{exp.title}</h3>
-                      <p className={`mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>{exp.company}</p>
-                      <p className="text-sm mb-4 text-gray-600">{exp.date}</p>
-                      <p className={`mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>{exp.description}</p>
-                      {'tech' in exp && (
-                        <div className="flex flex-wrap gap-2 mb-4">
-                          {exp.tech.map((tech: string, techIndex: number) => (
-                            <span key={techIndex} className={`${darkMode ? 'bg-gray-700 text-gray-200' : 'bg-gray-200 text-gray-700'} px-2 py-1 rounded-full text-sm`}>
-                              {tech}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                      {'link' in exp && (
-                        <div className="flex space-x-4">
-                          <a href={exp.link} target="_blank" rel="noopener noreferrer" className={`${darkMode ? 'text-blue-400' : 'text-blue-600'} hover:underline`}>
-                            Learn More
-                          </a>
-                          {exp.gitLink && (
-                            <a href={exp.gitLink} target="_blank" rel="noopener noreferrer" className={`${darkMode ? 'text-blue-400' : 'text-blue-600'} hover:underline`}>
-                              View Code
-                            </a>
-                          )}
-                        </div>
-                      )}
+                    <h3 className={`text-xl font-semibold mb-2 ${darkMode ? 'text-gray-200' : 'text-gray-700'}`}>{project.name}</h3>
+                    <p className={`mb-4 flex-grow ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>{project.description}</p>
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {project.tech.map((tech: string) => (
+                        <span
+                          key={tech}
+                          className={`
+                            ${darkMode ? 'bg-gray-700 text-gray-200' : 'bg-gray-200 text-gray-700'} 
+                            px-2 py-1 rounded text-sm
+                            transition-all duration-300
+                            hover:shadow-[0_0_10px_3px_rgba(59,130,246,0.5)]
+                            dark:hover:shadow-[0_0_10px_3px_rgba(96,165,250,0.5)]
+                          `}
+                        >
+                          {tech}
+                        </span>
+                      ))}
                     </div>
+                    <a href={project.link} target="_blank" rel="noopener noreferrer" className={`${darkMode ? 'text-blue-400' : 'text-blue-600'} hover:underline mt-auto`}>
+                      {linkContainsGit(project.link) ? 'View Project' : 'Learn More'}
+                    </a>
                   </motion.div>
                 ))}
               </div>
             </div>
-          </div>
-        </motion.section>
+          </section>
 
-        <motion.section 
-          ref={contactRef}
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: contactInView ? 1 : 0, y: contactInView ? 0 : 50 }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          id="contact" 
-          className={`py-20 px-4 ${darkMode ? 'bg-gray-800' : 'bg-white'}`}
-        >
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className={`text-4xl font-bold mb-8 ${darkMode ? 'text-gray-100' : 'text-gray-900'}`}>Let&apos;s Connect</h2>
-            <p className={`text-xl mb-8 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-              I&apos;m always open to new opportunities and collaborations. Feel free to reach out!
-            </p>
-            <div className="flex justify-center space-x-6 mb-8">
-              <a href="mailto:jua10@sfu.ca" className={`${darkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition duration-300`}>
-                <FaEnvelope className="w-8 h-8" />
-              </a>
-              <a href="https://www.linkedin.com/in/jonathan-ung-1193a2238/" target="_blank" rel="noopener noreferrer" className={`${darkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition duration-300`}>
-                <FaLinkedin className="w-8 h-8" />
-              </a>
-              <a href="https://github.com/jonathanung" target="_blank" rel="noopener noreferrer" className={`${darkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition duration-300`}>
-                <FaGithub className="w-8 h-8" />
-              </a>
-              <a  href="https://gitlab.com/jonathan.keith.ung" target="_blank" rel="noopener noreferrer" className={`${darkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition duration-300`}>
-                <FaGitlab className="w-8 h-8" />
-              </a>
-              <a href="https://jonathanung.ca/" target="_blank" rel="noopener noreferrer" className={`${darkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition duration-300`}>
-                <FaGlobe className="w-8 h-8" />
-              </a>
+          {/* Experience section */}
+          <section 
+            ref={experienceRef}
+            id="experience" 
+            className={`py-20 px-4 ${darkMode ? 'bg-gray-900/50' : 'bg-gray-100/50'}`}
+          >
+            <div className="max-w-4xl mx-auto">
+              <h2 className={`text-4xl font-bold mb-8 ${darkMode ? 'text-gray-100' : 'text-gray-900'}`}>Experience</h2>
+              <div className="mb-8">
+                <div className="flex space-x-4 mb-4">
+                  <button
+                    onClick={() => setActiveTab('technical')}
+                    className={`px-4 py-2 rounded-full ${
+                      activeTab === 'technical'
+                        ? darkMode
+                          ? 'bg-gray-600 text-white'
+                          : 'bg-gray-800 text-white'
+                        : darkMode
+                        ? 'bg-gray-700 text-gray-300'
+                        : 'bg-gray-200 text-gray-700'
+                    } hover:bg-gray-700 hover:text-white transition duration-300`}
+                  >
+                    Technical Experiences
+                  </button>
+                  <button
+                    onClick={() => setActiveTab('nonTechnical')}
+                    className={`px-4 py-2 rounded-full ${
+                      activeTab === 'nonTechnical'
+                        ? darkMode
+                          ? 'bg-gray-600 text-white'
+                          : 'bg-gray-800 text-white'
+                        : darkMode
+                        ? 'bg-gray-700 text-gray-300'
+                        : 'bg-gray-200 text-gray-700'
+                    } hover:bg-gray-700 hover:text-white transition duration-300`}
+                  >
+                    Non-Technical Experiences
+                  </button>
+                </div>
+                <div className="space-y-6">
+                  {(activeTab === 'technical' ? experiences : nonTechnicalExperiences).map((exp: Experience | NonTechnicalExperience, index: number) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: index * 0.1 }}
+                      className={`border ${darkMode ? 'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-white/50'} p-6 rounded-lg flex items-center transition-all duration-300 hover:scale-105 hover:shadow-xl backdrop-blur-lg`}
+                    >
+                      {exp.image && (
+                        <div className="flex-shrink-0 mr-6">
+                          <Image
+                            src={exp.image}
+                            alt={exp.company}
+                            width={100}
+                            height={100}
+                            className="rounded-lg border border-gray-300 dark:border-gray-600"
+                          />
+                        </div>
+                      )}
+                      <div>
+                        <h3 className={`text-2xl font-bold mb-2 ${darkMode ? 'text-gray-200' : 'text-gray-700'}`}>{exp.title}</h3>
+                        <p className={`mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>{exp.company}</p>
+                        <p className="text-sm mb-4 text-gray-600 dark:text-gray-400">{exp.date}</p>
+                        <p className={`mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>{exp.description}</p>
+                        {'tech' in exp && (
+                          <div className="flex flex-wrap gap-2 mb-4">
+                            {exp.tech.map((tech: string, techIndex: number) => (
+                              <span key={techIndex} className={`${darkMode ? 'bg-gray-700 text-gray-200' : 'bg-gray-200 text-gray-700'} px-2 py-1 rounded-full text-sm`}>
+                                {tech}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                        {'link' in exp && (
+                          <div className="flex space-x-4">
+                            <a href={exp.link} target="_blank" rel="noopener noreferrer" className={`${darkMode ? 'text-blue-400' : 'text-blue-600'} hover:underline`}>
+                              Learn More
+                            </a>
+                            {exp.gitLink && (
+                              <a href={exp.gitLink} target="_blank" rel="noopener noreferrer" className={`${darkMode ? 'text-blue-400' : 'text-blue-600'} hover:underline`}>
+                                View Code
+                              </a>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
             </div>
-            <div className="flex justify-center space-x-4">
-              <a
-                href="mailto:jua10@sfu.ca"
-                className={`inline-block ${darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-800 hover:bg-gray-700'} text-white font-bold py-3 px-8 rounded-full transition duration-300 ease-in-out`}
-              >
-                Get in Touch
-              </a>
-              <button
-                onClick={toggleResume}
-                className="inline-block bg-blue-600 text-white font-bold py-3 px-8 rounded-full hover:bg-blue-700 hover:scale-110 transition duration-300 ease-in-out"
-              >
-                <FaFileDownload className="inline-block mr-2" />
-                View Resume
-              </button>
+          </section>
+
+          {/* Contact section */}
+          <section 
+            ref={contactRef}
+            id="contact" 
+            className={`py-20 px-4 ${darkMode ? 'bg-gray-800/50' : 'bg-white/50'} backdrop-blur-lg`}
+          >
+            <div className="max-w-4xl mx-auto text-center">
+              <h2 className={`text-4xl font-bold mb-8 ${darkMode ? 'text-gray-100' : 'text-gray-900'}`}>Let&apos;s Connect</h2>
+              <p className={`text-xl mb-8 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                I&apos;m always open to new opportunities and collaborations. Feel free to reach out!
+              </p>
+              <div className="flex justify-center space-x-6 mb-8">
+                <a href="mailto:jua10@sfu.ca" className={`${darkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition duration-300`}>
+                  <FaEnvelope className="w-8 h-8" />
+                </a>
+                <a href="https://www.linkedin.com/in/jonathan-ung-1193a2238/" target="_blank" rel="noopener noreferrer" className={`${darkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition duration-300`}>
+                  <FaLinkedin className="w-8 h-8" />
+                </a>
+                <a href="https://github.com/jonathanung" target="_blank" rel="noopener noreferrer" className={`${darkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition duration-300`}>
+                  <FaGithub className="w-8 h-8" />
+                </a>
+                <a href="https://gitlab.com/jonathan.keith.ung" target="_blank" rel="noopener noreferrer" className={`${darkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition duration-300`}>
+                  <FaGitlab className="w-8 h-8" />
+                </a>
+                <a href="https://jonathanung.ca/" target="_blank" rel="noopener noreferrer" className={`${darkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition duration-300`}>
+                  <FaGlobe className="w-8 h-8" />
+                </a>
+              </div>
+              <div className="flex justify-center space-x-4">
+                <a
+                  href="mailto:jua10@sfu.ca"
+                  className={`inline-block ${darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-800 hover:bg-gray-700'} text-white font-bold py-3 px-8 rounded-full transition duration-300 ease-in-out`}
+                >
+                  Get in Touch
+                </a>
+                <button
+                  onClick={toggleResume}
+                  className="inline-block bg-blue-600 text-white font-bold py-3 px-8 rounded-full hover:bg-blue-700 hover:scale-110 transition duration-300 ease-in-out"
+                >
+                  <FaFileDownload className="inline-block mr-2" />
+                  View Resume
+                </button>
+              </div>
             </div>
-          </div>
-        </motion.section>
-      </div>
+          </section>
+        </div>
       </motion.div>
       {isResumeOpen && (
         <div className={`fixed inset-0 z-50 overflow-hidden ${darkMode ? 'bg-black bg-opacity-50' : 'bg-white bg-opacity-50'} backdrop-blur-sm flex items-center justify-center p-8`}>
@@ -645,7 +693,6 @@ export default function Page() {
                 title="Resume"
               />
               
-              {/* Download Button Container */}
               <div className="p-4 flex justify-center">
                 <a
                   href="/resume.pdf"
