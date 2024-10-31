@@ -277,7 +277,7 @@ export default function Page() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: isLoaded ? 1 : 0 }}
-        transition={{ duration: 0.8 }}
+        transition={{ duration: 0 }}
         className={`min-h-screen ${darkMode ? 'dark' : ''}`}
       >
         {/* Unified background */}
@@ -381,7 +381,7 @@ export default function Page() {
             <motion.div
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.5, duration: 0.6 }}
+              transition={{ duration: 0.3 }}
               className="flex flex-col items-center"
             >
               <div className="mb-6">
