@@ -290,7 +290,7 @@ export default function Page() {
             transition={{ duration: 0.5 }}
           >
             <div className="absolute inset-0 bg-gradient-to-br from-gray-900 to-black">
-              {[...Array(40)].map((_, i) => (
+              {[...Array(25)].map((_, i) => (
                 <motion.div
                   key={i}
                   className="absolute bg-blue-300 opacity-30"

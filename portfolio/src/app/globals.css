@@ -13,7 +13,7 @@
   }
   50% {
     transform: translate(0%, 3%) rotate(0deg);
-    opacity: 0;
+    opacity: 0.5;
   }
   75% {
     transform: translate(-5%, 0%) rotate(-5deg);
@@ -26,5 +26,5 @@
 }
 
 .animate-gradient {
-  animation: gradient 20s ease-in-out infinite;
+  animation: gradient 15s ease-in-out infinite;
 }
