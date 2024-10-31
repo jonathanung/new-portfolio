@@ -491,9 +491,7 @@ export default function Page() {
                     key={project.name}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 
-
- 0.1 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
                     className={`border ${darkMode ? 
                       'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-white/50'} 
                       p-6 rounded-lg flex flex-col transition-all duration-300 
