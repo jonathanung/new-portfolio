@@ -101,14 +101,13 @@ const projects: Project[] = [
 
 const experiences: Experience[] = [
   {
-    title: 'Software Team Lead, C++ Software Developer',
-    company: 'SFU Robot Soccer Club (Bandits FC)',
-    date: 'February 2024 - PRESENT',
-    description: 'Led the creation of network protocols, integrated manual and automatic overrides, and managed a team of software developers. Currently leading the development of an autonomous, game-playing agent utilizing HFSMs.',
-    tech: ['C++', 'Network Protocols', 'Autonomous Systems'],
-    link: 'https://sfurobotsoccer.com/',
-    image: '/images/sfu-robot-soccer.png',
-    gitLink: 'https://gitlab.com/sfurs/software'
+    title: 'Infotainment System Developer Co-op',
+    company: 'Rivian and Volkswagen Group Technologies',
+    date: 'May 2024 - December 2024',
+    description: 'Incoming co-op at Rivian and Volkswagen Group Technologies for infotainment system development.',
+    tech: ['Android Development'],
+    link: 'https://rivianvw.tech/',
+    image: '/images/RVTech.jpg',
   },
   {
     title: 'Code Sensei, Assistant Center Director',
@@ -120,15 +119,6 @@ const experiences: Experience[] = [
     image: '/images/code-ninjas.png'
   },
   {
-    title: 'Executive Advisor, Vice President, Lead Hackathon Coordinator',
-    company: 'Langara Computer Science Club - Vancouver, BC',
-    date: 'April 2023 - April 2024',
-    description: 'Led the creation of inaugural Langara Hacks, managed committee for event quality, and created organizational standards for club tasks and meetings.',
-    tech: ['Event Management', 'Leadership'],
-    link: 'https://langaracs.ca/',
-    image: '/images/langara-cs-club.png'
-  },
-  {
     title: 'Software Engineering Intern',
     company: 'MVP IT Solutions - Daytona Beach, FL, USA (Remote)',
     date: 'August - November 2022',
@@ -137,6 +127,28 @@ const experiences: Experience[] = [
     link: 'https://mvpitsolutions.com/',
     image: '/images/mvp-it-solutions.jpg'
   },
+]
+
+const extracurricularExperiences: Experience[] = [
+    {
+    title: 'Software Team Lead, C++ Software Developer',
+    company: 'SFU Robot Soccer Club (Bandits FC)',
+    date: 'February 2024 - PRESENT',
+    description: 'Led the creation of network protocols, integrated manual and automatic overrides, and managed a team of software developers. Currently leading the development of an autonomous, game-playing agent utilizing HFSMs.',
+    tech: ['C++', 'Network Protocols', 'Autonomous Systems'],
+    link: 'https://sfurobotsoccer.com/',
+    image: '/images/sfu-robot-soccer.png',
+    gitLink: 'https://gitlab.com/sfurs/software'
+  },
+  {
+    title: 'Executive Advisor, Vice President, Lead Hackathon Coordinator',
+    company: 'Langara Computer Science Club - Vancouver, BC',
+    date: 'April 2023 - April 2024',
+    description: 'Led the creation of inaugural Langara Hacks, managed committee for event quality, and created organizational standards for club tasks and meetings.',
+    tech: ['Event Management', 'Leadership'],
+    link: 'https://langaracs.ca/',
+    image: '/images/langara-cs-club.png'
+  }
 ]
 
 const nonTechnicalExperiences: NonTechnicalExperience[] = [
@@ -157,7 +169,7 @@ const nonTechnicalExperiences: NonTechnicalExperience[] = [
 ]
 
 export default function Page() {
-  const [activeTab, setActiveTab] = useState<'technical' | 'nonTechnical'>('technical')
+  const [activeTab, setActiveTab] = useState<'technical' | 'nonTechnical' | 'extracurricular'>('technical')
   const [isLoaded, setIsLoaded] = useState<boolean>(true)
   const [darkMode, setDarkMode] = useState<boolean>(false)
   const [activeSection, setActiveSection] = useState<string>('home')
@@ -560,6 +572,20 @@ export default function Page() {
                     Technical Experiences
                   </button>
                   <button
+                    onClick={() => setActiveTab('extracurricular')}
+                    className={`px-4 py-2 rounded-full ${
+                      activeTab === 'extracurricular'
+                        ? darkMode
+                          ? 'bg-gray-600 text-white'
+                          : 'bg-gray-800 text-white'
+                        : darkMode
+                        ? 'bg-gray-700 text-gray-300'
+                        : 'bg-gray-200 text-gray-700'
+                    } hover:bg-gray-700 hover:text-white transition duration-300`}
+                  >
+                    Extracurricular Experiences
+                  </button>
+                  <button
                     onClick={() => setActiveTab('nonTechnical')}
                     className={`px-4 py-2 rounded-full ${
                       activeTab === 'nonTechnical'
@@ -575,7 +601,7 @@ export default function Page() {
                   </button>
                 </div>
                 <div className="space-y-6">
-                  {(activeTab === 'technical' ? experiences : nonTechnicalExperiences).map((exp: Experience | NonTechnicalExperience, index: number) => (
+                  {(activeTab === 'technical' ? experiences : activeTab === 'extracurricular' ? extracurricularExperiences : nonTechnicalExperiences).map((exp: Experience | NonTechnicalExperience, index: number) => (
                     <motion.div
                       key={index}
                       initial={{ opacity: 0, y: 20 }}
