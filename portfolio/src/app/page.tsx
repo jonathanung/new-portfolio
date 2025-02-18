@@ -6,7 +6,7 @@ import { FaEnvelope, FaLinkedin, FaGithub, FaGitlab, FaGlobe, FaMoon, FaSun, FaB
 import Image from 'next/image'
 import Head from 'next/head'
 
-// Define types for skills, projects, experiences, and nonTechnicalExperiences
+// Define types for skills, projects, experiences, nonTechnicalExperiences, and education
 type Skill = {
   [key: string]: string[]
 }
@@ -39,13 +39,75 @@ type NonTechnicalExperience = {
   image: string
 }
 
+type Education = {
+  degree: string
+  date: string
+  institution: string
+  image: string
+}
+
+// Updated skills: added any missing technical skills from the projects section.
 const skills: Skill = {
-  languages: ['Python', 'TypeScript', 'JavaScript', 'C++', 'C#', 'SQL', 'Java', 'GD Script', 'Dart', 'Bash', 'Perl', 'HTML', 'CSS'],
-  'machine learning': ['NumPy', 'PyTorch', 'Pandas'],
-  frontend: ['React', 'Next.js', 'Angular', 'Flask', 'Django', 'Spring MVC', 'SASS', 'jQuery', 'Flutter', 'Bootstrap', 'Tailwind', 'Svelte'],
-  backend: ['SQL', 'PostgreSQL', 'MySQL', 'SQLAlchemy', 'SQLite3', 'ORM', 'Express', 'MongoDB', 'JWT', 'FastAPI', 'Flask', 'Spring Boot', 'Bcrypt', 'Firebase'],
-  deployment: ['AWS', 'Kubernetes', 'Docker', 'Git', 'CI/CD', 'InMotion Hosting', 'Cloudflare', 'SSL', 'Nginx', 'DigitalOcean', 'Defang'],
-  'miscellaneous': ['QT6', 'Protobuf', 'MERN', 'JavaFX', 'Godot4', 'Unity', 'TensorFlow', 'Keras', 'Regex', 'Scripting', 'OOP', 'API', 'REST' , 'Wordpress', 'CMAKE', 'ROS']
+  languages: [
+    'Python',
+    'TypeScript',
+    'JavaScript',
+    'C++',
+    'C#',
+    'SQL',
+    'Java',
+    'GD Script',
+    'Dart',
+    'Bash',
+    'Perl',
+    'HTML',
+    'CSS'
+  ],
+  'machine learning': ['NumPy', 'PyTorch', 'Pandas', 'TensorFlow', 'Keras'],
+  frontend: [
+    'React',
+    'Next.js', 
+    'Angular',
+    'Flask',
+    'Django',
+    'Spring MVC',
+    'Flutter',
+    'Bootstrap',
+    'Tailwind',
+    'Svelte'
+  ],
+  backend: [
+    'PostgreSQL',
+    'MySQL',
+    'SQLite3',
+    'Express',
+    'MongoDB',
+    'FastAPI',
+    'Flask',
+    'Spring Boot',
+    'Firebase',
+    'Node.js'
+  ],
+  deployment: [
+    'AWS',
+    'Kubernetes',
+    'Docker',
+    'Git',
+    'CI/CD',
+    'Nginx',
+    'DigitalOcean'
+  ],
+  miscellaneous: [
+    'QT6',
+    'MERN Stack',
+    'Unity/Godot',
+    'ROS',
+    'CARLA API',
+    'OpenCV',
+    'LLMs (Gemma2, GPT-4)',
+    'Socket.io',
+    'REST APIs'
+  ]
 }
 
 const projects: Project[] = [
@@ -240,6 +302,22 @@ const nonTechnicalExperiences: NonTechnicalExperience[] = [
   }
 ]
 
+// New education array using the new type
+const educations: Education[] = [
+  {
+    degree: 'B.Sc Computing Science, Statistics Minor',
+    date: 'January 2024 - August 2026',
+    institution: 'Simon Fraser University - Burnaby, BC',
+    image: '/images/sfu.png'
+  },
+  {
+    degree: 'Computer Science Transfer',
+    date: 'September 2021 - April 2022, April 2023 - December 2024',
+    institution: 'Langara College - Vancouver, BC',
+    image: '/images/langara.png'
+  }
+]
+
 export default function Page() {
   const [activeTab, setActiveTab] = useState<'technical' | 'nonTechnical' | 'extracurricular'>('technical')
   const [isLoaded, setIsLoaded] = useState<boolean>(true)
@@ -278,8 +356,8 @@ export default function Page() {
   }, [scrollY, navControls, darkMode])
 
   useEffect(() => {
-    const sections : string[] = ['home', 'about', 'skills', 'projects', 'experience', 'contact']
-    const sectionRefs : (React.RefObject<HTMLDivElement> | null)[] = [null, aboutRef, skillsRef, projectsRef, experienceRef, contactRef]
+    const sections : string[] = ['home', 'about', 'experience', 'skills', 'projects', 'education', 'contact']
+    const sectionRefs : (React.RefObject<HTMLDivElement> | null)[] = [null, aboutRef, experienceRef, skillsRef, projectsRef, educationRef, contactRef]
 
     const handleScroll = () => {
       const scrollPosition = window.scrollY + 100 // Offset to trigger slightly before reaching the section
@@ -309,12 +387,14 @@ export default function Page() {
   const skillsRef = useRef(null)
   const projectsRef = useRef(null)
   const experienceRef = useRef(null)
+  const educationRef = useRef(null)
   const contactRef = useRef(null)
 
   const aboutInView = useInView(aboutRef, { once: true, amount: 0.05 })
   const skillsInView = useInView(skillsRef, { once: true, amount: 0.05 })
   const projectsInView = useInView(projectsRef, { once: true, amount: 0.05 })
   const experienceInView = useInView(experienceRef, { once: true, amount: 0.05 })
+  const educationInView = useInView(educationRef, { once: true, amount: 0.05 })
   const contactInView = useInView(contactRef, { once: true, amount: 0.05 })
 
   const scrollToSection = (sectionId: string) => {
@@ -422,7 +502,7 @@ export default function Page() {
             <button onClick={() => scrollToSection('home')} className="text-2xl font-bold text-gray-800 dark:text-gray-100">JU</button>
             <div className="flex items-center">
               <ul className={`md:flex md:space-x-4 ${isMenuOpen ? 'block' : 'hidden'} absolute md:relative top-full left-0 right-0 md:top-auto ${darkMode ? 'bg-gray-800/80' : 'bg-white/80'} md:bg-transparent p-4 md:p-0 shadow-md md:shadow-none backdrop-blur-sm`}>
-                {['Home', 'About', 'Skills', 'Projects', 'Experience', 'Contact'].map((item) => (
+                {['Home', 'About', 'Experience', 'Skills', 'Projects', 'Education', 'Contact'].map((item) => (
                   <li key={item} className="mb-2 md:mb-0">
                     <button
                       onClick={() => {
@@ -481,7 +561,7 @@ export default function Page() {
                 Jonathan Ung
               </h1>
               <p className="text-2xl md:text-3xl text-gray-600 dark:text-gray-300 mb-8">
-                Software Developer | AI Enthusiast | Problem Solver
+                Software Developer | CV/AI Enthusiast
               </p>
               <div className="flex space-x-4">
                 <a
@@ -501,29 +581,134 @@ export default function Page() {
             </motion.div>
           </header>
 
-          {/* About section */}
+          {/* About Section */}
+          <section ref={aboutRef} id="about" className={`py-20 px-4 ${darkMode ? 'bg-gray-900/50' : 'bg-gray-100/50'}`}>
+            <div className="max-w-4xl mx-auto">
+              <h2 className={`text-4xl font-bold mb-8 ${darkMode ? 'text-gray-100' : 'text-gray-900'}`}>
+                About Me
+              </h2>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                <p className={`text-lg ${darkMode ? 'text-gray-300' : 'text-gray-700'} mb-4`}>
+                  I am a dedicated software developer with a passion for creating innovative solutions. From building web applications and mobile apps to exploring the realms of AI and machine learning, I thrive on tackling complex challenges and delivering impactful work.
+                </p>
+                <p className={`text-lg ${darkMode ? 'text-gray-300' : 'text-gray-700'} mb-4`}>
+                  My journey in technology has taught me the value of continuous learning, collaboration, and perseverance. I enjoy working on diverse projects, always seeking opportunities to enhance my skills and contribute to meaningful projects.
+                </p>
+                <p className={`text-lg ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                  I am particularly excited about applying computer vision and AI technologies to automotive applications. Building on projects like AutoStop and working at Rivian-VW in the future, I look forward to developing more innovative solutions in the self-driving and autonomous vehicle space.
+                </p>
+              </motion.div>
+            </div>
+          </section>
+
+          {/* Experience section */}
           <section 
-            ref={aboutRef}
-            id="about" 
-            className={`py-20 px-4 ${darkMode ? 'bg-gray-800/50' : 'bg-white/50'} backdrop-blur-md`}
+            ref={experienceRef}
+            id="experience" 
+            className={`py-20 px-4 ${darkMode ? 'bg-gray-900/50' : 'bg-gray-100/50'}`}
           >
             <div className="max-w-4xl mx-auto">
-              <h2 className={`text-4xl font-bold mb-8 ${darkMode ? 'text-gray-100' : 'text-gray-900'}`}>About Me</h2>
-              <p className={`text-xl mb-6 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                I&apos;m a passionate software developer based in Vancouver, BC, with a keen interest in AI, Data Science, Networking, and Embedded Systems. As a 3rd-year SFU Co-op student, I bring over two years of experience in software development to the table.
-              </p>
-              <p className={`text-xl mb-6 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                Currently, I&apos;m serving as the Software Team Lead for the SFU Robot Soccer Team (Bandits FC), where I&apos;m honing my skills in distributed systems, embedded systems, and autonomous movement.
-              </p>
-              <p className={`text-xl mb-6 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                I&apos;m also employed as a Code Sensei at Code Ninjas, teaching kids how to code and run game development projects. I have a passion for teaching and love to share my knowledge with others.
-              </p>
-              <p className={`text-xl mb-6 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                My project portfolio demonstrates my ability to quickly adapt to new technologies and deliver innovative solutions. From developing AI-powered applications to creating games and tools for accessibility, I&apos;m constantly pushing the boundaries of what I can create.
-              </p>
-              <p className={`text-xl mb-6 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                I&apos;m not just a coder; I&apos;m a problem solver and a team player. My experience in leadership roles has developed my communication and project management skills, making me an asset to any development team. I&apos;m eager to bring my enthusiasm, technical skills, and fresh perspectives to a challenging co-op position where I can contribute meaningfully and continue to grow as a developer.
-              </p>
+              <h2 className={`text-4xl font-bold mb-8 ${darkMode ? 'text-gray-100' : 'text-gray-900'}`}>Experience</h2>
+              <div className="mb-8">
+                <div className="flex space-x-4 mb-4">
+                  <button
+                    onClick={() => setActiveTab('technical')}
+                    className={`px-4 py-2 rounded-full ${
+                      activeTab === 'technical'
+                        ? darkMode
+                          ? 'bg-gray-600 text-white'
+                          : 'bg-gray-800 text-white'
+                        : darkMode
+                        ? 'bg-gray-700 text-gray-300'
+                        : 'bg-gray-200 text-gray-700'
+                    } hover:bg-gray-700 hover:text-white transition duration-300`}
+                  >
+                    Technical Experiences
+                  </button>
+                  <button
+                    onClick={() => setActiveTab('extracurricular')}
+                    className={`px-4 py-2 rounded-full ${
+                      activeTab === 'extracurricular'
+                        ? darkMode
+                          ? 'bg-gray-600 text-white'
+                          : 'bg-gray-800 text-white'
+                        : darkMode
+                        ? 'bg-gray-700 text-gray-300'
+                        : 'bg-gray-200 text-gray-700'
+                    } hover:bg-gray-700 hover:text-white transition duration-300`}
+                  >
+                    Extracurricular Experiences
+                  </button>
+                  <button
+                    onClick={() => setActiveTab('nonTechnical')}
+                    className={`px-4 py-2 rounded-full ${
+                      activeTab === 'nonTechnical'
+                        ? darkMode
+                          ? 'bg-gray-600 text-white'
+                          : 'bg-gray-800 text-white'
+                        : darkMode
+                        ? 'bg-gray-700 text-gray-300'
+                        : 'bg-gray-200 text-gray-700'
+                    } hover:bg-gray-700 hover:text-white transition duration-300`}
+                  >
+                    Non-Technical Experiences
+                  </button>
+                </div>
+                <div className="space-y-6">
+                  {(activeTab === 'technical' ? experiences : activeTab === 'extracurricular' ? extracurricularExperiences : nonTechnicalExperiences).map((exp: Experience | NonTechnicalExperience, index: number) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: index * 0.1 }}
+                      className={`border ${darkMode ? 'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-white/50'} p-6 rounded-lg flex items-center transition-all duration-300 hover:scale-105 hover:shadow-xl backdrop-blur-lg`}
+                    >
+                      {exp.image && (
+                        <div className="flex-shrink-0 mr-6">
+                          <Image
+                            src={exp.image}
+                            alt={exp.company}
+                            width={100}
+                            height={100}
+                            className="rounded-lg border border-gray-300 dark:border-gray-600"
+                          />
+                        </div>
+                      )}
+                      <div>
+                        <h3 className={`text-2xl font-bold mb-2 ${darkMode ? 'text-gray-200' : 'text-gray-700'}`}>{exp.title}</h3>
+                        <p className={`mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>{exp.company}</p>
+                        <p className="text-sm mb-4 text-gray-600 dark:text-gray-400">{exp.date}</p>
+                        <p className={`mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>{exp.description}</p>
+                        {'tech' in exp && (
+                          <div className="flex flex-wrap gap-2 mb-4">
+                            {exp.tech.map((tech: string, techIndex: number) => (
+                              <span key={techIndex} className={`${darkMode ? 'bg-gray-700 text-gray-200' : 'bg-gray-200 text-gray-700'} px-2 py-1 rounded-full text-sm`}>
+                                {tech}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                        {'link' in exp && (
+                          <div className="flex space-x-4">
+                            <a href={exp.link} target="_blank" rel="noopener noreferrer" className={`${darkMode ? 'text-blue-400' : 'text-blue-600'} hover:underline`}>
+                              Learn More
+                            </a>
+                            {exp.gitLink && (
+                              <a href={exp.gitLink} target="_blank" rel="noopener noreferrer" className={`${darkMode ? 'text-blue-400' : 'text-blue-600'} hover:underline`}>
+                                View Code
+                              </a>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
             </div>
           </section>
 
@@ -637,109 +822,49 @@ export default function Page() {
             </div>
           </section>
 
-          {/* Experience section */}
-          <section 
-            ref={experienceRef}
-            id="experience" 
-            className={`py-20 px-4 ${darkMode ? 'bg-gray-900/50' : 'bg-gray-100/50'}`}
+          {/* Education section */}
+          <section
+            ref={educationRef}
+            id="education"
+            className={`py-20 px-4 ${
+              darkMode ? 'bg-gray-800/50' : 'bg-white/50'
+            } backdrop-blur-md`}
           >
             <div className="max-w-4xl mx-auto">
-              <h2 className={`text-4xl font-bold mb-8 ${darkMode ? 'text-gray-100' : 'text-gray-900'}`}>Experience</h2>
-              <div className="mb-8">
-                <div className="flex space-x-4 mb-4">
-                  <button
-                    onClick={() => setActiveTab('technical')}
-                    className={`px-4 py-2 rounded-full ${
-                      activeTab === 'technical'
-                        ? darkMode
-                          ? 'bg-gray-600 text-white'
-                          : 'bg-gray-800 text-white'
-                        : darkMode
-                        ? 'bg-gray-700 text-gray-300'
-                        : 'bg-gray-200 text-gray-700'
-                    } hover:bg-gray-700 hover:text-white transition duration-300`}
+              <h2
+                className={`text-4xl font-bold mb-8 ${
+                  darkMode ? 'text-gray-100' : 'text-gray-900'
+                }`}
+              >
+                Education
+              </h2>
+              <div className="space-y-6">
+                {educations.map((edu, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className={`border ${darkMode ? 'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-white/50'} p-6 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-xl backdrop-blur-lg`}
                   >
-                    Technical Experiences
-                  </button>
-                  <button
-                    onClick={() => setActiveTab('extracurricular')}
-                    className={`px-4 py-2 rounded-full ${
-                      activeTab === 'extracurricular'
-                        ? darkMode
-                          ? 'bg-gray-600 text-white'
-                          : 'bg-gray-800 text-white'
-                        : darkMode
-                        ? 'bg-gray-700 text-gray-300'
-                        : 'bg-gray-200 text-gray-700'
-                    } hover:bg-gray-700 hover:text-white transition duration-300`}
-                  >
-                    Extracurricular Experiences
-                  </button>
-                  <button
-                    onClick={() => setActiveTab('nonTechnical')}
-                    className={`px-4 py-2 rounded-full ${
-                      activeTab === 'nonTechnical'
-                        ? darkMode
-                          ? 'bg-gray-600 text-white'
-                          : 'bg-gray-800 text-white'
-                        : darkMode
-                        ? 'bg-gray-700 text-gray-300'
-                        : 'bg-gray-200 text-gray-700'
-                    } hover:bg-gray-700 hover:text-white transition duration-300`}
-                  >
-                    Non-Technical Experiences
-                  </button>
-                </div>
-                <div className="space-y-6">
-                  {(activeTab === 'technical' ? experiences : activeTab === 'extracurricular' ? extracurricularExperiences : nonTechnicalExperiences).map((exp: Experience | NonTechnicalExperience, index: number) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: index * 0.1 }}
-                      className={`border ${darkMode ? 'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-white/50'} p-6 rounded-lg flex items-center transition-all duration-300 hover:scale-105 hover:shadow-xl backdrop-blur-lg`}
-                    >
-                      {exp.image && (
-                        <div className="flex-shrink-0 mr-6">
-                          <Image
-                            src={exp.image}
-                            alt={exp.company}
-                            width={100}
-                            height={100}
-                            className="rounded-lg border border-gray-300 dark:border-gray-600"
-                          />
-                        </div>
-                      )}
-                      <div>
-                        <h3 className={`text-2xl font-bold mb-2 ${darkMode ? 'text-gray-200' : 'text-gray-700'}`}>{exp.title}</h3>
-                        <p className={`mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>{exp.company}</p>
-                        <p className="text-sm mb-4 text-gray-600 dark:text-gray-400">{exp.date}</p>
-                        <p className={`mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>{exp.description}</p>
-                        {'tech' in exp && (
-                          <div className="flex flex-wrap gap-2 mb-4">
-                            {exp.tech.map((tech: string, techIndex: number) => (
-                              <span key={techIndex} className={`${darkMode ? 'bg-gray-700 text-gray-200' : 'bg-gray-200 text-gray-700'} px-2 py-1 rounded-full text-sm`}>
-                                {tech}
-                              </span>
-                            ))}
-                          </div>
-                        )}
-                        {'link' in exp && (
-                          <div className="flex space-x-4">
-                            <a href={exp.link} target="_blank" rel="noopener noreferrer" className={`${darkMode ? 'text-blue-400' : 'text-blue-600'} hover:underline`}>
-                              Learn More
-                            </a>
-                            {exp.gitLink && (
-                              <a href={exp.gitLink} target="_blank" rel="noopener noreferrer" className={`${darkMode ? 'text-blue-400' : 'text-blue-600'} hover:underline`}>
-                                View Code
-                              </a>
-                            )}
-                          </div>
-                        )}
+                    <div className="flex items-center">
+                      <div className="flex-shrink-0 mr-6">
+                        <Image
+                          src={edu.image}
+                          alt={edu.institution}
+                          width={100}
+                          height={100}
+                          className="rounded-lg border border-gray-300 dark:border-gray-600"
+                        />
                       </div>
-                    </motion.div>
-                  ))}
-                </div>
+                      <div>
+                        <h3 className={`text-2xl font-bold ${darkMode ? 'text-gray-200' : 'text-gray-700'}`}>{edu.degree}</h3>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">{edu.date}</p>
+                        <p className={`text-lg ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>{edu.institution}</p>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
               </div>
             </div>
           </section>
