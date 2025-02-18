@@ -17,6 +17,7 @@ type Project = {
   tech: string[]
   link: string
   image?: string
+  tags?: string[]
 }
 
 type Experience = {
@@ -49,53 +50,124 @@ const skills: Skill = {
 
 const projects: Project[] = [
   {
-    name: 'ChronoCal',
-    description: 'A feature-rich calendar application with AI-powered task creation and expense tracking. Includes CRUD functionality for events and an intuitive user interface.',
-    tech: ['MongoDB', 'Express.js', 'Next.js', 'Node.js', 'GPT-4'],
-    link: 'https://github.com/jonathanung/chronocal',
-    image: '/images/chronocal.png'
+    name: 'AutoStop (APP WIP)',
+    description: 'An app that simulates a self-braking vehicle using CARLA API.',
+    tech: ['PyQt', 'CARLA API', 'Open3D', 'OpenCV'],
+    link: 'https://github.com/jonathanung/autostop',
+    image: '/images/autostop.jpg',
+    tags: ['Mobile Development', 'Self-Driving Cars']
   },
   {
-    name: 'Transcribr',
-    description: 'A Discord bot designed for recording, transcribing, and summarizing meetings, utilizing Discord.js, ffmpeg, and GPT-Whisper API for transcription.',
-    tech: ['Discord.js', 'Opus', 'ffmpeg', 'GPT-Whisper API'],
-    link: 'https://github.com/jonathanung/transcribr',
-    image: '/images/transcribr.png'
-  },
-  {
-    name: 'Sewjo (FABCycle x CMPT 276)',
-    description: 'A fabric and sewing pattern tracking app made for FABCycle.',
-    tech: ['Next.js', 'Tailwind', 'Java Spring'],
-    link: 'https://www.fabcycle.shop/',
-    image: '/images/sewjo.png'
-  },
-  {
-    name: 'Chaoscribe',
-    description: 'A news categorization tool developed for ChaosHacks2024, categorizing articles based on chaos levels.',
-    tech: ['Next.js', 'FastAPI', 'GPT-4'],
-    link: 'https://github.com/jonathanung/chaoscribe',
-    image: '/images/chaoscribe.jpg'
-  },
-  {
-    name: 'AccessMart',
-    description: 'A tool developed during NWHacks2024 using MappedIn, helping shoppers navigate their way through stores.',
-    tech: ['React.js', 'Firebase', 'MappedIn API'],
-    link: 'https://github.com/jonathanung/accessmart',
-    image: '/images/accessmart.jpg'
-  },
-  {
-    name: 'ShreddedWizards',
-    description: 'A game created during StormHacks2024, using a fighting game style, with usable items and powerups.',
-    tech: ['Godot4', 'GDScript'], 
-    link: 'https://github.com/jonathanung/shreddedwizards',
-    image: '/images/shreddedwizards.jpg'
+    name: 'BlackjackNN',
+    description: 'A Blackjack simulator using reinforcement learning to learn optimal strategies.',
+    tech: ['PyTorch', 'NumPy', 'Pandas'],
+    link: 'https://github.com/jonathanung/blackjacknn',
+    image: '/images/blackjacknn.png',
+    tags: ['Reinforcement Learning']
   },
   {
     name: 'Pignance',
     description: 'A web app created during StormHacks2024V2 to help kids with finance tracking and literacy using a home-hosted Gemma2 LLM and OCR.',
     tech: ['Gemma2 LLM', 'OCR', 'Next.js', 'Tailwind', 'FastAPI'],
     link: 'https://github.com/jonathanung/532-finance',
-    image: '/images/pignance.png'
+    image: '/images/pignance.png',
+    tags: ['Web Development']
+  },
+  {
+    name: 'local-llm-api',
+    description: 'A local LLM API to run local LLMs from a server. Used as a helper for the Pignance project.',
+    tech: ['FastAPI', 'Ollama'],
+    link: 'https://github.com/jonathanung/local-llm-api',
+    image: '/images/local-llm-api.jpg',
+    tags: ['REST API']
+  },
+  {
+    name: 'ChronoCal (BACKEND WIP)',
+    description: 'A feature-rich calendar application with AI-powered task creation and expense tracking. Includes CRUD functionality for events and an intuitive user interface.',
+    tech: ['MongoDB', 'Express.js', 'Next.js', 'Node.js', 'GPT-4'],
+    link: 'https://github.com/jonathanung/chronocal',
+    image: '/images/chronocal.png',
+    tags: ['Web Development', 'Productivity']
+  },
+  {
+    name: 'Sewjo (FABCycle x CMPT 276)',
+    description: 'A fabric and sewing pattern tracking app made for FABCycle.',
+    tech: ['Next.js', 'Tailwind', 'Java Spring'],
+    link: 'https://www.fabcycle.shop/',
+    image: '/images/sewjo.png',
+    tags: ['Web Development']
+  },
+  {
+    name: 'ShreddedWizards',
+    description: 'A game created during StormHacks2024, using a fighting game style, with usable items and powerups.',
+    tech: ['Godot4', 'GDScript'], 
+    link: 'https://github.com/jonathanung/shreddedwizards',
+    image: '/images/shreddedwizards.jpg',
+    tags: ['Game Development', 'Networking']
+  },
+  {
+    name: 'Transcribr',
+    description: 'A Discord bot designed for recording, transcribing, and summarizing meetings, utilizing Discord.js, ffmpeg, and GPT-Whisper API for transcription.',
+    tech: ['Discord.js', 'Opus', 'ffmpeg', 'GPT-Whisper API'],
+    link: 'https://github.com/jonathanung/transcribr',
+    image: '/images/transcribr.png',
+    tags: ['Discord Bot', 'Audio Processing']
+  },
+  {
+    name: 'Chaoscribe',
+    description: 'A news categorization tool developed for ChaosHacks2024, categorizing articles based on chaos levels.',
+    tech: ['Next.js', 'FastAPI', 'GPT-4'],
+    link: 'https://github.com/jonathanung/chaoscribe',
+    image: '/images/chaoscribe.jpg',
+    tags: ['Web Development']
+  },
+  {
+    name: 'AccessMart',
+    description: 'A tool developed during NWHacks2024 using MappedIn, helping shoppers navigate their way through stores.',
+    tech: ['React.js', 'Firebase', 'MappedIn API'],
+    link: 'https://github.com/jonathanung/accessmart',
+    image: '/images/accessmart.jpg',
+    tags: ['Web Development']
+  },
+  {
+    name: 'jsonlookup',
+    description: 'A tool to lookup JSON data from an API',
+    tech: ['React.js', 'Node.js', 'Express', 'MongoDB'],
+    link: 'https://github.com/jonathanung/jsonlookup',
+    image: '/images/jsonlookup.png',
+    tags: ['Web Development', 'Data Parsing']
+  },
+  {
+    name: 'ChattyThingy',
+    description: 'A socket-based chat application built with Node.js, Express, and Socket.io to learn about basic socket development.',
+    tech: ['React.js', 'Node.js', 'Express', 'Socket.io'],
+    link: 'https://github.com/jonathanung/chattythingy',
+    image: '/images/chattythingy.png',
+    tags: ['Web Development', 'Networking']
+  },
+  {
+    name: 'Sked',
+    description: 'A web app simulating basic calendar functionality.',
+    tech: ['React.js', 'React-bootstrap', 'day.js', 'Node.js', 'Express', 'MongoDB'],
+    link: 'https://github.com/jonathanung/sked',
+    image: '/images/sked.png',
+    tags: ['Web Development']
+  },
+  {
+    name: 'Memory React',
+    description: 'A web app to play the memory card game.',
+    tech: ['React.js', 'Firebase'],
+    link: 'https://github.com/jonathanung/memory_react',
+    image: '/images/memory-react.jpg',
+    tags: ['Web Development']
+  },
+  {
+    name: 'Valorant Stats',
+    description: 'A web app to see the overview of a valorant agents.',
+    tech: ['HTML', 'CSS', 'JavaScript', 'Valorant API'],
+    link: 'https://github.com/jonathanung/valorant_stats',
+    image: '/images/valorant-stats.jpg',
+    tags: ['Web Development']
   }
 ]
 
@@ -538,6 +610,24 @@ export default function Page() {
                         </span>
                       ))}
                     </div>
+                    {/* Render tags if available */}
+                    {project.tags && project.tags.length > 0 && (
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {project.tags.map((tag, tagIndex: number) => (
+                          <span 
+                            key={tagIndex} 
+                            className={`
+                              ${darkMode ? 'bg-purple-700 text-purple-200' : 'bg-purple-200 text-purple-700'} 
+                              px-2 py-1 rounded text-sm
+                              transition-all duration-300
+                              hover:shadow-[0_0_10px_3px_rgba(128,90,213,0.5)]
+                            `}
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                     <a href={project.link} target="_blank" rel="noopener noreferrer" className={`${darkMode ? 'text-blue-400' : 'text-blue-600'} hover:underline mt-auto`}>
                       {linkContainsGit(project.link) ? 'View Project' : 'Learn More'}
                     </a>
