@@ -342,6 +342,9 @@ export default function Page() {
   const navControls = useAnimation()
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
   const [isResumeOpen, setIsResumeOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [selectedTag, setSelectedTag] = useState<string>('All');
+  const [selectedTech, setSelectedTech] = useState<string>('All');
 
   const linkContainsGit = (link: string) => {
     return link.includes('github') || link.includes('gitlab');
@@ -443,6 +446,24 @@ export default function Page() {
   };
 
   const toggleResume = () => setIsResumeOpen(!isResumeOpen);
+
+  // Compute all unique tags (sorted alphabetically) and tech items (sorted alphabetically) from the projects array
+  const allTags = Array.from(new Set(projects.flatMap(project => project.tags || []))).sort((a, b) => a.localeCompare(b));
+  const allTech = Array.from(new Set(projects.flatMap(project => project.tech))).sort((a, b) => a.localeCompare(b));
+
+  // Filter the projects by checking all text fields along with filtering by tag and tech.
+  const filteredProjects = projects.filter((project: Project) => {
+    const query = searchQuery.toLowerCase();
+    const matchesQuery =
+      project.name.toLowerCase().includes(query) ||
+      project.description.toLowerCase().includes(query) ||
+      project.tech.some(tech => tech.toLowerCase().includes(query)) ||
+      (project.tags && project.tags.some(tag => tag.toLowerCase().includes(query)));
+    
+    const matchesTag = selectedTag === 'All' || (project.tags && project.tags.includes(selectedTag));
+    const matchesTech = selectedTech === 'All' || project.tech.includes(selectedTech);
+    return matchesQuery && matchesTag && matchesTech;
+  });
 
   return (
     <>
@@ -771,70 +792,111 @@ export default function Page() {
           >
             <div className="max-w-4xl mx-auto">
               <h2 className={`text-4xl font-bold mb-8 ${darkMode ? 'text-gray-100' : 'text-gray-900'}`}>Projects</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {projects.map((project: Project, index: number) => (
-                  <motion.div
-                    key={project.name}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className={`border ${darkMode ? 
-                      'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-white/50'} 
-                      p-6 rounded-lg flex flex-col transition-all duration-300 
-                      hover:scale-105 hover:shadow-xl backdrop-blur-lg dark:hover:shadow-[0_0_10px_3px_rgba(96,165,250,0.5)]`}
+              
+              {/* Project Filter */}
+              <div className="mb-8 flex flex-col md:flex-row items-center justify-between gap-4">
+                <input
+                  type="text"
+                  placeholder="Query a project..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="border p-2 rounded w-full md:w-1/2"
+                />
+                <div className="flex flex-wrap gap-4">
+                  <select
+                    value={selectedTag}
+                    onChange={(e) => setSelectedTag(e.target.value)}
+                    className="border p-2 rounded"
                   >
-                    {project.image && (
-                      <div className="w-full aspect-square mb-4 overflow-hidden rounded-lg relative">
-                        <Image
-                          src={project.image}
-                          alt={project.name}
-                          fill
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                          className="object-contain rounded-lg transition duration-300 hover:scale-105 hover:shadow-xl backdrop-blur-lg"
-                        />
-                      </div>
-                    )}
-                    <h3 className={`text-xl font-semibold mb-2 ${darkMode ? 'text-gray-200' : 'text-gray-700'}`}>{project.name}</h3>
-                    <p className={`mb-4 flex-grow ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>{project.description}</p>
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {project.tech.map((tech: string) => (
-                        <span
-                          key={tech}
-                          className={`
-                            ${darkMode ? 'bg-gray-700 text-gray-200' : 'bg-gray-200 text-gray-700'} 
-                            px-2 py-1 rounded text-sm
-                            transition-all duration-300
-                            hover:shadow-[0_0_10px_3px_rgba(59,130,246,0.5)]
-                            dark:hover:shadow-[0_0_10px_3px_rgba(96,165,250,0.5)]
-                          `}
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                    {/* Render tags if available */}
-                    {project.tags && project.tags.length > 0 && (
+                    <option value="All">All Tags</option>
+                    {allTags.map((tag: string) => (
+                      <option key={tag} value={tag}>
+                        {tag}
+                      </option>
+                    ))}
+                  </select>
+                  <select
+                    value={selectedTech}
+                    onChange={(e) => setSelectedTech(e.target.value)}
+                    className="border p-2 rounded"
+                  >
+                    <option value="All">All Tech</option>
+                    {allTech.map((tech: string) => (
+                      <option key={tech} value={tech}>
+                        {tech}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {filteredProjects.length > 0 ? (
+                  filteredProjects.map((project: Project, index: number) => (
+                    <motion.div
+                      key={project.name}
+                      initial={{ opacity: 1, y: 0 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5 }}
+                      className={`border ${darkMode ? 
+                        'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-white/50'} 
+                        p-6 rounded-lg flex flex-col transition-all duration-300 
+                        hover:scale-105 hover:shadow-xl backdrop-blur-lg dark:hover:shadow-[0_0_10px_3px_rgba(96,165,250,0.5)]`}
+                    >
+                      {project.image && (
+                        <div className="w-full aspect-square mb-4 overflow-hidden rounded-lg relative">
+                          <Image
+                            src={project.image}
+                            alt={project.name}
+                            fill
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            className="object-contain rounded-lg transition duration-300 hover:scale-105 hover:shadow-xl backdrop-blur-lg"
+                          />
+                        </div>
+                      )}
+                      <h3 className={`text-xl font-semibold mb-2 ${darkMode ? 'text-gray-200' : 'text-gray-700'}`}>{project.name}</h3>
+                      <p className={`mb-4 flex-grow ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>{project.description}</p>
                       <div className="flex flex-wrap gap-2 mb-4">
-                        {project.tags.map((tag, tagIndex: number) => (
-                          <span 
-                            key={tagIndex} 
+                        {project.tech.map((tech: string) => (
+                          <span
+                            key={tech}
                             className={`
-                              ${darkMode ? 'bg-purple-700 text-purple-200' : 'bg-purple-200 text-purple-700'} 
+                              ${darkMode ? 'bg-gray-700 text-gray-200' : 'bg-gray-200 text-gray-700'} 
                               px-2 py-1 rounded text-sm
                               transition-all duration-300
-                              hover:shadow-[0_0_10px_3px_rgba(128,90,213,0.5)]
+                              hover:shadow-[0_0_10px_3px_rgba(59,130,246,0.5)]
+                              dark:hover:shadow-[0_0_10px_3px_rgba(96,165,250,0.5)]
                             `}
                           >
-                            {tag}
+                            {tech}
                           </span>
                         ))}
                       </div>
-                    )}
-                    <a href={project.link} target="_blank" rel="noopener noreferrer" className={`${darkMode ? 'text-blue-400' : 'text-blue-600'} hover:underline mt-auto`}>
-                      {linkContainsGit(project.link) ? 'View Project' : 'Learn More'}
-                    </a>
-                  </motion.div>
-                ))}
+                      {project.tags && project.tags.length > 0 && (
+                        <div className="flex flex-wrap gap-2 mb-4">
+                          {project.tags.map((tag, tagIndex: number) => (
+                            <span 
+                              key={tagIndex} 
+                              className={`
+                                ${darkMode ? 'bg-purple-700 text-purple-200' : 'bg-purple-200 text-purple-700'} 
+                                px-2 py-1 rounded text-sm
+                                transition-all duration-300
+                                hover:shadow-[0_0_10px_3px_rgba(128,90,213,0.5)]
+                              `}
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                      <a href={project.link} target="_blank" rel="noopener noreferrer" className={`${darkMode ? 'text-blue-400' : 'text-blue-600'} hover:underline mt-auto`}>
+                        {linkContainsGit(project.link) ? 'View Project' : 'Learn More'}
+                      </a>
+                    </motion.div>
+                  ))
+                ) : (
+                  <p className="col-span-full text-center text-gray-600 dark:text-gray-300">No projects match your criteria.</p>
+                )}
               </div>
             </div>
           </section>
