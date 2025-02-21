@@ -642,7 +642,7 @@ export default function Page() {
                         : darkMode
                         ? 'bg-gray-700 text-gray-300'
                         : 'bg-gray-200 text-gray-700'
-                    } hover:bg-gray-700 hover:text-white transition duration-300`}
+                    } hover:bg-gray-700 hover:text-white transition duration-300 hover:shadow-[0_0_10px_3px_rgba(59,130,246,0.5)] dark:hover:shadow-[0_0_10px_3px_rgba(96,165,250,0.5)] `}
                   >
                     Technical Experiences
                   </button>
@@ -656,7 +656,7 @@ export default function Page() {
                         : darkMode
                         ? 'bg-gray-700 text-gray-300'
                         : 'bg-gray-200 text-gray-700'
-                    } hover:bg-gray-700 hover:text-white transition duration-300`}
+                    } hover:bg-gray-700 hover:text-white transition duration-300 hover:shadow-[0_0_10px_3px_rgba(59,130,246,0.5)] dark:hover:shadow-[0_0_10px_3px_rgba(96,165,250,0.5)] `}
                   >
                     Extracurricular Experiences
                   </button>
@@ -670,7 +670,7 @@ export default function Page() {
                         : darkMode
                         ? 'bg-gray-700 text-gray-300'
                         : 'bg-gray-200 text-gray-700'
-                    } hover:bg-gray-700 hover:text-white transition duration-300`}
+                    } hover:bg-gray-700 hover:text-white transition duration-300 hover:shadow-[0_0_10px_3px_rgba(59,130,246,0.5)] dark:hover:shadow-[0_0_10px_3px_rgba(96,165,250,0.5)] `}
                   >
                     Non-Technical Experiences
                   </button>
@@ -681,8 +681,8 @@ export default function Page() {
                       key={index}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: index * 0.1 }}
-                      className={`border ${darkMode ? 'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-white/50'} p-6 rounded-lg flex items-center transition-all duration-300 hover:scale-105 hover:shadow-xl backdrop-blur-lg`}
+                      transition={{ duration: 0, delay: index * 0.1 }}
+                      className={`border ${darkMode ? 'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-white/50'} p-6 rounded-lg flex items-center transition-all duration-300 hover:scale-120 hover:shadow-xl backdrop-blur-lg`}
                     >
                       {exp.image && (
                         <div className="flex-shrink-0 mr-6">
@@ -691,7 +691,7 @@ export default function Page() {
                             alt={exp.company}
                             width={100}
                             height={100}
-                            className="rounded-lg border border-gray-300 dark:border-gray-600"
+                            className="rounded-lg border border-gray-300 dark:border-gray-600 hover:scale-105 hover:shadow-xl backdrop-blur-lg transition-all duration-300 hover:shadow-[0_0_10px_3px_rgba(59,130,246,0.5)] dark:hover:shadow-[0_0_10px_3px_rgba(96,165,250,0.5)]"
                           />
                         </div>
                       )}
@@ -703,7 +703,7 @@ export default function Page() {
                         {'tech' in exp && (
                           <div className="flex flex-wrap gap-2 mb-4">
                             {exp.tech.map((tech: string, techIndex: number) => (
-                              <span key={techIndex} className={`${darkMode ? 'bg-gray-700 text-gray-200' : 'bg-gray-200 text-gray-700'} px-2 py-1 rounded-full text-sm`}>
+                              <span key={techIndex} className={`${darkMode ? 'bg-gray-700 text-gray-200' : 'bg-gray-200 text-gray-700'} px-2 py-1 rounded-full text-sm transition-all duration-300 hover:shadow-[0_0_10px_3px_rgba(59,130,246,0.5)] dark:hover:shadow-[0_0_10px_3px_rgba(96,165,250,0.5)]`}>
                                 {tech}
                               </span>
                             ))}
@@ -711,11 +711,11 @@ export default function Page() {
                         )}
                         {'link' in exp && (
                           <div className="flex space-x-4">
-                            <a href={exp.link} target="_blank" rel="noopener noreferrer" className={`${darkMode ? 'text-blue-400' : 'text-blue-600'} hover:underline`}>
+                            <a href={exp.link} target="_blank" rel="noopener noreferrer" className={`${darkMode ? 'text-blue-400' : 'text-blue-600'} hover:underline hover:scale-105 transition-all duration-300`}>
                               Learn More
                             </a>
                             {exp.gitLink && (
-                              <a href={exp.gitLink} target="_blank" rel="noopener noreferrer" className={`${darkMode ? 'text-blue-400' : 'text-blue-600'} hover:underline`}>
+                              <a href={exp.gitLink} target="_blank" rel="noopener noreferrer" className={`${darkMode ? 'text-blue-400' : 'text-blue-600'} hover:underline hover:scale-105 transition-all duration-300`}>
                                 View Code
                               </a>
                             )}
@@ -790,7 +790,7 @@ export default function Page() {
                           alt={project.name}
                           fill
                           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                          className="object-contain border border-gray-300 dark:border-gray-600 hover:scale-105 transition duration-300"
+                          className="object-contain rounded-lg transition duration-300 hover:scale-105 hover:shadow-xl backdrop-blur-lg"
                         />
                       </div>
                     )}
@@ -871,7 +871,7 @@ export default function Page() {
                           alt={edu.institution}
                           width={100}
                           height={100}
-                          className="rounded-lg border border-gray-300 dark:border-gray-600"
+                          className="rounded-lg border border-gray-300 dark:border-gray-600 transition-all duration-300 hover:scale-120 hover:shadow-xl backdrop-blur-lg"
                         />
                       </div>
                       <div>
