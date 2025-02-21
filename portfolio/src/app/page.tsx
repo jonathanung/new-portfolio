@@ -682,7 +682,7 @@ export default function Page() {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0, delay: index * 0.1 }}
-                      className={`border ${darkMode ? 'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-white/50'} p-6 rounded-lg flex items-center transition-all duration-300 hover:scale-120 hover:shadow-xl backdrop-blur-lg`}
+                      className={`border ${darkMode ? 'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-white/50'} p-6 rounded-lg flex items-center transition-all duration-300 hover:scale-120 hover:shadow-xl backdrop-blur-lg dark:hover:shadow-[0_0_10px_3px_rgba(96,165,250,0.5)]`}
                     >
                       {exp.image && (
                         <div className="flex-shrink-0 mr-6">
@@ -739,7 +739,7 @@ export default function Page() {
               <h2 className={`text-4xl font-bold mb-8 ${darkMode ? 'text-gray-100' : 'text-gray-900'}`}>Skills</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {Object.entries(skills).map(([category, items]) => (
-                  <div key={category} className={`border ${darkMode ? 'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-white/50'} p-6 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-xl backdrop-blur-lg`}>
+                  <div key={category} className={`border ${darkMode ? 'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-white/50'} p-6 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-xl backdrop-blur-lg dark:hover:shadow-[0_0_10px_3px_rgba(96,165,250,0.5)]`}>
                     <h3 className={`text-xl font-semibold mb-4 capitalize ${darkMode ? 'text-gray-200' : 'text-gray-700'}`}>{category}</h3>
                     <div className="flex flex-wrap gap-2">
                       {items.map((item: string) => (
@@ -781,7 +781,7 @@ export default function Page() {
                     className={`border ${darkMode ? 
                       'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-white/50'} 
                       p-6 rounded-lg flex flex-col transition-all duration-300 
-                      hover:scale-105 hover:shadow-xl backdrop-blur-lg`}
+                      hover:scale-105 hover:shadow-xl backdrop-blur-lg dark:hover:shadow-[0_0_10px_3px_rgba(96,165,250,0.5)]`}
                   >
                     {project.image && (
                       <div className="w-full aspect-square mb-4 overflow-hidden rounded-lg relative">
@@ -862,7 +862,7 @@ export default function Page() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className={`border ${darkMode ? 'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-white/50'} p-6 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-xl backdrop-blur-lg`}
+                    className={`border ${darkMode ? 'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-white/50'} p-6 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-xl backdrop-blur-lg dark:hover:shadow-[0_0_10px_3px_rgba(96,165,250,0.5)]`}
                   >
                     <div className="flex items-center">
                       <div className="flex-shrink-0 mr-6">
@@ -871,7 +871,7 @@ export default function Page() {
                           alt={edu.institution}
                           width={100}
                           height={100}
-                          className="rounded-lg border border-gray-300 dark:border-gray-600 transition-all duration-300 hover:scale-120 hover:shadow-xl backdrop-blur-lg"
+                          className="rounded-lg border border-gray-300 dark:border-gray-600 transition-all duration-300 hover:scale-120 hover:shadow-xl backdrop-blur-lg dark:hover:shadow-[0_0_10px_3px_rgba(96,165,250,0.5)]"
                         />
                       </div>
                       <div>
