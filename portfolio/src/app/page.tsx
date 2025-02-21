@@ -282,6 +282,15 @@ const extracurricularExperiences: Experience[] = [
     tech: ['Event Management', 'Leadership'],
     link: 'https://langaracs.ca/',
     image: '/images/langara-cs-club.png'
+  },
+    {
+    title: 'New Student Orientation Speaker',
+    company: 'Langara College - Vancouver, BC',
+    date: 'November 2023 - December 2023',
+    description: 'Spoke to new students about the experiences of a college student at Langara College.',
+    tech: ['Speaking'],
+    link: 'https://langara.ca/',
+    image: '/images/langara.png'
   }
 ]
 
@@ -307,14 +316,20 @@ const educations: Education[] = [
   {
     degree: 'B.Sc Computing Science, Statistics Minor',
     date: 'January 2024 - August 2026',
-    institution: 'Simon Fraser University - Burnaby, BC',
+    institution: 'Simon Fraser University - Burnaby, BC, Canada',
     image: '/images/sfu.png'
   },
   {
     degree: 'Computer Science Transfer',
     date: 'September 2021 - April 2022, April 2023 - December 2024',
-    institution: 'Langara College - Vancouver, BC',
+    institution: 'Langara College - Vancouver, BC, Canada',
     image: '/images/langara.png'
+  },
+  {
+    degree: 'Web Development Certificate',
+    date: 'May 2022 - August 2022',
+    institution: 'Coding Dojo (Colorado Technical University) - Colorado Springs, CO, USA',
+    image: '/images/codingdojo.png'
   }
 ]
 
@@ -467,8 +482,10 @@ export default function Page() {
                   animate={{
                     top: ['0%', '100%'],
                     transition: {
+                      delay: Math.random(), // Random initial delay between 0-1 seconds
                       duration: Math.random() * 3 + 2,
                       repeat: Infinity,
+                      repeatDelay: 0, // No delay on subsequent loops
                       ease: 'linear',
                       repeatType: 'loop',
                     },
