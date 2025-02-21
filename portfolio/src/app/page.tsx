@@ -581,12 +581,12 @@ export default function Page() {
                 Software Developer | CV/AI Enthusiast
               </p>
               <div className="flex space-x-4">
-                <a
-                  href="#contact"
+                <button
+                  onClick={() => scrollToSection('contact')}
                   className="inline-block bg-gray-800 text-white font-bold py-3 px-8 rounded-full hover:bg-gray-700 hover:scale-110 transition duration-300 ease-in-out"
                 >
                   Let&apos;s Connect
-                </a>
+                </button>
                 <button
                   onClick={toggleResume}
                   className="inline-block bg-blue-600 text-white font-bold py-3 px-8 rounded-full hover:bg-blue-700 hover:scale-110 transition duration-300 ease-in-out"
