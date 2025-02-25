@@ -237,7 +237,7 @@ const experiences: Experience[] = [
   {
     title: 'Infotainment System Developer Co-op',
     company: 'Rivian and Volkswagen Group Technologies',
-    date: 'May 2024 - December 2024',
+    date: 'May 2025 - December 2025',
     description: 'Incoming co-op at Rivian and Volkswagen Group Technologies for infotainment system development.',
     tech: ['Android Development'],
     link: 'https://rivianvw.tech/',
@@ -315,7 +315,7 @@ const nonTechnicalExperiences: NonTechnicalExperience[] = [
 const educations: Education[] = [
   {
     degree: 'B.Sc Computing Science, Statistics Minor',
-    date: 'January 2024 - August 2026',
+    date: 'January 2024 - August 2027',
     institution: 'Simon Fraser University - Burnaby, BC, Canada',
     image: '/images/sfu.png'
   },
