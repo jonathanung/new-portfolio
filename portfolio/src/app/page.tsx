@@ -117,7 +117,7 @@ const projects: Project[] = [
     tech: ['PyQt', 'CARLA API', 'Open3D', 'OpenCV'],
     link: 'https://github.com/jonathanung/autostop',
     image: '/images/autostop.jpg',
-    tags: ['Mobile Development', 'Self-Driving Cars']
+    tags: ['Computer Vision', 'Self-Driving Cars', 'Simulated Controls']
   },
   {
     name: 'BlackjackNN',
@@ -125,7 +125,23 @@ const projects: Project[] = [
     tech: ['PyTorch', 'NumPy', 'Pandas'],
     link: 'https://github.com/jonathanung/blackjacknn',
     image: '/images/blackjacknn.png',
-    tags: ['Reinforcement Learning']
+    tags: ['Reinforcement Learning', '2-Day Hack']
+  },
+  {
+    name: 'Traffic Light YOLO Analysis (WIP)',
+    description: 'A YOLO model trained to detect traffic lights and classify them as red, yellow, or green, then analyzed using inferential statistics.',
+    tech: ['YOLO', 'PyTorch', 'NumPy', 'Pandas', 'Inferential Statistics'],
+    link: 'https://github.com/jonathanung/traffic-yolo-analysis',
+    image: '/images/traffic-yolo-analysis.jpg',
+    tags: ['Computer Vision', 'Data Analysis', 'Data Science', 'Model Training']
+  },
+  {
+    name: 'WeMote',
+    description: 'An ESP32-based motion controller that uses IMU data to control custom Pygame games. DreamHacks 2025 winner.',
+    tech: ['ESP32', 'Arduino', 'C++', 'Pygame', 'Sockets', 'Serial Communication'],
+    link: 'https://github.com/jonathanung/weMote',
+    image: '/images/weMote.jpg',
+    tags: ['Embedded Systems', 'Networking', 'IoT', 'DreamHacks Winner', '1-Day Hack']
   },
   {
     name: 'Pignance',
@@ -133,15 +149,15 @@ const projects: Project[] = [
     tech: ['Gemma2 LLM', 'OCR', 'Next.js', 'Tailwind', 'FastAPI'],
     link: 'https://github.com/jonathanung/532-finance',
     image: '/images/pignance.png',
-    tags: ['Web Development']
+    tags: ['Web Development', '2-Day Hack']
   },
   {
     name: 'local-llm-api',
-    description: 'A local LLM API to run local LLMs from a server. Used as a helper for the Pignance project.',
+    description: 'A local LLM API to run local LLMs from a server. Used as a helper for the Pignance project and made during StormHacks2024V2.',
     tech: ['FastAPI', 'Ollama'],
     link: 'https://github.com/jonathanung/local-llm-api',
     image: '/images/local-llm-api.jpg',
-    tags: ['REST API']
+    tags: ['REST API', '2-Day Hack']
   },
   {
     name: 'ChronoCal (BACKEND WIP)',
@@ -165,7 +181,7 @@ const projects: Project[] = [
     tech: ['Godot4', 'GDScript'], 
     link: 'https://github.com/jonathanung/shreddedwizards',
     image: '/images/shreddedwizards.jpg',
-    tags: ['Game Development', 'Networking']
+    tags: ['Game Development', 'Networking', '2-Day Hack']
   },
   {
     name: 'Transcribr',
@@ -181,7 +197,7 @@ const projects: Project[] = [
     tech: ['Next.js', 'FastAPI', 'GPT-4'],
     link: 'https://github.com/jonathanung/chaoscribe',
     image: '/images/chaoscribe.jpg',
-    tags: ['Web Development']
+    tags: ['Web Development', '1-Day Hack']
   },
   {
     name: 'AccessMart',
@@ -189,7 +205,7 @@ const projects: Project[] = [
     tech: ['React.js', 'Firebase', 'MappedIn API'],
     link: 'https://github.com/jonathanung/accessmart',
     image: '/images/accessmart.jpg',
-    tags: ['Web Development']
+    tags: ['Web Development', '2-Day Hack']
   },
   {
     name: 'jsonlookup',
@@ -197,7 +213,7 @@ const projects: Project[] = [
     tech: ['React.js', 'Node.js', 'Express', 'MongoDB'],
     link: 'https://github.com/jonathanung/jsonlookup',
     image: '/images/jsonlookup.png',
-    tags: ['Web Development', 'Data Parsing']
+    tags: ['Web Development', 'Data Parsing', '1-Day Hack']
   },
   {
     name: 'ChattyThingy',
@@ -205,7 +221,7 @@ const projects: Project[] = [
     tech: ['React.js', 'Node.js', 'Express', 'Socket.io'],
     link: 'https://github.com/jonathanung/chattythingy',
     image: '/images/chattythingy.png',
-    tags: ['Web Development', 'Networking']
+    tags: ['Web Development', 'Networking', '1-Day Hack']
   },
   {
     name: 'Sked',
@@ -221,7 +237,7 @@ const projects: Project[] = [
     tech: ['React.js', 'Firebase'],
     link: 'https://github.com/jonathanung/memory_react',
     image: '/images/memory-react.jpg',
-    tags: ['Web Development']
+    tags: ['Web Development', '1-Day Hack']
   },
   {
     name: 'Valorant Stats',
@@ -229,7 +245,7 @@ const projects: Project[] = [
     tech: ['HTML', 'CSS', 'JavaScript', 'Valorant API'],
     link: 'https://github.com/jonathanung/valorant_stats',
     image: '/images/valorant-stats.jpg',
-    tags: ['Web Development']
+    tags: ['Web Development', '1-Day Hack']
   }
 ]
 
