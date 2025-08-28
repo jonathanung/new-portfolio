@@ -254,7 +254,7 @@ const experiences: Experience[] = [
     title: 'Infotainment System Developer Co-op',
     company: 'Rivian and Volkswagen Group Technologies',
     date: 'May 2025 - December 2025',
-    description: 'Incoming co-op at Rivian and Volkswagen Group Technologies for infotainment system development.',
+    description: 'Contributed to infotainment applications by boosting analytics coverage 50%, accelerating feature delivery 20% with a custom MVVM framework, and automating QA and deployment workflows that cut debugging and publishing time by up to 80%.',
     tech: ['Android Development'],
     link: 'https://rivianvw.tech/',
     image: '/images/RVTech.jpg',
