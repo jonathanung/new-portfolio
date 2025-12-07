@@ -254,22 +254,31 @@ const experiences: Experience[] = [
     title: 'Infotainment System Developer Co-op',
     company: 'Rivian and Volkswagen Group Technologies',
     date: 'May 2025 - December 2025',
-    description: 'Contributed to infotainment applications by boosting analytics coverage 50%, accelerating feature delivery 20% with a custom MVVM framework, and automating QA and deployment workflows that cut debugging and publishing time by up to 80%.',
-    tech: ['Android Development'],
+    description: 'Developed Android infotainment systems at Rivian, accelerating feature development by 20% through a custom MVVM framework and reducing CPU usage by 75%. Led cross-functional delivery of 10+ production UI screens, enhanced Bluetooth metadata pipelines for 95% artwork accuracy, and optimized performance across automotive platforms.',
+    tech: ['Android Development', 'QNX', 'Bluetooth', ' Audio Processing', 'Automotive Systems'],
     link: 'https://rivianvw.tech/',
     image: '/images/RVTech.jpg',
   },
   {
+    title: 'Part-time Software Engineering Project Manager',
+    company: 'Whitebox Coworking',
+    date: 'May 2025 - September 2025',
+    description: 'Managed a small team of software engineers to develop the Whitebox Coworking website, and admin platform.',
+    tech: ['React', 'Next.js', 'Tailwind', 'TypeScript', 'Node.js', 'Express', 'MongoDB'],
+    link: 'https://joinwhitebox.com/',
+    image: '/images/whitebox.png'
+  },
+  {
     title: 'Code Sensei, Assistant Center Director',
     company: 'Code Ninjas - Richmond, BC',
-    date: 'August 2023 - PRESENT',
+    date: 'August 2023 - August 2025',
     description: 'Advised students on curriculum progression, integrated technology into the curriculum, and learned Unity for larger projects. Aided in deploying a scalable NAS for student project data storage.',
     tech: ['Unity', 'Game Development', 'Teaching'],
     link: 'https://www.codeninjas.com/richmond-bc-ca',
     image: '/images/code-ninjas.png'
   },
   {
-    title: 'Software Engineering Intern',
+    title: 'Part-time Software Engineering Intern',
     company: 'MVP IT Solutions - Daytona Beach, FL, USA (Remote)',
     date: 'August - November 2022',
     description: 'Engineered functional components in Flutter, enhanced development plans during scrum meetings, and optimized API calls to reduce resource usage and cost.',
@@ -288,7 +297,24 @@ const extracurricularExperiences: Experience[] = [
     tech: ['C++', 'Network Protocols', 'Autonomous Systems'],
     link: 'https://sfurobotsoccer.com/',
     image: '/images/sfu-robot-soccer.png',
-    gitLink: 'https://gitlab.com/sfurs/software'
+  },
+  {
+    title: 'Hackathon Judge',
+    company: 'StormHacks 2025',
+    date: 'October 2025',
+    description: 'Judged the StormHacks 2025 hackathon.',
+    tech: [],
+    link: 'https://www.stormhacks.com/',
+    image: '/images/stormhacks.png',
+  },
+  {
+    title: 'Frosh Committee Member',
+    company: 'SFU Computing Science Student Society',
+    date: 'September 2025',
+    description: 'Helped organize and run the Frosh Week events for the Computing Science program at SFU.',
+    tech: [],
+    link: 'https://sfucsss.org/',
+    image: '/images/sfucsss.png',
   },
   {
     title: 'Executive Advisor, Vice President, Lead Hackathon Coordinator',
@@ -551,11 +577,11 @@ export default function Page() {
           </motion.div>
         </div>
 
-        <nav className={`sticky top-0 z-50 ${darkMode ? 'bg-gray-800/70' : 'bg-white/70'} backdrop-blur-sm shadow-lg transition-colors duration-300`}>
+        <nav className="sticky top-0 z-50 shadow-lg">
           <div className="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
             <button onClick={() => scrollToSection('home')} className="text-2xl font-bold text-gray-800 dark:text-gray-100">JU</button>
             <div className="flex items-center">
-              <ul className={`md:flex md:space-x-4 ${isMenuOpen ? 'block' : 'hidden'} absolute md:relative top-full left-0 right-0 md:top-auto ${darkMode ? 'bg-gray-800/80' : 'bg-white/80'} md:bg-transparent p-4 md:p-0 shadow-md md:shadow-none backdrop-blur-sm`}>
+              <ul className={`md:flex md:space-x-4 ${isMenuOpen ? 'block' : 'hidden'} absolute md:relative top-full left-0 right-0 md:top-auto ${darkMode ? 'bg-gray-800' : 'bg-white'} md:bg-transparent p-4 md:p-0 shadow-md md:shadow-none`}>
                 {['Home', 'About', 'Experience', 'Skills', 'Projects', 'Education', 'Contact'].map((item) => (
                   <li key={item} className="mb-2 md:mb-0">
                     <button
