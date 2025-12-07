@@ -1,4 +1,4 @@
-name: defang-portfolio
+x-name: defang-portfolio
 
 services:
   defang:
