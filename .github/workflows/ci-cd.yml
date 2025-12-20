@@ -59,4 +59,5 @@ jobs:
           script: |
             cd /var/www/new-portfolio
             git pull origin main
+            docker-compose down --volumes --remove-orphans
             docker-compose up -d --build 
