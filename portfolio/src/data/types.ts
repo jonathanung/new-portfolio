@@ -46,11 +46,6 @@ export interface EducationItem extends BaseItem {
   courses?: string[]
 }
 
-export interface SkillCategory {
-  name: string
-  skills: string[]
-}
-
 export interface HeroStat {
   label: string
   value: string
