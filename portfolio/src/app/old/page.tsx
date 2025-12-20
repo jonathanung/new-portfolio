@@ -1002,7 +1002,7 @@ export default function Page() {
                 I&apos;m always open to new opportunities and collaborations. Feel free to reach out!
               </p>
               <div className="flex justify-center space-x-6 mb-8">
-                <a href="mailto:jua10@sfu.ca" className={`${darkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition duration-300`}>
+                <a href="mailto:jonathank.ung@icloud.com" className={`${darkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition duration-300`}>
                   <FaEnvelope className="w-8 h-8" />
                 </a>
                 <a href="https://www.linkedin.com/in/jonathan-ung-1193a2238/" target="_blank" rel="noopener noreferrer" className={`${darkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition duration-300`}>
@@ -1020,7 +1020,7 @@ export default function Page() {
               </div>
               <div className="flex justify-center space-x-4">
                 <a
-                  href="mailto:jua10@sfu.ca"
+                  href="mailto:jonathank.ung@icloud.com"
                   className={`inline-block ${darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-800 hover:bg-gray-700'} text-white font-bold py-3 px-8 rounded-full transition duration-300 ease-in-out`}
                 >
                   Get in Touch
