@@ -110,7 +110,7 @@ export default function ParticleBackground({ onIntroComplete, theme = 'dark' }: 
     mountRef.current.appendChild(renderer.domElement)
 
     // Create particles
-    const particleCount = 4000
+    const particleCount = 500
     const positions = new Float32Array(particleCount * 3)
     const velocities = new Float32Array(particleCount * 3)
     const startPositions = new Float32Array(particleCount * 3)
@@ -147,7 +147,7 @@ export default function ParticleBackground({ onIntroComplete, theme = 'dark' }: 
       velocities[i3 + 1] = 0
       velocities[i3 + 2] = 0
 
-      sizes[i] = 0.03 + Math.random() * 0.1
+      sizes[i] = 0.05 + Math.random() * 0.15
     }
 
     // Create geometry
