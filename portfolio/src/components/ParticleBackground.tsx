@@ -110,7 +110,7 @@ export default function ParticleBackground({ onIntroComplete, theme = 'dark' }: 
     mountRef.current.appendChild(renderer.domElement)
 
     // Create particles
-    const particleCount = 500
+    const particleCount = 250
     const positions = new Float32Array(particleCount * 3)
     const velocities = new Float32Array(particleCount * 3)
     const startPositions = new Float32Array(particleCount * 3)
