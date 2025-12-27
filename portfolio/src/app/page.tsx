@@ -167,7 +167,7 @@ export default function Page() {
                     <span className="gradient-text">Software Engineering Intern</span>
                   </h1>
                   <p className="text-xs sm:text-sm mt-2 sm:mt-3 text-[var(--color-muted)]">
-                    Vancouver, BC · Seeking internship opportunities for Summer 2026 and beyond
+                    Vancouver, BC · Seeking internship opportunities for Spring 2026, Fall 2026, and beyond
                   </p>
                 </div>
               </div>
