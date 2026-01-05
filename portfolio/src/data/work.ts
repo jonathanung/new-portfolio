@@ -1,9 +1,25 @@
 import { WorkItem } from './types'
 
 export const workExperience: WorkItem[] = [
+    {
+    id: 'qualcomm',
+    title: 'AISW Software Engineer Intern',
+    organization: 'Qualcomm',
+    location: 'Markham, ON',
+    period: 'May 2026 – Aug 2026',
+    image: '/images/qualcomm.jpeg',
+    tags: ['C++', 'Python'],
+    seeMore: false,
+    description: 'Incoming Software Engineer Intern at Qualcomm, focusing on cutting-edge technology development and innovation.',
+    bullets: [
+      // Internship starting in May 2026
+    ],
+    technologies: ['C++', 'Python'],
+    link: 'https://qualcomm.com/'
+  },
   {
     id: 'rivian-vw',
-    title: 'Infotainment System Developer Co-op',
+    title: 'Infotainment Software Engineer Intern',
     organization: 'Rivian & Volkswagen Group Technologies',
     location: 'Vancouver, BC',
     period: 'May 2025 – Dec 2025',
