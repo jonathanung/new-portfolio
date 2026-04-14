@@ -12,6 +12,7 @@ import {
 import {
   NowPlayingCard,
   NowPlayingToast,
+  SECTION_TRACKS,
   type ThemeColor,
 } from '@/components/NowPlaying';
 import { workExperience, nonTechnicalExperience } from '@/data/work';
@@ -61,14 +62,56 @@ const FINESSE_PLACEHOLDER: ProjectItem = {
    Hooks
    ═══════════════════════════════════════════ */
 
-function useIsMobile(breakpoint = 768) {
+/* ─── Pastel helper: mix dominant color toward white ─── */
+function toPastel(color?: ThemeColor, fallback = '#fefefe'): string {
+  if (!color) return fallback;
+  const r = Math.round(255 - (255 - color.r) * 0.12);
+  const g = Math.round(255 - (255 - color.g) * 0.12);
+  const b = Math.round(255 - (255 - color.b) * 0.12);
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
+/* ─── Pre-fetch all section song colors ─── */
+function useAllSectionColors(): Record<string, ThemeColor> {
+  const [colors, setColors] = useState<Record<string, ThemeColor>>({});
+
+  useEffect(() => {
+    Promise.all(
+      Object.entries(SECTION_TRACKS).map(([id, config]) =>
+        fetch(`/api/spotify?id=${config.id}`)
+          .then((r) => r.json())
+          .then(
+            (d) =>
+              [id, d.dominantColor || { r: 200, g: 200, b: 210 }] as [
+                string,
+                ThemeColor,
+              ],
+          )
+          .catch(
+            () =>
+              [id, { r: 200, g: 200, b: 210 }] as [string, ThemeColor],
+          ),
+      ),
+    ).then((results) => {
+      setColors(Object.fromEntries(results));
+    });
+  }, []);
+
+  return colors;
+}
+
+function useIsMobile(widthBreakpoint = 850, heightBreakpoint = 600) {
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < breakpoint);
+    const check = () =>
+      setIsMobile(
+        window.innerWidth < widthBreakpoint ||
+        window.innerHeight < heightBreakpoint,
+      );
     check();
     window.addEventListener('resize', check);
     return () => window.removeEventListener('resize', check);
-  }, [breakpoint]);
+  }, [widthBreakpoint, heightBreakpoint]);
   return isMobile;
 }
 
@@ -115,6 +158,7 @@ export default function Page() {
   const isMobile = useIsMobile();
   const [expandedCard, setExpandedCard] = useState<string | null>(null);
   const [themeColor, setThemeColor] = useState<ThemeColor>({ r: 200, g: 200, b: 210 });
+  const sectionColors = useAllSectionColors();
 
   useEffect(() => {
     document.body.style.overflow = expandedCard ? 'hidden' : '';
@@ -134,7 +178,7 @@ export default function Page() {
         className="fixed inset-0 pointer-events-none z-0"
         style={{
           backgroundColor: `rgb(${themeColor.r}, ${themeColor.g}, ${themeColor.b})`,
-          opacity: 0.25,
+          opacity: 0.5,
           maskImage: isMobile
             ? 'radial-gradient(ellipse at 50% 100%, black, transparent 70%)'
             : 'radial-gradient(ellipse at 8% 60%, black, transparent 55%)',
@@ -146,12 +190,13 @@ export default function Page() {
       />
 
       {isMobile ? (
-        <MobileLayout onExpand={handleExpand} onColorExtracted={handleColor} />
+        <MobileLayout onExpand={handleExpand} onColorExtracted={handleColor} sectionColors={sectionColors} />
       ) : (
         <DesktopLayout
           onExpand={handleExpand}
           expandedCard={expandedCard}
           onColorExtracted={handleColor}
+          sectionColors={sectionColors}
         />
       )}
 
@@ -159,7 +204,7 @@ export default function Page() {
         {expandedCard && (
           <ExpandedOverlay
             sectionId={expandedCard}
-            bg={SECTIONS.find((s) => s.id === expandedCard)!.bg}
+            bg={toPastel(sectionColors[expandedCard], SECTIONS.find((s) => s.id === expandedCard)!.bg)}
             title={SECTIONS.find((s) => s.id === expandedCard)!.title}
             onClose={handleClose}
             isMobile={isMobile}
@@ -179,10 +224,12 @@ function DesktopLayout({
   onExpand,
   expandedCard,
   onColorExtracted,
+  sectionColors,
 }: {
   onExpand: (id: string) => void;
   expandedCard: string | null;
   onColorExtracted?: (c: ThemeColor) => void;
+  sectionColors: Record<string, ThemeColor>;
 }) {
   const { scrollYProgress } = useScroll();
   const n = SECTIONS.length;
@@ -261,7 +308,7 @@ function DesktopLayout({
           index={i}
           total={n}
           progress={progress}
-          bg={section.bg}
+          bg={toPastel(sectionColors[section.id], section.bg)}
         >
           <CardFace
             sectionId={section.id}
@@ -288,7 +335,7 @@ function DesktopLayout({
    Mobile Layout (horizontal swipe)
    ═══════════════════════════════════════════ */
 
-function MobileLayout({ onExpand, onColorExtracted }: { onExpand: (id: string) => void; onColorExtracted?: (c: ThemeColor) => void }) {
+function MobileLayout({ onExpand, onColorExtracted, sectionColors }: { onExpand: (id: string) => void; onColorExtracted?: (c: ThemeColor) => void; sectionColors: Record<string, ThemeColor> }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -322,7 +369,7 @@ function MobileLayout({ onExpand, onColorExtracted }: { onExpand: (id: string) =
             key={section.id}
             className="w-screen flex-shrink-0 snap-start overflow-y-auto"
             style={{
-              backgroundColor: section.bg,
+              backgroundColor: toPastel(sectionColors[section.id], section.bg),
               height: '100dvh',
             }}
           >
@@ -507,6 +554,7 @@ function CardFace({
             meta={FEATURED_WORK.period}
             description={FEATURED_WORK.description}
             tags={FEATURED_WORK.tags}
+            image={FEATURED_WORK.image}
           />
         </SectionFace>
       );
@@ -542,6 +590,7 @@ function CardFace({
             meta={FEATURED_EXTRA.period}
             description={FEATURED_EXTRA.description}
             tags={FEATURED_EXTRA.tags}
+            image={FEATURED_EXTRA.image}
           />
         </SectionFace>
       );
@@ -570,10 +619,8 @@ function HeroFace() {
         />
       </div>
 
-      <h1 className="text-5xl md:text-5xl font-bold tracking-tight mb-1.5 leading-[1.05]">
-        Jonathan
-        <br />
-        Ung
+      <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-1.5 leading-[1.1]">
+        Jonathan Ung
       </h1>
       <p className="text-sm md:text-sm text-gray-500 leading-relaxed mb-8 max-w-xs">
         Seeking to learn continuously and build scalable, reliable systems.
@@ -652,6 +699,7 @@ function FeaturedItem({
   description,
   tags,
   isWip,
+  image,
 }: {
   title: string;
   subtitle: string;
@@ -659,34 +707,50 @@ function FeaturedItem({
   description: string;
   tags?: string[];
   isWip?: boolean;
+  image?: string;
 }) {
   return (
-    <div>
-      <p className="text-[0.55rem] tracking-[0.2em] uppercase text-gray-400 mb-3">
-        Featured
-      </p>
-      <div className="flex items-start gap-2 mb-1">
-        <h3 className="text-lg font-bold leading-tight">{title}</h3>
-        {isWip && <span className="status-wip mt-0.5">WIP</span>}
-      </div>
-      {subtitle && (
-        <p className="text-xs text-blue-600/70 font-medium mb-0.5">
-          {subtitle}
-        </p>
-      )}
-      {meta && <p className="text-[0.6rem] text-gray-400 mb-3">{meta}</p>}
-      <p className="text-xs text-gray-500 leading-relaxed line-clamp-3">
-        {description}
-      </p>
-      {tags && tags.length > 0 && (
-        <div className="flex flex-wrap gap-1.5 mt-3">
-          {tags.slice(0, 4).map((tag) => (
-            <span key={tag} className="tag-pill">
-              {tag}
-            </span>
-          ))}
+    <div className="flex gap-4 items-center">
+      {/* Image slot */}
+      {image && (
+        <div className="w-20 h-20 md:w-24 md:h-24 rounded-xl overflow-hidden border border-gray-100 flex-shrink-0 relative">
+          <Image
+            src={image}
+            alt={title}
+            fill
+            className="object-cover"
+            sizes="96px"
+          />
         </div>
       )}
+
+      <div className="flex-1 min-w-0">
+        <p className="text-[0.55rem] tracking-[0.2em] uppercase text-gray-400 mb-2">
+          Featured
+        </p>
+        <div className="flex items-start gap-2 mb-1">
+          <h3 className="text-lg font-bold leading-tight">{title}</h3>
+          {isWip && <span className="status-wip mt-0.5">WIP</span>}
+        </div>
+        {subtitle && (
+          <p className="text-xs text-blue-600/70 font-medium mb-0.5">
+            {subtitle}
+          </p>
+        )}
+        {meta && <p className="text-[0.6rem] text-gray-400 mb-3">{meta}</p>}
+        <p className="text-xs text-gray-500 leading-relaxed line-clamp-3">
+          {description}
+        </p>
+        {tags && tags.length > 0 && (
+          <div className="flex flex-wrap gap-1.5 mt-3">
+            {tags.slice(0, 4).map((tag) => (
+              <span key={tag} className="tag-pill">
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -750,8 +814,49 @@ function ContactFace() {
 }
 
 /* ═══════════════════════════════════════════
-   Expanded Overlay
+   Expanded Overlay (cyclical card carousel)
    ═══════════════════════════════════════════ */
+
+const CARD_W = 320;
+const CARD_GAP = 28;
+const CARD_STEP = CARD_W + CARD_GAP;
+
+function getCardInfo(item: CarouselItem) {
+  const base = item.data;
+  const info = {
+    title: base.title,
+    image: base.image,
+    tags: base.tags || [],
+    subtitle: '',
+    meta: '',
+    description: '',
+    isWip: false,
+  };
+
+  switch (item.type) {
+    case 'work':
+      info.subtitle = item.data.organization;
+      info.meta = `${item.data.period} · ${item.data.location}`;
+      info.description = item.data.description;
+      break;
+    case 'project':
+      info.description = item.data.description;
+      info.isWip = item.data.status === 'wip';
+      break;
+    case 'extra':
+      info.subtitle = item.data.organization;
+      info.meta = item.data.period;
+      info.description = item.data.description;
+      break;
+    case 'education':
+      info.subtitle = item.data.institution;
+      info.meta = `${item.data.period} · ${item.data.location}`;
+      info.description = item.data.description || '';
+      break;
+  }
+
+  return info;
+}
 
 function ExpandedOverlay({
   sectionId,
@@ -769,12 +874,28 @@ function ExpandedOverlay({
   themeColor?: ThemeColor;
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [detailIndex, setDetailIndex] = useState<number | null>(null);
   const items = getCarouselItems(sectionId);
+  const total = items.length;
   const touchStart = useRef(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = useState(0);
 
-  // Scroll up to close (desktop)
+  // Measure container
   useEffect(() => {
-    if (isMobile) return;
+    const measure = () => {
+      if (containerRef.current) {
+        setContainerWidth(containerRef.current.clientWidth);
+      }
+    };
+    measure();
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
+  }, []);
+
+  // Scroll up to close (desktop, only when detail modal is closed)
+  useEffect(() => {
+    if (isMobile || detailIndex !== null) return;
     let acc = 0;
     let timer: ReturnType<typeof setTimeout>;
 
@@ -798,22 +919,23 @@ function ExpandedOverlay({
       window.removeEventListener('wheel', onWheel);
       clearTimeout(timer);
     };
-  }, [onClose, isMobile]);
+  }, [onClose, isMobile, detailIndex]);
 
-  // Keyboard navigation
+  // Keyboard navigation (cyclical)
   useEffect(() => {
+    if (detailIndex !== null) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
       if (e.key === 'ArrowLeft')
-        setActiveIndex((i) => Math.max(0, i - 1));
+        setActiveIndex((i) => (i - 1 + total) % total);
       if (e.key === 'ArrowRight')
-        setActiveIndex((i) => Math.min(items.length - 1, i + 1));
+        setActiveIndex((i) => (i + 1) % total);
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [onClose, items.length]);
+  }, [onClose, total, detailIndex]);
 
-  // Touch swipe for carousel
+  // Touch swipe (cyclical)
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStart.current = e.touches[0].clientX;
   };
@@ -822,12 +944,17 @@ function ExpandedOverlay({
     const diff = touchStart.current - e.changedTouches[0].clientX;
     if (Math.abs(diff) > 60) {
       if (diff > 0) {
-        setActiveIndex((i) => Math.min(items.length - 1, i + 1));
+        setActiveIndex((i) => (i + 1) % total);
       } else {
-        setActiveIndex((i) => Math.max(0, i - 1));
+        setActiveIndex((i) => (i - 1 + total) % total);
       }
     }
   };
+
+  const next = () => setActiveIndex((i) => (i + 1) % total);
+  const prev = () => setActiveIndex((i) => (i - 1 + total) % total);
+
+  const centerOffset = containerWidth / 2 - CARD_W / 2;
 
   return (
     <motion.div
@@ -838,13 +965,13 @@ function ExpandedOverlay({
       className="expanded-overlay"
       style={{ backgroundColor: bg }}
     >
-      {/* Album color tint — matches the main page gradient wash */}
+      {/* Album color tint */}
       {themeColor && (
         <>
           <div
             className="absolute inset-0 pointer-events-none z-0"
             style={{
-              backgroundColor: `rgba(${themeColor.r}, ${themeColor.g}, ${themeColor.b}, 0.18)`,
+              backgroundColor: `rgba(${themeColor.r}, ${themeColor.g}, ${themeColor.b}, 0.36)`,
               transition: 'background-color 0.5s ease',
             }}
           />
@@ -852,9 +979,11 @@ function ExpandedOverlay({
             className="absolute inset-0 pointer-events-none z-0"
             style={{
               backgroundColor: `rgb(${themeColor.r}, ${themeColor.g}, ${themeColor.b})`,
-              opacity: 0.2,
-              maskImage: 'radial-gradient(ellipse at 30% 20%, black, transparent 70%)',
-              WebkitMaskImage: 'radial-gradient(ellipse at 30% 20%, black, transparent 70%)',
+              opacity: 0.4,
+              maskImage:
+                'radial-gradient(ellipse at 30% 20%, black, transparent 70%)',
+              WebkitMaskImage:
+                'radial-gradient(ellipse at 30% 20%, black, transparent 70%)',
               transition: 'background-color 0.5s ease',
             }}
           />
@@ -869,45 +998,58 @@ function ExpandedOverlay({
         <div className="text-right">
           <p className="text-xs font-medium text-gray-600">{title}</p>
           <p className="text-[0.6rem] text-gray-400">
-            {activeIndex + 1} / {items.length}
+            {activeIndex + 1} / {total}
           </p>
         </div>
       </div>
 
-      {/* Carousel */}
+      {/* Cyclical card carousel */}
       <div
-        className="expanded-body"
+        ref={containerRef}
+        className="expanded-body flex items-center"
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
-        <div
-          className="carousel-track"
-          style={{ transform: `translateX(-${activeIndex * 100}%)` }}
-        >
-          {items.map((item, i) => (
-            <div key={i} className="carousel-slide">
-              <div className="carousel-slide-inner">
-                <ItemSlide item={item} />
-              </div>
-            </div>
-          ))}
-        </div>
+        {items.map((item, i) => {
+          let diff = i - activeIndex;
+          if (diff > total / 2) diff -= total;
+          if (diff < -total / 2) diff += total;
+          if (Math.abs(diff) > 5) return null;
 
-        {/* Arrows — hidden on mobile */}
+          const x = centerOffset + diff * CARD_STEP;
+          const isActive = diff === 0;
+
+          return (
+            <div
+              key={`${item.type}-${i}`}
+              className="absolute transition-all duration-[400ms] ease-out"
+              style={{
+                width: CARD_W,
+                transform: `translateX(${x}px) scale(${isActive ? 1.15 : 0.85})`,
+                opacity: Math.max(0, 1 - Math.abs(diff) * 0.2),
+                zIndex: 10 - Math.abs(diff),
+              }}
+            >
+              <ItemCard
+                item={item}
+                onClick={() => setDetailIndex(i)}
+                isActive={isActive}
+              />
+            </div>
+          );
+        })}
+
+        {/* Arrows */}
         <button
           className="carousel-arrow carousel-arrow-left hidden md:flex"
-          onClick={() => setActiveIndex((i) => Math.max(0, i - 1))}
-          disabled={activeIndex === 0}
+          onClick={prev}
           aria-label="Previous"
         >
           &#8249;
         </button>
         <button
           className="carousel-arrow carousel-arrow-right hidden md:flex"
-          onClick={() =>
-            setActiveIndex((i) => Math.min(items.length - 1, i + 1))
-          }
-          disabled={activeIndex === items.length - 1}
+          onClick={next}
           aria-label="Next"
         >
           &#8250;
@@ -915,7 +1057,7 @@ function ExpandedOverlay({
       </div>
 
       {/* Dots */}
-      <div className="carousel-dots">
+      <div className="carousel-dots relative z-[1]">
         {items.map((_, i) => (
           <button
             key={i}
@@ -925,6 +1067,134 @@ function ExpandedOverlay({
           />
         ))}
       </div>
+
+      {/* Song toast — always visible in expanded view */}
+      <div className="relative z-[1] pb-3">
+        <NowPlayingToast sectionId={sectionId} inline />
+      </div>
+
+      {/* Detail modal */}
+      <AnimatePresence>
+        {detailIndex !== null && (
+          <DetailModal
+            item={items[detailIndex]}
+            onClose={() => setDetailIndex(null)}
+          />
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+}
+
+/* ═══════════════════════════════════════════
+   Item Card (compact card for carousel)
+   ═══════════════════════════════════════════ */
+
+function ItemCard({
+  item,
+  onClick,
+  isActive,
+}: {
+  item: CarouselItem;
+  onClick: () => void;
+  isActive: boolean;
+}) {
+  const info = getCardInfo(item);
+
+  return (
+    <button
+      onClick={onClick}
+      className={`item-card w-full text-left ${isActive ? 'active' : ''}`}
+    >
+      {info.image && (
+        <div className="relative w-full aspect-square rounded-lg overflow-hidden mb-3 flex-shrink-0">
+          <Image
+            src={info.image}
+            alt={info.title}
+            fill
+            className="object-cover"
+            sizes="320px"
+          />
+        </div>
+      )}
+      <div className="flex items-start gap-2 mb-1">
+        <h3 className="text-sm font-semibold leading-tight line-clamp-1">
+          {info.title}
+        </h3>
+        {info.isWip && (
+          <span className="status-wip flex-shrink-0">WIP</span>
+        )}
+      </div>
+      {info.subtitle && (
+        <p className="text-xs text-blue-600/70 font-medium mb-0.5 line-clamp-1">
+          {info.subtitle}
+        </p>
+      )}
+      {info.meta && (
+        <p className="text-[0.6rem] text-gray-400 mb-2">{info.meta}</p>
+      )}
+      <p className="text-[0.65rem] text-gray-500 leading-relaxed line-clamp-3 flex-1">
+        {info.description}
+      </p>
+      {info.tags && info.tags.length > 0 && (
+        <div className="flex flex-wrap gap-1 mt-auto pt-2">
+          {info.tags.slice(0, 3).map((tag) => (
+            <span key={tag} className="tag-pill text-[0.5rem]">
+              {tag}
+            </span>
+          ))}
+        </div>
+      )}
+    </button>
+  );
+}
+
+/* ═══════════════════════════════════════════
+   Detail Modal
+   ═══════════════════════════════════════════ */
+
+function DetailModal({
+  item,
+  onClose,
+}: {
+  item: CarouselItem;
+  onClose: () => void;
+}) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.stopPropagation();
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [onClose]);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.25 }}
+      className="fixed inset-0 z-[300] flex items-center justify-center p-4"
+    >
+      <div className="absolute inset-0 bg-black/40" onClick={onClose} />
+      <motion.div
+        initial={{ opacity: 0, y: 20, scale: 0.97 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: 20, scale: 0.97 }}
+        transition={{ duration: 0.3 }}
+        className="detail-modal-content"
+      >
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-400 hover:bg-gray-200 hover:text-gray-600 transition-colors text-sm"
+        >
+          ✕
+        </button>
+        <ItemSlide item={item} />
+      </motion.div>
     </motion.div>
   );
 }

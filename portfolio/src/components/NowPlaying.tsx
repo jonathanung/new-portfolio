@@ -166,9 +166,11 @@ export function NowPlayingCard({
 export function NowPlayingToast({
   sectionId,
   onColorExtracted,
+  inline,
 }: {
   sectionId: string;
   onColorExtracted?: (color: ThemeColor) => void;
+  inline?: boolean;
 }) {
   const config = SECTION_TRACKS[sectionId] || SECTION_TRACKS.hero;
   const track = useTrackData(config.id, config.artist);
@@ -187,7 +189,7 @@ export function NowPlayingToast({
   if (!track) return null;
 
   return (
-    <div className="fixed bottom-[4.5rem] left-3 right-3 z-50 flex flex-col items-stretch">
+    <div className={`${inline ? 'mx-auto max-w-sm' : 'fixed bottom-[4.5rem] left-3 right-3 z-50'} flex flex-col items-stretch`}>
       {expanded && (
         <div className="mb-2 rounded-2xl overflow-hidden shadow-lg">
           <iframe
