@@ -232,6 +232,13 @@ function DesktopLayout({
 
   // Track active section for NowPlaying card
   useEffect(() => {
+    // Read initial scroll position on mount (handles page refresh)
+    const initial = Math.round(progress.get());
+    if (initial >= 0 && initial < n) {
+      lastIdx.current = initial;
+      setActiveSectionIdx(initial);
+    }
+
     const unsub = progress.on('change', (v) => {
       const rounded = Math.round(v);
       if (rounded !== lastIdx.current && rounded >= 0 && rounded < n) {
