@@ -19,6 +19,20 @@ body {
   overflow-x: hidden;
 }
 
+/* ─── Background decorations ─── */
+@keyframes deco-float {
+  0%   { transform: translate(0, 0)        rotate(0deg);   }
+  25%  { transform: translate(16px, -20px) rotate(8deg);   }
+  50%  { transform: translate(-12px, 14px) rotate(-7deg);  }
+  75%  { transform: translate(14px, 16px)  rotate(5deg);   }
+  100% { transform: translate(0, 0)        rotate(0deg);   }
+}
+
+.deco-float {
+  animation: deco-float linear infinite;
+  will-change: transform;
+}
+
 /* ─── Card shell ─── */
 .card-shell {
   bottom: -10vh;

@@ -2,6 +2,18 @@ import { ProjectItem } from './types'
 
 export const projects: ProjectItem[] = [
   {
+    id: 'finesse-plugin',
+    title: 'Finesse Plugin',
+    description: 'A Claude Code plugin for autonomous development workflow planning and execution. Orchestrates multi-agent validation, prompt construction, and iterative development loops.',
+    image: '',
+    technologies: ['TypeScript', 'Claude Code', 'Multi-Agent'],
+    tags: ['Featured', 'AI'],
+    projectTags: ['AI', 'Developer Tools', 'Autonomous Agents'],
+    link: '',
+    status: 'completed',
+    seeMore: false
+  },
+  {
     id: 'vetool',
     title: 'VeTool',
     description: 'Real-time matchmaking system for Captains draft and Map pick/bans for esports tournaments and scrims with sub-150ms state sync.',
@@ -10,7 +22,7 @@ export const projects: ProjectItem[] = [
     tags: ['Featured', 'Web'],
     projectTags: ['Full-stack', 'Real-time', 'Esports'],
     link: 'https://github.com/jonathanung/vetool',
-    status: 'wip',
+    status: 'completed',
     seeMore: true,
     bullets: [
       'Architected SignalR and Redis event layer achieving sub-150ms state sync across horizontally scaled API instances',
