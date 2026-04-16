@@ -24,42 +24,87 @@ export const SECTION_TRACKS: Record<string, { id: string; artist: string }> = {
   hero:     { id: '2e57bosi6bl7yxoYRiJHVq', artist: 'LE SSERAFIM' },
   work:     { id: '1JCKwBr7XDfh1tvzAtd4hw', artist: 'i-dle' },
   projects: { id: '1k0JAiH11gHL9dc5dfQjQr', artist: 'ILLIT' },
-  extras:   { id: '0tSkMuKKrLXEfxc58cEhFX', artist: 'IVE' },
-  contact:  { id: '3lOMJTQTd6J34faYwASc33', artist: 'NAYEON' },
+  extras:    { id: '0tSkMuKKrLXEfxc58cEhFX', artist: 'IVE' },
+  education: { id: '2O9bMJticxbQ8FH3NiQ7Xh', artist: 'YENA' },
+  contact:   { id: '3lOMJTQTd6J34faYwASc33', artist: 'NAYEON' },
 };
 
-/* ─── Hook: fetch track metadata + dominant color ─── */
+/* ─── Hook: pre-fetch ALL track metadata on mount ─── */
+
+const trackCache: Record<string, TrackInfo> = {};
+let prefetchStarted = false;
+
+function prefetchAllTracks() {
+  if (prefetchStarted) return;
+  prefetchStarted = true;
+
+  Object.entries(SECTION_TRACKS).forEach(([, config]) => {
+    if (trackCache[config.id]) return;
+    fetch(`/api/spotify?id=${config.id}`)
+      .then((res) => res.json())
+      .then((d) => {
+        trackCache[config.id] = {
+          title: d.title || 'Unknown',
+          artist: config.artist || d.artist || '',
+          albumArt: d.thumbnailUrl || '',
+          trackId: config.id,
+          dominantColor: d.dominantColor || { r: 120, g: 120, b: 140 },
+        };
+      })
+      .catch(() => {
+        trackCache[config.id] = {
+          title: 'Unknown',
+          artist: config.artist,
+          albumArt: '',
+          trackId: config.id,
+          dominantColor: { r: 120, g: 120, b: 140 },
+        };
+      });
+  });
+}
 
 function useTrackData(trackId: string, artist: string): TrackInfo | null {
-  const [data, setData] = useState<TrackInfo | null>(null);
+  const [data, setData] = useState<TrackInfo | null>(trackCache[trackId] || null);
 
   useEffect(() => {
+    prefetchAllTracks();
+  }, []);
+
+  useEffect(() => {
+    // If already cached, use it immediately
+    if (trackCache[trackId]) {
+      setData(trackCache[trackId]);
+      return;
+    }
+
     let cancelled = false;
 
     fetch(`/api/spotify?id=${trackId}`)
       .then((res) => res.json())
       .then((d) => {
         if (!cancelled) {
-          setData({
+          const info: TrackInfo = {
             title: d.title || 'Unknown',
             artist: artist || d.artist || '',
             albumArt: d.thumbnailUrl || '',
             trackId,
             dominantColor: d.dominantColor || { r: 120, g: 120, b: 140 },
-          });
+          };
+          trackCache[trackId] = info;
+          setData(info);
         }
       })
       .catch(() => {
         if (!cancelled) {
-          setData((prev) =>
-            prev || {
-              title: 'Unknown',
-              artist,
-              albumArt: '',
-              trackId,
-              dominantColor: { r: 120, g: 120, b: 140 },
-            },
-          );
+          const fallback: TrackInfo = {
+            title: 'Unknown',
+            artist,
+            albumArt: '',
+            trackId,
+            dominantColor: { r: 120, g: 120, b: 140 },
+          };
+          trackCache[trackId] = fallback;
+          setData(fallback);
         }
       });
 
@@ -134,6 +179,8 @@ export function NowPlayingCard({
 
   if (!track) return null;
 
+  const allTrackIds = Object.values(SECTION_TRACKS).map((t) => t.id);
+
   return (
     <div className="now-playing-card fixed left-6 top-1/2 -translate-y-1/2 z-50">
       {/* Nav labels slot */}
@@ -148,15 +195,24 @@ export function NowPlayingCard({
         )}
       </div>
 
-      <iframe
-        src={`https://open.spotify.com/embed/track/${track.trackId}?utm_source=generator&theme=0`}
-        width="100%"
-        height="80"
-        frameBorder="0"
-        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-        loading="lazy"
-        className="rounded-xl mt-3 w-full"
-      />
+      {/* Pre-render all iframes, show only the active one */}
+      <div className="relative mt-3 w-full" style={{ height: 80 }}>
+        {allTrackIds.map((id) => (
+          <iframe
+            key={id}
+            src={`https://open.spotify.com/embed/track/${id}?utm_source=generator&theme=0`}
+            width="100%"
+            height="80"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            className="rounded-xl w-full absolute inset-0"
+            style={{
+              opacity: id === track.trackId ? 1 : 0,
+              pointerEvents: id === track.trackId ? 'auto' : 'none',
+              transition: 'opacity 0.3s ease',
+            }}
+          />
+        ))}
+      </div>
     </div>
   );
 }
@@ -190,18 +246,23 @@ export function NowPlayingToast({
 
   return (
     <div className={`${inline ? 'mx-auto max-w-sm' : 'fixed bottom-[4.5rem] left-3 right-3 z-50'} flex flex-col items-stretch`}>
-      {expanded && (
-        <div className="mb-2 rounded-2xl overflow-hidden shadow-lg">
-          <iframe
-            src={`https://open.spotify.com/embed/track/${track.trackId}?utm_source=generator&theme=0`}
-            width="100%"
-            height="80"
-            frameBorder="0"
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"
-          />
-        </div>
-      )}
+      <div
+        className="rounded-2xl overflow-hidden transition-all duration-300 ease-out"
+        style={{
+          maxHeight: expanded ? 80 : 0,
+          opacity: expanded ? 1 : 0,
+          marginBottom: expanded ? 8 : 0,
+          boxShadow: expanded ? '0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1)' : 'none',
+        }}
+      >
+        <iframe
+          src={`https://open.spotify.com/embed/track/${track.trackId}?utm_source=generator&theme=0`}
+          width="100%"
+          height="80"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          className="block"
+        />
+      </div>
 
       <button
         onClick={() => setExpanded((v) => !v)}
