@@ -5,13 +5,17 @@ export const projects: ProjectItem[] = [
     id: 'finesse-plugin',
     title: 'Finesse Plugin',
     description: 'A Claude Code plugin for autonomous development workflow planning and execution. Orchestrates multi-agent validation, prompt construction, and iterative development loops.',
-    image: '',
-    technologies: ['TypeScript', 'Claude Code', 'Multi-Agent'],
+    image: '/images/finesse.png',
+    technologies: ['Python', 'Docker', 'Shell', 'tmux', 'Claude Code Plugin API'],
     tags: ['Featured', 'AI'],
     projectTags: ['AI', 'Developer Tools', 'Autonomous Agents'],
-    link: '',
+    link: 'https://github.com/jonathanung/finesse',
     status: 'completed',
-    seeMore: false
+    seeMore: true,
+    bullets: [
+      'Built meta-planning phase for Claude Code orchestrating 6 parallel validation agents across 6 task-specific workflows',
+      'Designed wave-based task decomposition with dependency-aware scheduling, automatically splitting large tasks into parallel sub-workflows across isolated git worktrees with tmux orchestration and merge reconciliation'
+    ]
   },
   {
     id: 'vetool',
@@ -27,6 +31,22 @@ export const projects: ProjectItem[] = [
     bullets: [
       'Architected SignalR and Redis event layer achieving sub-150ms state sync across horizontally scaled API instances',
       'Implemented Redis distributed coordination using monotonic sequence generators and SETNX idempotency with TTL'
+    ]
+  },
+  {
+    id: 'follow-ahead',
+    title: 'Follow-Ahead Robot Navigation',
+    description: 'MCTS + RL motion planning for frontal human-following robots, pairing an LSTM motion predictor with UCB-guided tree search, deployed on a Quanser QBot.',
+    image: '/images/follow-ahead.jpg',
+    technologies: ['C++', 'PyTorch', 'ROS2', 'Stable Baselines3', 'Gymnasium'],
+    tags: ['Featured', 'Robotics'],
+    projectTags: ['Robotics', 'Motion Planning', 'Reinforcement Learning'],
+    link: 'https://s-gemmin.github.io/follow-ahead-web/',
+    status: 'completed',
+    seeMore: true,
+    bullets: [
+      'Trained LSTM human motion predictor achieving 90% accuracy, integrated predicted action probabilities into MCTS UCB selection for frontal following behavior',
+      'Deployed real-time navigation on Quanser QBot with ZED camera and Vicon localization, running at 5Hz planning frequency'
     ]
   },
   {

@@ -42,13 +42,49 @@ const SECTIONS = [
 
 const ANGLE_STEP = 14;
 
-const FEATURED_WORK = workExperience.find((w) => w.id === 'rivian-vw')!;
+interface FeaturedEntry {
+  id: string;
+  title: string;
+  subtitle: string;
+  meta: string;
+  description: string;
+  tags?: string[];
+  image?: string;
+}
+
+const FEATURED_WORK_IDS = ['tesla', 'amazon', 'qualcomm', 'rivian-vw'];
+const FEATURED_WORK_ITEMS: FeaturedEntry[] = FEATURED_WORK_IDS.map((id) => {
+  const w = workExperience.find((x) => x.id === id)!;
+  return {
+    id: w.id,
+    title: w.title,
+    subtitle: w.organization,
+    meta: w.period,
+    description: w.description,
+    tags: w.tags,
+    image: w.image,
+  };
+});
+
+const FEATURED_PROJECT_IDS = ['finesse-plugin', 'vetool', 'follow-ahead'];
+const FEATURED_PROJECT_ITEMS: FeaturedEntry[] = FEATURED_PROJECT_IDS.map(
+  (id) => {
+    const p = projects.find((x) => x.id === id)!;
+    return {
+      id: p.id,
+      title: p.title,
+      subtitle: '',
+      meta: '',
+      description: p.description,
+      tags: p.tags,
+      image: p.image || undefined,
+    };
+  },
+);
 const FEATURED_EXTRA = extracurriculars.find(
-  (e) => e.id === 'sfu-robot-soccer',
+  (e) => e.id === 'langara-cs-club',
 )!;
 const FEATURED_EDU = education.find((e) => e.id === 'sfu')!;
-
-const FEATURED_PROJECT = projects.find((p) => p.id === 'finesse-plugin')!;
 
 /* ═══════════════════════════════════════════
    Hooks
@@ -588,14 +624,7 @@ function CardFace({
           onExpand={onExpand!}
           itemCount={workExperience.length + nonTechnicalExperience.length}
         >
-          <FeaturedItem
-            title={FEATURED_WORK.title}
-            subtitle={FEATURED_WORK.organization}
-            meta={FEATURED_WORK.period}
-            description={FEATURED_WORK.description}
-            tags={FEATURED_WORK.tags}
-            image={FEATURED_WORK.image}
-          />
+          <FeaturedRotator items={FEATURED_WORK_ITEMS} />
         </SectionFace>
       );
     case 'projects':
@@ -606,13 +635,7 @@ function CardFace({
           onExpand={onExpand!}
           itemCount={projects.length}
         >
-          <FeaturedItem
-            title={FEATURED_PROJECT.title}
-            subtitle=""
-            meta=""
-            description={FEATURED_PROJECT.description}
-            tags={FEATURED_PROJECT.tags}
-          />
+          <FeaturedRotator items={FEATURED_PROJECT_ITEMS} />
         </SectionFace>
       );
     case 'extras':
@@ -744,6 +767,58 @@ function SectionFace({
         <button className="see-all-btn" onClick={onExpand}>
           See all {itemCount} &rarr;
         </button>
+      </div>
+    </div>
+  );
+}
+
+function FeaturedRotator({ items }: { items: FeaturedEntry[] }) {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(
+      () => setIndex((i) => (i + 1) % items.length),
+      5000,
+    );
+    return () => clearInterval(timer);
+  }, [items.length]);
+
+  const item = items[index];
+
+  return (
+    <div className="flex flex-col gap-4">
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={item.id}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -8 }}
+          transition={{ duration: 0.3 }}
+        >
+          <FeaturedItem
+            title={item.title}
+            subtitle={item.subtitle}
+            meta={item.meta}
+            description={item.description}
+            tags={item.tags}
+            image={item.image}
+          />
+        </motion.div>
+      </AnimatePresence>
+
+      <div className="flex gap-1.5 justify-center">
+        {items.map((entry, i) => (
+          <button
+            key={entry.id}
+            onClick={() => setIndex(i)}
+            aria-label={`Show ${entry.title}`}
+            className={`h-1.5 rounded-full transition-all duration-300 ${
+              i === index
+                ? 'w-4 bg-gray-500'
+                : 'w-1.5 bg-gray-300 hover:bg-gray-400'
+            }`}
+          />
+        ))}
       </div>
     </div>
   );

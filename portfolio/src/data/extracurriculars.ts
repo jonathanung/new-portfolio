@@ -2,28 +2,6 @@ import { ExtracurricularItem } from './types'
 
 export const extracurriculars: ExtracurricularItem[] = [
   {
-    id: 'sfu-robot-soccer',
-    title: 'Software Team Lead',
-    organization: 'SFU Robot Soccer Club',
-    location: 'Burnaby, BC',
-    period: 'Feb 2024 – Present',
-    image: '/images/sfu-robot-soccer.png',
-    tags: ['C++', 'Autonomous Agents', 'Leadership'],
-    seeMore: true,
-    description: 'Leading software development for autonomous soccer-playing robots, implementing network protocols and game-playing agents.',
-    bullets: [
-      'Led 30-member C++ team; redesigned onboarding workflows reducing new developer ramp-up time 40%',
-      'Designed Protobuf networking protocol routing commands to 6 robots with hot-swappable simulator/hardware modes',
-      'Engineered Behavior Tree engine coordinating real-time role assignments across 6 autonomous robots at 180Hz tick rate',
-      'Implemented multithreaded eval/planning pipeline with deterministic ordering, achieving 40ms simulation latency',
-      'Initiated Analytics Core with ETL pipelines processing 100+ events/second for replay tools and RL dataset generation',
-      'Deployed GitLab CI/CD with Docker registry caching and Valgrind integration testing, cutting pipeline runtime 40%',
-      'Optimized Kalman filter for vision-based localization, reducing orientation jitter 35% and interpolating missing detections'
-    ],
-    technologies: ['C++', 'Python', 'Qt6', 'UDP', 'Sockets', 'Protobuf', 'RL'],
-    link: 'https://sfurobotsoccer.com/'
-  },
-  {
     id: 'stormhacks-judge',
     title: 'StormHacks 2025 Hackathon Judge',
     organization: 'SFU Surge',
