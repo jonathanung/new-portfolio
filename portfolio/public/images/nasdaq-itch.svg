@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" role="img" aria-labelledby="title desc">
+  <title id="title">Nasdaq ITCH market data visualization</title>
+  <desc id="desc">Abstract market data stream flowing through GPU aggregation blocks</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#061526"/>
+      <stop offset="1" stop-color="#073b4c"/>
+    </linearGradient>
+    <linearGradient id="line" x1="0" y1="0" x2="1" y2="0">
+      <stop stop-color="#22d3ee"/>
+      <stop offset="1" stop-color="#34d399"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="800" rx="56" fill="url(#bg)"/>
+  <g stroke="#164e63" stroke-width="2" opacity=".55">
+    <path d="M70 130h660M70 230h660M70 330h660M70 430h660M70 530h660M70 630h660"/>
+    <path d="M130 70v660M230 70v660M330 70v660M430 70v660M530 70v660M630 70v660"/>
+  </g>
+  <g fill="#0e7490" opacity=".5">
+    <rect x="105" y="520" width="42" height="110" rx="8"/><rect x="170" y="440" width="42" height="190" rx="8"/>
+    <rect x="235" y="480" width="42" height="150" rx="8"/><rect x="300" y="350" width="42" height="280" rx="8"/>
+    <rect x="365" y="390" width="42" height="240" rx="8"/><rect x="430" y="270" width="42" height="360" rx="8"/>
+    <rect x="495" y="320" width="42" height="310" rx="8"/><rect x="560" y="205" width="42" height="425" rx="8"/>
+    <rect x="625" y="250" width="42" height="380" rx="8"/>
+  </g>
+  <polyline points="90,545 165,475 240,505 315,375 390,415 465,290 540,345 615,225 710,170" fill="none" stroke="url(#line)" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+  <g fill="#a7f3d0" stroke="#042f2e" stroke-width="8">
+    <circle cx="165" cy="475" r="15"/><circle cx="315" cy="375" r="15"/><circle cx="465" cy="290" r="15"/><circle cx="615" cy="225" r="15"/><circle cx="710" cy="170" r="15"/>
+  </g>
+  <rect x="92" y="91" width="280" height="84" rx="18" fill="#082f49" stroke="#22d3ee" stroke-width="3"/>
+  <text x="122" y="143" fill="#cffafe" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="34" font-weight="700">ITCH 5.0</text>
+  <text x="400" y="714" text-anchor="middle" fill="#d1fae5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="34" font-weight="700" letter-spacing="5">GPU AGGREGATOR</text>
+</svg>

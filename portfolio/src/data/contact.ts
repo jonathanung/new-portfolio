@@ -44,6 +44,6 @@ export const heroStats: HeroStat[] = [
 export const contactInfo = {
   email: 'jonathank.ung@icloud.com',
   location: 'Canada & USA',
-  availability: 'Summer 2026 and beyond',
+  availability: 'Internship: Summer 2027 · New grad: After April 2028',
   timezone: 'PST'
 }

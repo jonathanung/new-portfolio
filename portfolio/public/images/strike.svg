@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" role="img" aria-labelledby="title desc">
+  <title id="title">Strike terminal interface</title>
+  <desc id="desc">Abstract terminal windows representing coordinated coding agents</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#111827"/>
+      <stop offset="1" stop-color="#312e81"/>
+    </linearGradient>
+    <linearGradient id="bolt" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#67e8f9"/>
+      <stop offset="1" stop-color="#a78bfa"/>
+    </linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="12" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="800" height="800" rx="56" fill="url(#bg)"/>
+  <circle cx="655" cy="145" r="180" fill="#7c3aed" opacity=".16"/>
+  <circle cx="120" cy="680" r="220" fill="#06b6d4" opacity=".12"/>
+  <g fill="#0b1020" stroke="#475569" stroke-width="3">
+    <rect x="90" y="140" width="500" height="365" rx="24"/>
+    <rect x="250" y="310" width="460" height="350" rx="24"/>
+  </g>
+  <g fill="#64748b">
+    <circle cx="125" cy="177" r="9"/><circle cx="155" cy="177" r="9"/><circle cx="185" cy="177" r="9"/>
+    <circle cx="285" cy="347" r="9"/><circle cx="315" cy="347" r="9"/><circle cx="345" cy="347" r="9"/>
+  </g>
+  <g fill="none" stroke-linecap="round" stroke-width="13">
+    <path d="M135 235h150M135 280h265M135 325h205M135 370h300M135 415h115" stroke="#22d3ee" opacity=".72"/>
+    <path d="M300 405h145M300 450h250M300 495h190M300 540h290M300 585h130" stroke="#a78bfa" opacity=".78"/>
+  </g>
+  <path d="M490 86 373 302h97l-42 190 169-255H491z" fill="url(#bolt)" filter="url(#glow)"/>
+  <text x="400" y="728" text-anchor="middle" fill="#e2e8f0" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="58" font-weight="700" letter-spacing="12">STRIKE</text>
+</svg>
