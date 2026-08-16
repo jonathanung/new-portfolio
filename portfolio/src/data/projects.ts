@@ -2,6 +2,23 @@ import { ProjectItem } from './types'
 
 export const projects: ProjectItem[] = [
   {
+    id: 'strike',
+    title: 'Strike',
+    description: 'Agentic coding TUI with an event-sourced Go engine, multi-agent coordination, and JSONL session logs for decoupled terminal and web clients.',
+    image: '',
+    technologies: ['Go', 'Bubble Tea', 'WebSocket/SSE', 'Docker', 'Nix', 'GitHub Actions'],
+    tags: ['Featured', 'Developer Tools'],
+    projectTags: ['AI', 'Developer Tools', 'Autonomous Agents'],
+    link: 'https://github.com/jonathanung/strike',
+    deploymentLink: 'https://strike.jonathanung.ca/',
+    status: 'completed',
+    seeMore: true,
+    bullets: [
+      'Architected an event-sourced Go engine emitting protocol events to decoupled TUI and web clients over JSONL session logs',
+      'Designed a multi-agent coordination protocol with compare-and-swap task claims and boundary-checked message passing'
+    ]
+  },
+  {
     id: 'finesse-plugin',
     title: 'Finesse Plugin',
     description: 'A Claude Code plugin for autonomous development workflow planning and execution. Orchestrates multi-agent validation, prompt construction, and iterative development loops.',
@@ -26,11 +43,27 @@ export const projects: ProjectItem[] = [
     tags: ['Featured', 'Web'],
     projectTags: ['Full-stack', 'Real-time', 'Esports'],
     link: 'https://github.com/jonathanung/vetool',
+    deploymentLink: 'https://vetool.jonathanung.ca/',
     status: 'completed',
     seeMore: true,
     bullets: [
       'Architected SignalR and Redis event layer achieving sub-150ms state sync across horizontally scaled API instances',
       'Implemented Redis distributed coordination using monotonic sequence generators and SETNX idempotency with TTL'
+    ]
+  },
+  {
+    id: 'nasdaq-itch-aggregator',
+    title: 'Nasdaq ITCH Aggregator',
+    description: 'GPU-accelerated Nasdaq ITCH 5.0 pipeline streaming full-day TotalView feeds through a CPU parser into CUDA aggregation kernels.',
+    image: '',
+    technologies: ['C++', 'CUDA', 'CMake', 'Python', 'zlib'],
+    tags: ['Featured', 'Systems'],
+    projectTags: ['GPU Computing', 'Market Data', 'Systems'],
+    link: 'https://github.com/jonathanung/itch_aggregator',
+    status: 'completed',
+    seeMore: true,
+    bullets: [
+      'Computed per-symbol VWAP, order imbalance, and bid/ask spread across 16,384 symbols'
     ]
   },
   {

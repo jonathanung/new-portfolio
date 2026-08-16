@@ -19,7 +19,7 @@ import { workExperience, nonTechnicalExperience } from '@/data/work';
 import { projects } from '@/data/projects';
 import { extracurriculars } from '@/data/extracurriculars';
 import { education } from '@/data/education';
-import { contactInfo, socialLinks, heroStats } from '@/data/contact';
+import { contactInfo, socialLinks, heroStats, resumes } from '@/data/contact';
 import type {
   WorkItem,
   ProjectItem,
@@ -50,6 +50,7 @@ interface FeaturedEntry {
   description: string;
   tags?: string[];
   image?: string;
+  deploymentLink?: string;
 }
 
 const FEATURED_WORK_IDS = ['tesla', 'amazon', 'qualcomm', 'rivian-vw'];
@@ -66,7 +67,7 @@ const FEATURED_WORK_ITEMS: FeaturedEntry[] = FEATURED_WORK_IDS.map((id) => {
   };
 });
 
-const FEATURED_PROJECT_IDS = ['finesse-plugin', 'vetool', 'follow-ahead'];
+const FEATURED_PROJECT_IDS = ['strike', 'follow-ahead', 'vetool', 'nasdaq-itch-aggregator'];
 const FEATURED_PROJECT_ITEMS: FeaturedEntry[] = FEATURED_PROJECT_IDS.map(
   (id) => {
     const p = projects.find((x) => x.id === id)!;
@@ -78,6 +79,7 @@ const FEATURED_PROJECT_ITEMS: FeaturedEntry[] = FEATURED_PROJECT_IDS.map(
       description: p.description,
       tags: p.tags,
       image: p.image || undefined,
+      deploymentLink: p.deploymentLink,
     };
   },
 );
@@ -717,19 +719,7 @@ function HeroFace() {
         ))}
       </div>
 
-      <div className="flex flex-wrap gap-3">
-        {socialLinks.map((link) => (
-          <a
-            key={link.name}
-            href={link.url}
-            target={link.icon === 'email' ? undefined : '_blank'}
-            rel="noopener noreferrer"
-            className="text-[0.6rem] tracking-[0.12em] uppercase text-gray-400 hover:text-gray-800 transition-colors"
-          >
-            {link.name}
-          </a>
-        ))}
-      </div>
+      <SocialLinks />
 
       <div className="mt-auto pt-4">
         <p className="scroll-hint text-[0.5rem] tracking-[0.3em] uppercase text-gray-300 md:block hidden">
@@ -802,6 +792,7 @@ function FeaturedRotator({ items }: { items: FeaturedEntry[] }) {
             description={item.description}
             tags={item.tags}
             image={item.image}
+            deploymentLink={item.deploymentLink}
           />
         </motion.div>
       </AnimatePresence>
@@ -832,6 +823,7 @@ function FeaturedItem({
   tags,
   isWip,
   image,
+  deploymentLink,
 }: {
   title: string;
   subtitle: string;
@@ -840,6 +832,7 @@ function FeaturedItem({
   tags?: string[];
   isWip?: boolean;
   image?: string;
+  deploymentLink?: string;
 }) {
   return (
     <div className="flex gap-4 items-center">
@@ -864,6 +857,16 @@ function FeaturedItem({
           <h3 className="text-lg font-bold leading-tight">{title}</h3>
           {isWip && <span className="status-wip mt-0.5">WIP</span>}
         </div>
+        {deploymentLink && (
+          <a
+            href={deploymentLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block text-xs font-semibold text-blue-600 hover:text-blue-800 transition-colors mb-2"
+          >
+            Open live project &rarr;
+          </a>
+        )}
         {subtitle && (
           <p className="text-xs text-blue-600/70 font-medium mb-0.5">
             {subtitle}
@@ -928,8 +931,35 @@ function ContactFace() {
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-3">
-        {socialLinks.map((link) => (
+      <SocialLinks />
+    </div>
+  );
+}
+
+function SocialLinks() {
+  return (
+    <div className="flex flex-wrap gap-3 items-start">
+      {socialLinks.map((link) =>
+        link.icon === 'resume' ? (
+          <details key={link.name} className="relative group">
+            <summary className="list-none cursor-pointer text-[0.6rem] tracking-[0.12em] uppercase text-gray-400 hover:text-gray-800 transition-colors">
+              Resume <span aria-hidden="true">&#9662;</span>
+            </summary>
+            <div className="absolute left-0 top-full mt-2 z-50 min-w-36 rounded-lg border border-gray-200 bg-white/95 backdrop-blur-md p-1.5 shadow-lg">
+              {resumes.map((resume) => (
+                <a
+                  key={resume.url}
+                  href={resume.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block whitespace-nowrap rounded-md px-2.5 py-2 text-[0.6rem] tracking-[0.08em] uppercase text-gray-500 hover:bg-gray-100 hover:text-gray-900"
+                >
+                  {resume.name}
+                </a>
+              ))}
+            </div>
+          </details>
+        ) : (
           <a
             key={link.name}
             href={link.url}
@@ -939,8 +969,8 @@ function ContactFace() {
           >
             {link.name}
           </a>
-        ))}
-      </div>
+        ),
+      )}
     </div>
   );
 }
@@ -1490,6 +1520,17 @@ function ProjectSlide({ data }: { data: ProjectItem }) {
             ))}
           </div>
         </div>
+      )}
+
+      {data.deploymentLink && (
+        <a
+          href={data.deploymentLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-block mt-4 mr-4 rounded-full bg-blue-600 px-4 py-2 text-xs font-semibold text-white hover:bg-blue-700 transition-colors"
+        >
+          Open live project &rarr;
+        </a>
       )}
 
       {data.link && (

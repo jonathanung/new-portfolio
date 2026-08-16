@@ -33,6 +33,7 @@ export interface ProjectItem extends BaseItem {
   description: string
   technologies: string[]
   link: string
+  deploymentLink?: string
   projectTags?: string[]
   status?: 'completed' | 'wip' | 'ongoing'
   bullets?: string[]

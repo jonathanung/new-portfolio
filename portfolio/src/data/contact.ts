@@ -28,6 +28,13 @@ export const socialLinks: SocialLink[] = [
   }
 ]
 
+export const resumes = [
+  { name: 'Main', url: '/resume.pdf' },
+  { name: 'Systems', url: '/resume-systems.pdf' },
+  { name: 'Machine Learning', url: '/resume-ml.pdf' },
+  { name: 'LLM', url: '/resume-llm.pdf' }
+]
+
 export const heroStats: HeroStat[] = [
   { label: 'Prototypes shipped', value: '20+' },
   { label: 'Years building', value: '3+' },
