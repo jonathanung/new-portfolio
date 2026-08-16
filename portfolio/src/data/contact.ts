@@ -36,14 +36,15 @@ export const resumes = [
 ]
 
 export const heroStats: HeroStat[] = [
-  { label: 'Prototypes shipped', value: '20+' },
-  { label: 'Years building', value: '3+' },
-  { label: 'Freelance Clients', value: '4+' }
+  { label: 'Incoming', value: 'Tesla Infotainment' },
+  { label: 'Incoming', value: 'Amazon Gift Cards' },
+  { label: 'AI Infrastructure', value: 'Qualcomm' },
+  { label: 'Production Infotainment', value: 'Rivian' }
 ]
 
 export const contactInfo = {
   email: 'jonathank.ung@icloud.com',
   location: 'Canada & USA',
-  availability: 'Internship: Summer 2027 · New grad: After April 2028',
+  availability: ['Internship: Summer 2027', 'New grad: After April 2028'],
   timezone: 'PST'
 }

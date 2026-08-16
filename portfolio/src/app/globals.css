@@ -60,8 +60,8 @@ body {
 
 /* ─── Typography ─── */
 .card-section-label {
-  font-size: 0.58rem;
-  letter-spacing: 0.35em;
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   color: #9ca3af;
   margin-bottom: 0.4rem;
@@ -94,7 +94,7 @@ body {
   align-items: center;
   padding: 0.2rem 0.6rem;
   border-radius: 999px;
-  font-size: 0.6rem;
+  font-size: 0.68rem;
   letter-spacing: 0.02em;
   background: rgba(0, 0, 0, 0.04);
   color: #6b7280;
@@ -328,7 +328,7 @@ body {
 
 /* ─── Nav labels ─── */
 .nav-label {
-  font-size: 0.6rem;
+  font-size: 0.7rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   cursor: pointer;
@@ -340,6 +340,42 @@ body {
   align-items: center;
   gap: 0.5rem;
   transition: color 0.3s ease;
+}
+
+.project-action-primary,
+.project-action-secondary {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.project-action-primary {
+  background: #2563eb;
+  color: white;
+}
+
+.project-action-primary:hover { background: #1d4ed8; }
+
+.project-action-secondary {
+  border: 1px solid rgba(0, 0, 0, 0.14);
+  color: #374151;
+}
+
+.project-action-secondary:hover {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: rgba(0, 0, 0, 0.24);
+}
+
+button:focus-visible,
+a:focus-visible,
+summary:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 3px;
 }
 
 /* ─── Vinyl Record ─── */
@@ -408,7 +444,7 @@ body {
 }
 
 /* ─── Mobile adjustments ─── */
-@media (max-width: 767px) {
+@media (max-width: 849px) {
   html {
     scroll-snap-type: none;
   }
@@ -441,5 +477,16 @@ body {
 
   .featured-highlight {
     padding: 1.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

@@ -9,8 +9,18 @@ const geistSans = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Jonathan Ung",
-  description: "Jonathan Ung's Portfolio",
+  title: "Jonathan Ung | Systems & AI Infrastructure Engineer",
+  description: "Jonathan Ung builds developer tools, real-time platforms, GPU pipelines, and production automotive software.",
+  openGraph: {
+    title: "Jonathan Ung | Systems & AI Infrastructure Engineer",
+    description: "Developer tools, real-time platforms, GPU pipelines, and production automotive software.",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Jonathan Ung | Systems & AI Infrastructure Engineer",
+    description: "Developer tools, real-time platforms, GPU pipelines, and production automotive software.",
+  },
 };
 
 export default function RootLayout({

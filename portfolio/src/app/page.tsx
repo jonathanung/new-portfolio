@@ -51,6 +51,7 @@ interface FeaturedEntry {
   tags?: string[];
   image?: string;
   deploymentLink?: string;
+  link?: string;
 }
 
 const FEATURED_WORK_IDS = ['tesla', 'amazon', 'qualcomm', 'rivian-vw'];
@@ -80,6 +81,7 @@ const FEATURED_PROJECT_ITEMS: FeaturedEntry[] = FEATURED_PROJECT_IDS.map(
       tags: p.tags,
       image: p.image || undefined,
       deploymentLink: p.deploymentLink,
+      link: p.link,
     };
   },
 );
@@ -395,6 +397,9 @@ function MobileLayout({ onExpand, onColorExtracted, sectionColors }: { onExpand:
 
   return (
     <>
+      <div className="fixed top-3 left-1/2 -translate-x-1/2 z-50 rounded-full border border-gray-200/70 bg-white/80 backdrop-blur-md px-4 py-2 text-[0.7rem] font-medium text-gray-600 shadow-sm pointer-events-none">
+        Swipe to explore <span aria-hidden="true">&larr;&nbsp;&rarr;</span>
+      </div>
       {/* Horizontal scroll container */}
       <div
         ref={scrollRef}
@@ -410,7 +415,7 @@ function MobileLayout({ onExpand, onColorExtracted, sectionColors }: { onExpand:
               height: '100dvh',
             }}
           >
-            <div className="p-6 pt-10 pb-20 min-h-full flex flex-col">
+            <div className="p-6 pt-16 pb-20 min-h-full flex flex-col">
               <CardFace
                 sectionId={section.id}
                 onExpand={
@@ -429,21 +434,21 @@ function MobileLayout({ onExpand, onColorExtracted, sectionColors }: { onExpand:
 
       {/* Bottom nav pill */}
       <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-1.5">
-        <p className="text-[0.5rem] tracking-[0.25em] uppercase text-gray-400 font-medium">
-          {SECTIONS[activeIndex].title}
+        <p className="text-[0.65rem] tracking-[0.16em] uppercase text-gray-500 font-medium">
+          {activeIndex + 1}/{SECTIONS.length} &middot; {SECTIONS[activeIndex].title}
         </p>
         <div className="flex gap-2 items-center bg-white/70 backdrop-blur-md rounded-full px-3 py-2 border border-gray-200/50 shadow-sm">
           {SECTIONS.map((s, i) => (
             <button
               key={s.id}
               onClick={() => scrollToIndex(i)}
-              className={`rounded-full transition-all duration-300 ${
-                i === activeIndex
-                  ? 'bg-gray-800 w-5 h-2'
-                  : 'bg-gray-300 w-2 h-2'
-              }`}
+              className="w-8 h-8 flex items-center justify-center rounded-full"
               aria-label={s.title}
-            />
+            >
+              <span className={`block rounded-full transition-all duration-300 ${
+                i === activeIndex ? 'bg-gray-800 w-5 h-2' : 'bg-gray-300 w-2 h-2'
+              }`} />
+            </button>
           ))}
         </div>
       </div>
@@ -704,15 +709,15 @@ function HeroFace() {
       <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-1.5 leading-[1.1]">
         Jonathan Ung
       </h1>
-      <p className="text-sm md:text-sm text-gray-500 leading-relaxed mb-8 max-w-xs">
-        Seeking to learn continuously and build scalable, reliable systems.
+      <p className="text-base text-gray-600 leading-relaxed mb-5 max-w-md">
+        Systems and AI infrastructure engineer building production developer tools, real-time platforms, and high-performance pipelines.
       </p>
 
-      <div className="flex flex-wrap gap-6 mb-8">
+      <div className="grid grid-cols-2 gap-2 mb-5 max-w-md">
         {heroStats.map((stat) => (
-          <div key={stat.label}>
-            <p className="text-xl font-bold tracking-tight">{stat.value}</p>
-            <p className="text-[0.5rem] text-gray-400 tracking-[0.2em] uppercase mt-0.5">
+          <div key={stat.value} className="rounded-xl border border-gray-200/70 bg-white/50 px-3 py-2">
+            <p className="text-xs font-semibold leading-tight">{stat.value}</p>
+            <p className="text-[0.65rem] text-gray-500 tracking-[0.08em] uppercase mt-1">
               {stat.label}
             </p>
           </div>
@@ -722,11 +727,11 @@ function HeroFace() {
       <SocialLinks />
 
       <div className="mt-auto pt-4">
-        <p className="scroll-hint text-[0.5rem] tracking-[0.3em] uppercase text-gray-300 md:block hidden">
-          Scroll to explore
+        <p className="scroll-hint text-[0.7rem] tracking-[0.18em] uppercase text-gray-400 md:block hidden">
+          Scroll to fan through sections &darr;
         </p>
-        <p className="scroll-hint text-[0.5rem] tracking-[0.3em] uppercase text-gray-300 md:hidden">
-          Swipe to explore
+        <p className="scroll-hint text-[0.7rem] tracking-[0.18em] uppercase text-gray-400 md:hidden">
+          Swipe sideways to explore &rarr;
         </p>
       </div>
     </div>
@@ -764,19 +769,27 @@ function SectionFace({
 
 function FeaturedRotator({ items }: { items: FeaturedEntry[] }) {
   const [index, setIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
+    if (isPaused || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const timer = setInterval(
       () => setIndex((i) => (i + 1) % items.length),
       5000,
     );
     return () => clearInterval(timer);
-  }, [items.length]);
+  }, [isPaused, items.length]);
 
   const item = items[index];
 
   return (
-    <div className="flex flex-col gap-4">
+    <div
+      className="flex flex-col gap-4"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+      onFocusCapture={() => setIsPaused(true)}
+      onBlurCapture={() => setIsPaused(false)}
+    >
       <AnimatePresence mode="wait">
         <motion.div
           key={item.id}
@@ -793,6 +806,7 @@ function FeaturedRotator({ items }: { items: FeaturedEntry[] }) {
             tags={item.tags}
             image={item.image}
             deploymentLink={item.deploymentLink}
+            link={item.link}
           />
         </motion.div>
       </AnimatePresence>
@@ -803,12 +817,12 @@ function FeaturedRotator({ items }: { items: FeaturedEntry[] }) {
             key={entry.id}
             onClick={() => setIndex(i)}
             aria-label={`Show ${entry.title}`}
-            className={`h-1.5 rounded-full transition-all duration-300 ${
-              i === index
-                ? 'w-4 bg-gray-500'
-                : 'w-1.5 bg-gray-300 hover:bg-gray-400'
-            }`}
-          />
+            className="w-8 h-8 flex items-center justify-center rounded-full"
+          >
+            <span className={`block h-1.5 rounded-full transition-all duration-300 ${
+              i === index ? 'w-4 bg-gray-500' : 'w-1.5 bg-gray-300 hover:bg-gray-400'
+            }`} />
+          </button>
         ))}
       </div>
     </div>
@@ -824,6 +838,7 @@ function FeaturedItem({
   isWip,
   image,
   deploymentLink,
+  link,
 }: {
   title: string;
   subtitle: string;
@@ -833,6 +848,7 @@ function FeaturedItem({
   isWip?: boolean;
   image?: string;
   deploymentLink?: string;
+  link?: string;
 }) {
   return (
     <div className="flex gap-4 items-center">
@@ -850,32 +866,32 @@ function FeaturedItem({
       )}
 
       <div className="flex-1 min-w-0">
-        <p className="text-[0.55rem] tracking-[0.2em] uppercase text-gray-400 mb-2">
+        <p className="text-[0.68rem] tracking-[0.14em] uppercase text-gray-500 mb-2">
           Featured
         </p>
         <div className="flex items-start gap-2 mb-1">
           <h3 className="text-lg font-bold leading-tight">{title}</h3>
           {isWip && <span className="status-wip mt-0.5">WIP</span>}
         </div>
-        {deploymentLink && (
-          <a
-            href={deploymentLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block text-xs font-semibold text-blue-600 hover:text-blue-800 transition-colors mb-2"
-          >
-            Open live project &rarr;
-          </a>
-        )}
         {subtitle && (
           <p className="text-xs text-blue-600/70 font-medium mb-0.5">
             {subtitle}
           </p>
         )}
-        {meta && <p className="text-[0.6rem] text-gray-400 mb-3">{meta}</p>}
-        <p className="text-xs text-gray-500 leading-relaxed line-clamp-3">
+        {meta && <p className="text-xs text-gray-500 mb-3">{meta}</p>}
+        <p className="text-sm text-gray-600 leading-relaxed line-clamp-3">
           {description}
         </p>
+        {(deploymentLink || link) && (
+          <div className="flex flex-wrap gap-2 mt-3">
+            {deploymentLink && (
+              <a href={deploymentLink} target="_blank" rel="noopener noreferrer" className="project-action-primary">Live demo &rarr;</a>
+            )}
+            {link && (
+              <a href={link} target="_blank" rel="noopener noreferrer" className="project-action-secondary">GitHub</a>
+            )}
+          </div>
+        )}
         {tags && tags.length > 0 && (
           <div className="flex flex-wrap gap-1.5 mt-3">
             {tags.slice(0, 4).map((tag) => (
@@ -905,7 +921,7 @@ function ContactFace() {
 
       <div className="space-y-4 mb-6">
         <div>
-          <p className="text-[0.5rem] tracking-[0.25em] uppercase text-gray-400 mb-1">
+          <p className="text-[0.68rem] tracking-[0.14em] uppercase text-gray-500 mb-1">
             Email
           </p>
           <a
@@ -917,16 +933,18 @@ function ContactFace() {
         </div>
         <div className="flex flex-wrap gap-5">
           <div>
-            <p className="text-[0.5rem] tracking-[0.25em] uppercase text-gray-400 mb-1">
+            <p className="text-[0.68rem] tracking-[0.14em] uppercase text-gray-500 mb-1">
               Location
             </p>
             <p className="text-xs font-medium">{contactInfo.location}</p>
           </div>
           <div>
-            <p className="text-[0.5rem] tracking-[0.25em] uppercase text-gray-400 mb-1">
+            <p className="text-[0.68rem] tracking-[0.14em] uppercase text-gray-500 mb-1">
               Availability
             </p>
-            <p className="text-xs font-medium">{contactInfo.availability}</p>
+            {contactInfo.availability.map((line) => (
+              <p key={line} className="text-xs font-medium leading-relaxed">{line}</p>
+            ))}
           </div>
         </div>
       </div>
@@ -942,7 +960,7 @@ function SocialLinks() {
       {socialLinks.map((link) =>
         link.icon === 'resume' ? (
           <details key={link.name} className="relative group">
-            <summary className="list-none cursor-pointer text-[0.6rem] tracking-[0.12em] uppercase text-gray-400 hover:text-gray-800 transition-colors">
+            <summary className="list-none cursor-pointer text-[0.7rem] tracking-[0.1em] uppercase text-gray-500 hover:text-gray-800 transition-colors">
               Resume <span aria-hidden="true">&#9662;</span>
             </summary>
             <div className="absolute left-0 top-full mt-2 z-50 min-w-36 rounded-lg border border-gray-200 bg-white/95 backdrop-blur-md p-1.5 shadow-lg">
@@ -952,7 +970,7 @@ function SocialLinks() {
                   href={resume.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block whitespace-nowrap rounded-md px-2.5 py-2 text-[0.6rem] tracking-[0.08em] uppercase text-gray-500 hover:bg-gray-100 hover:text-gray-900"
+                  className="block whitespace-nowrap rounded-md px-2.5 py-2 text-[0.7rem] tracking-[0.06em] uppercase text-gray-600 hover:bg-gray-100 hover:text-gray-900"
                 >
                   {resume.name}
                 </a>
@@ -965,7 +983,7 @@ function SocialLinks() {
             href={link.url}
             target={link.icon === 'email' ? undefined : '_blank'}
             rel="noopener noreferrer"
-            className="text-[0.6rem] tracking-[0.12em] uppercase text-gray-400 hover:text-gray-800 transition-colors"
+            className="text-[0.7rem] tracking-[0.1em] uppercase text-gray-500 hover:text-gray-800 transition-colors"
           >
             {link.name}
           </a>
