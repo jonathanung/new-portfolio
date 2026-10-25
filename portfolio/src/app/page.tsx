@@ -19,7 +19,7 @@ import { workExperience, nonTechnicalExperience } from '@/data/work';
 import { projects } from '@/data/projects';
 import { extracurriculars } from '@/data/extracurriculars';
 import { education } from '@/data/education';
-import { contactInfo, socialLinks, heroStats, resumes } from '@/data/contact';
+import { contactInfo, socialLinks, heroStats } from '@/data/contact';
 import type {
   WorkItem,
   ProjectItem,
@@ -957,38 +957,17 @@ function ContactFace() {
 function SocialLinks() {
   return (
     <div className="flex flex-wrap gap-3 items-start">
-      {socialLinks.map((link) =>
-        link.icon === 'resume' ? (
-          <details key={link.name} className="relative group">
-            <summary className="list-none cursor-pointer text-[0.7rem] tracking-[0.1em] uppercase text-gray-500 hover:text-gray-800 transition-colors">
-              Resume <span aria-hidden="true">&#9662;</span>
-            </summary>
-            <div className="absolute left-0 top-full mt-2 z-50 min-w-36 rounded-lg border border-gray-200 bg-white/95 backdrop-blur-md p-1.5 shadow-lg">
-              {resumes.map((resume) => (
-                <a
-                  key={resume.url}
-                  href={resume.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block whitespace-nowrap rounded-md px-2.5 py-2 text-[0.7rem] tracking-[0.06em] uppercase text-gray-600 hover:bg-gray-100 hover:text-gray-900"
-                >
-                  {resume.name}
-                </a>
-              ))}
-            </div>
-          </details>
-        ) : (
-          <a
-            key={link.name}
-            href={link.url}
-            target={link.icon === 'email' ? undefined : '_blank'}
-            rel="noopener noreferrer"
-            className="text-[0.7rem] tracking-[0.1em] uppercase text-gray-500 hover:text-gray-800 transition-colors"
-          >
-            {link.name}
-          </a>
-        ),
-      )}
+      {socialLinks.map((link) => (
+        <a
+          key={link.name}
+          href={link.url}
+          target={link.icon === 'email' ? undefined : '_blank'}
+          rel="noopener noreferrer"
+          className="text-[0.7rem] tracking-[0.1em] uppercase text-gray-500 hover:text-gray-800 transition-colors"
+        >
+          {link.name}
+        </a>
+      ))}
     </div>
   );
 }
